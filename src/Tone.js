@@ -17,7 +17,7 @@ class Tone extends Component {
           type: this.props.waveType,
         });
         osc.start();
-        osc.connect(this.props.ctx.destination);
+        osc.connect(this.props.masterGainNode).connect(this.props.ctx.destination);
         this.setState({ osc });
       }
     });
