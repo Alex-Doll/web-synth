@@ -1,0 +1,28 @@
+import React, { Component } from 'react';
+
+class Tone extends Component {
+  componentDidMount() {
+    const osc = new OscillatorNode(audioContext, {
+      frequency: 261.63,
+    });
+    osc.start();
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'a') {
+        osc.connect(audioContext.destination);
+      }
+    });
+
+    document.addEventListener('keyup', (event) => {
+      if (event.key === 'a') {
+        osc.disconnect();
+      }
+    });
+  }
+
+  render() {
+    return null;
+  }
+}
+
+export default Tone;
