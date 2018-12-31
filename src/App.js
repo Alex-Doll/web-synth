@@ -5,7 +5,7 @@ import Synth from './Synth';
 
 class App extends Component {
   componentWillMount() {
-    this.audioContext = new (window.AudioContext || window.webkitAudioContext);
+    this.audioContext = window.AudioContext ? new window.AudioContext() : new window.webkitAudioContext();
   }
 
   render() {
