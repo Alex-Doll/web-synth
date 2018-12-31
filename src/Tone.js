@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 class Tone extends Component {
   componentDidMount() {
-    console.log(this.props);
     const osc = new OscillatorNode(this.props.ctx, {
       frequency: this.props.freq,
+      type: this.props.waveType,
     });
     osc.start();
 
