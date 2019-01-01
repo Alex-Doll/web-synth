@@ -12,6 +12,16 @@ class Synth extends Component {
       detune: INITIAL_DETUNE_AMT,
     };
 
+    this.toneMap = [
+      { triggerKey: 'a', frequency: 261.63, note:'C4' },
+      { triggerKey: 's', frequency: 293.66, note:'D4' },
+      { triggerKey: 'd', frequency: 329.63, note:'E4' },
+      { triggerKey: 'f', frequency: 349.23, note:'F4' },
+      { triggerKey: 'g', frequency: 392.00, note:'G4' },
+      { triggerKey: 'h', frequency: 440.00, note:'A4' },
+      { triggerKey: 'j', frequency: 493.88, note:'B4' },
+      { triggerKey: 'k', frequency: 523.25, note:'C5' },
+    ];
   }
 
   handleChange = (e) => {
@@ -34,16 +44,20 @@ class Synth extends Component {
   }
 
   render() {
+    const Tones = this.toneMap.map((tone, index) => (
+      <Tone
+        key={index}
+        triggerKey={tone.triggerKey}
+        freq={tone.frequency}
+        ctx={this.props.audioContext}
+        waveType={this.state.waveType}
+        masterGainNode={this.props.masterGainNode}
+        detune={this.state.detune}
+      />
+    ));
     return (
       <section>
-        <Tone triggerKey='a' freq={261.63} ctx={this.props.audioContext} waveType={this.state.waveType} masterGainNode={this.props.masterGainNode} detune={this.state.detune} />
-        <Tone triggerKey='s' freq={293.66} ctx={this.props.audioContext} waveType={this.state.waveType} masterGainNode={this.props.masterGainNode} detune={this.state.detune} />
-        <Tone triggerKey='d' freq={329.63} ctx={this.props.audioContext} waveType={this.state.waveType} masterGainNode={this.props.masterGainNode} detune={this.state.detune} />
-        <Tone triggerKey='f' freq={349.23} ctx={this.props.audioContext} waveType={this.state.waveType} masterGainNode={this.props.masterGainNode} detune={this.state.detune} />
-        <Tone triggerKey='g' freq={392.00} ctx={this.props.audioContext} waveType={this.state.waveType} masterGainNode={this.props.masterGainNode} detune={this.state.detune} />
-        <Tone triggerKey='h' freq={440.00} ctx={this.props.audioContext} waveType={this.state.waveType} masterGainNode={this.props.masterGainNode} detune={this.state.detune} />
-        <Tone triggerKey='j' freq={493.88} ctx={this.props.audioContext} waveType={this.state.waveType} masterGainNode={this.props.masterGainNode} detune={this.state.detune} />
-        <Tone triggerKey='k' freq={523.25} ctx={this.props.audioContext} waveType={this.state.waveType} masterGainNode={this.props.masterGainNode} detune={this.state.detune} />
+        { Tones }
 
         <select name='waveType' value={this.state.waveType} onChange={this.handleChange}>
           <option value='sine'>Sine</option>
