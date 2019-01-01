@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import Tone from './Tone';
 import ADSRGain from './ADSRGain';
-import { INITIAL_MASTER_GAIN, INITIAL_DETUNE_AMT } from './constants.js';
+import {
+  INITIAL_MASTER_GAIN,
+  INITIAL_DETUNE_AMT,
+  INITIAL_ADSR_GAIN_ATTACK,
+  INITIAL_ADSR_GAIN_DECAY,
+  INITIAL_ADSR_GAIN_SUSTAIN,
+  INITIAL_ADSR_GAIN_RELEASE,
+} from './constants.js';
 import { audioContext, masterGainNode } from './audio';
 
 class Synth extends Component {
@@ -12,10 +19,10 @@ class Synth extends Component {
       waveType: 'sawtooth',
       masterGain: INITIAL_MASTER_GAIN,
       detune: INITIAL_DETUNE_AMT,
-      attack: '0.5',
-      decay: '0.5',
-      sustain: '0.5',
-      release: '0.5',
+      attack: INITIAL_ADSR_GAIN_ATTACK,
+      decay: INITIAL_ADSR_GAIN_DECAY,
+      sustain: INITIAL_ADSR_GAIN_SUSTAIN,
+      release: INITIAL_ADSR_GAIN_RELEASE,
     };
 
     this.toneMap = [

@@ -33,10 +33,19 @@ class Tone extends Component {
       }
     });
 
-    document.addEventListener('keyup', (event) => {
-      if (event.key === this.props.triggerKey && this.state.osc) {
-        this.state.osc.disconnect();
-        this.setState({ osc: null });
+    document.addEventListener('keyup', async (event) => {
+      if (event.key === this.props.triggerKey && this.state.osc && this.state.adsrGain) {
+        let releasePromise = new Promise((resolve, reject) => {
+          this.state.adsrGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + this.props.adsrEnvelope.release); // Release
+          window.setTimeout(() => resolve(true), this.props.adsrEnvelope.release * 1000);
+        });
+
+        await releasePromise;
+        if (this.state.osc) {
+          this.state.osc.stop();
+          this.state.osc.disconnect();
+          this.setState({ osc: null })
+        }
       }
     });
   }
