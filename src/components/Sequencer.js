@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { audioContext } from '../audio';
 
 class Sequencer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      tempo: 60.0,
+    }
+  }
+
   componentDidMount() {
     /*     this.playFreq(440); */
     /*     this.playModulatedFreq(60, 8); */
@@ -38,10 +46,18 @@ class Sequencer extends Component {
     osc.stop(audioContext.currentTime + 1);
   }
 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: Number(e.target.value),
+    });
+  }
+
   render() {
     return (
       <div>
         SEQUENCER
+        <label htmlFor='tempo'>Tempo: {this.state.tempo} bpm</label>
+        <input id='tempo' type='range' min='0' max='120' step='1.0' value={this.state.tempo} onChange={this.handleChange} />
       </div>
     );
   }
