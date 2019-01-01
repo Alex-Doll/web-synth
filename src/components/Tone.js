@@ -12,6 +12,7 @@ class Tone extends Component {
   }
 
   componentDidMount() {
+    // TODO Refactor how the gain envelope works
     document.addEventListener('keydown', (event) => {
       if (event.key === this.props.triggerKey && !this.state.osc) {
         const osc = new OscillatorNode(audioContext, {
