@@ -9,8 +9,8 @@ import {
   INITIAL_ADSR_GAIN_DECAY,
   INITIAL_ADSR_GAIN_SUSTAIN,
   INITIAL_ADSR_GAIN_RELEASE,
-} from './constants.js';
-import { audioContext, masterGainNode } from './audio';
+} from '../constants.js';
+import { audioContext, masterGainNode } from '../audio';
 
 class Synth extends Component {
   constructor(props) {
