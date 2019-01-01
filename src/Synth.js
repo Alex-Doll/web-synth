@@ -11,6 +11,10 @@ class Synth extends Component {
       waveType: 'sawtooth',
       masterGain: INITIAL_MASTER_GAIN,
       detune: INITIAL_DETUNE_AMT,
+      attack: '0.5',
+      decay: '0.5',
+      sustain: '0.5',
+      release: '0.5',
     };
 
     this.toneMap = [
@@ -34,13 +38,19 @@ class Synth extends Component {
   handleGainChange = (e) => {
     masterGainNode.gain.value = e.target.value;
     this.setState({
-        masterGain: e.target.value,
+      masterGain: e.target.value,
     });
   }
 
   handleDetuneChange = (e) => {
     this.setState({
       detune: e.target.value,
+    });
+  }
+
+  handleADSRChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
     });
   }
 
@@ -73,6 +83,53 @@ class Synth extends Component {
 
           <input name='detune' type='range' min='-100' max='100' value={this.state.detune} onChange={this.handleDetuneChange} />
           <p>Detune: {this.state.detune} cents</p>
+
+          <fieldset style={{display: 'flex', flexDirection: 'column'}}>
+            <legend>ADSR Gain Envelope</legend>
+            <label htmlFor='attack'>Attack: {this.state.attack} sec </label>
+            <input
+              id='attack'
+              type='range'
+              min='0'
+              max='1'
+              step='0.1'
+              value={this.state.attack}
+              onChange={this.handleADSRChange}
+            />
+
+            <label htmlFor='decay'>Decay: {this.state.decay} sec </label>
+            <input
+              id='decay'
+              type='range'
+              min='0'
+              max='1'
+              step='0.1'
+              value={this.state.decay}
+              onChange={this.handleADSRChange}
+            />
+
+            <label htmlFor='sustain'>Sustain: {this.state.sustain} dB </label>
+            <input
+              id='sustain'
+              type='range'
+              min='0'
+              max='1'
+              step='0.1'
+              value={this.state.sustain}
+              onChange={this.handleADSRChange}
+            />
+
+            <label htmlFor='release'>Release: {this.state.release} sec </label>
+            <input
+              id='release'
+              type='range'
+              min='0'
+              max='1'
+              step='0.1'
+              value={this.state.release}
+              onChange={this.handleADSRChange}
+            />
+          </fieldset>
         </div>
       </section>
     );
