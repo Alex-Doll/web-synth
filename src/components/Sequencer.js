@@ -12,13 +12,21 @@ class Sequencer extends Component {
       currentNote: 0,
       nextNoteTime: 0.0,
       notesInQueue: [],
+      isPlaying: false,
     }
   }
 
   componentDidMount() {
     /*     this.playFreq(440); */
     /*     this.playModulatedFreq(60, 8); */
-    this.scheduleNote(2, 20);
+  }
+
+  scheduler = () => {
+    while (this.state.nextNoteTime < audioContext.currentTime + this.state.scheduleAheadTime) {
+      this.scheduleNote(this.state.currentNote, this.state.nextNoteTime);
+      this.nextNote();
+    }
+    const timerID = window.setTimeout(this.scheduler, this.state.lookahead);
   }
 
   nextNote = () => {
@@ -80,12 +88,21 @@ class Sequencer extends Component {
     });
   }
 
+  handlePlayPause = (e) => {
+    this.setState(prevState => ({
+      isPlaying: !prevState.isPlaying,
+    }));
+  }
+
   render() {
     return (
       <div>
         SEQUENCER
         <label htmlFor='tempo'>Tempo: {this.state.tempo} bpm</label>
         <input id='tempo' type='range' min='0' max='120' step='1.0' value={this.state.tempo} onChange={this.handleChange} />
+        <button onClick={this.handlePlayPause}>
+          {this.state.isPlaying ? 'Pause' : 'Play'}
+        </button>
       </div>
     );
   }
