@@ -14,6 +14,7 @@ class Tone extends Component {
       if (event.key === this.props.triggerKey && !this.state.osc) {
         const osc = new OscillatorNode(this.props.ctx, {
           frequency: this.props.freq,
+          detune: this.props.detune,
           type: this.props.waveType,
         });
         osc.start();
@@ -31,8 +32,8 @@ class Tone extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      console.log(this.props);
+    if (prevProps.detune !== this.props.detune && this.state.osc) {
+      this.state.osc.detune.value = this.props.detune;
     }
   }
 
