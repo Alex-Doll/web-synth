@@ -65,6 +65,12 @@ class Synth extends Component {
         waveType={this.state.waveType}
         masterGainNode={masterGainNode}
         detune={this.state.detune}
+        adsrEnvelope={{
+          attack: Number(this.state.attack),
+          decay: Number(this.state.decay),
+          sustain: Number(this.state.sustain),
+          release: Number(this.state.release),
+        }}
       />
     ));
     return (

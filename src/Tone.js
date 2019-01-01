@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { audioContext } from './audio';
 
 class Tone extends Component {
   constructor(props) {
@@ -6,6 +7,7 @@ class Tone extends Component {
 
     this.state = {
       osc: null,
+      gain: null,
     };
   }
 
@@ -17,9 +19,16 @@ class Tone extends Component {
           detune: this.props.detune,
           type: this.props.waveType,
         });
+
+        const adsrGain = audioContext.createGain();
+        adsrGain.gain.value = 0;
+
         osc.start();
-        osc.connect(this.props.masterGainNode).connect(this.props.ctx.destination);
-        this.setState({ osc });
+        osc.connect(adsrGain).connect(this.props.masterGainNode).connect(this.props.ctx.destination);
+
+        adsrGain.gain.linearRampToValueAtTime(1, audioContext.currentTime + this.props.adsrEnvelope.attack); // Attack
+
+        this.setState({ osc, adsrGain });
       }
     });
 
