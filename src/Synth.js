@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tone from './Tone';
 import ADSRGain from './ADSRGain';
+import MasterControls from './MasterControls';
 import {
   INITIAL_MASTER_GAIN,
   INITIAL_DETUNE_AMT,
@@ -83,21 +84,15 @@ class Synth extends Component {
     return (
       <section>
         { Tones }
-
-        <label htmlFor='waveType'>Wave Type: </label>
-        <select id='waveType' value={this.state.waveType} onChange={this.handleChange}>
-          <option value='sine'>Sine</option>
-          <option value='square'>Square</option>
-          <option value='sawtooth'>Sawtooth</option>
-          <option value='triangle'>Triangle</option>
-        </select>
-
-        <div style={{display: 'flex', flexDirection: 'column', maxWidth: '200px'}}>
-          <label htmlFor='masterGain'>Volume: {this.state.masterGain} dB</label>
-          <input id='masterGain' type='range' min='0' max='1' step='0.1' value={this.state.masterGain} onChange={this.handleGainChange} />
-
-          <label htmlFor='detune'>Detune: {this.state.detune} cents</label>
-          <input id='detune' type='range' min='-100' max='100' value={this.state.detune} onChange={this.handleDetuneChange} />
+        <div style={{display: 'flex'}}>
+          <MasterControls
+            waveType={this.state.waveType}
+            handleChange={this.handleChange}
+            masterGain={this.masterGain}
+            handleGainChange={this.handleGainChange}
+            detune={this.state.detune}
+            handleDetuneChange={this.handleDetuneChange}
+          />
 
           <ADSRGain
             attack={this.state.attack}
