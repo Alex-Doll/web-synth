@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tone from './Tone';
 import { INITIAL_MASTER_GAIN, INITIAL_DETUNE_AMT } from './constants.js';
+import { audioContext, masterGainNode } from './audio';
 
 class Synth extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class Synth extends Component {
   }
 
   handleGainChange = (e) => {
-    this.props.masterGainNode.gain.value = e.target.value;
+    masterGainNode.gain.value = e.target.value;
     this.setState({
         masterGain: e.target.value,
     });
@@ -49,9 +50,9 @@ class Synth extends Component {
         key={index}
         triggerKey={tone.triggerKey}
         freq={tone.frequency}
-        ctx={this.props.audioContext}
+        ctx={audioContext}
         waveType={this.state.waveType}
-        masterGainNode={this.props.masterGainNode}
+        masterGainNode={masterGainNode}
         detune={this.state.detune}
       />
     ));

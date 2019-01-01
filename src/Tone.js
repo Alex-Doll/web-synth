@@ -33,6 +33,7 @@ class Tone extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.detune !== this.props.detune && this.state.osc) {
+      // eslint-disable-next-line react/no-direct-mutation-state
       this.state.osc.detune.value = this.props.detune;
     }
   }
