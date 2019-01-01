@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/App.css';
 
 import Synth from './Synth';
+import Sequencer from './Sequencer';
 
 
 class App extends Component {
@@ -12,6 +13,7 @@ class App extends Component {
           Web Synth
         </header>
         <Synth />
+        <Sequencer />
       </div>
     );
   }

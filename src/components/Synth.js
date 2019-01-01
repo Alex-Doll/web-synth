@@ -69,7 +69,6 @@ class Synth extends Component {
         key={index}
         triggerKey={tone.triggerKey}
         freq={tone.frequency}
-        ctx={audioContext}
         waveType={this.state.waveType}
         masterGainNode={masterGainNode}
         detune={this.state.detune}

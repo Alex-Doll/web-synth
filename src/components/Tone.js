@@ -14,7 +14,7 @@ class Tone extends Component {
   componentDidMount() {
     document.addEventListener('keydown', (event) => {
       if (event.key === this.props.triggerKey && !this.state.osc) {
-        const osc = new OscillatorNode(this.props.ctx, {
+        const osc = new OscillatorNode(audioContext, {
           frequency: this.props.freq,
           detune: this.props.detune,
           type: this.props.waveType,
@@ -24,7 +24,7 @@ class Tone extends Component {
         adsrGain.gain.value = 0;
 
         osc.start();
-        osc.connect(adsrGain).connect(this.props.masterGainNode).connect(this.props.ctx.destination);
+        osc.connect(adsrGain).connect(this.props.masterGainNode).connect(audioContext.destination);
 
         adsrGain.gain.linearRampToValueAtTime(1, audioContext.currentTime + this.props.adsrEnvelope.attack); // Attack
         adsrGain.gain.linearRampToValueAtTime(this.props.adsrEnvelope.sustain, audioContext.currentTime + this.props.adsrEnvelope.attack + this.props.adsrEnvelope.decay); // Decay AND Sustain
