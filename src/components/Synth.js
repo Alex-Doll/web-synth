@@ -87,7 +87,7 @@ class Synth extends Component {
           <MasterControls
             waveType={this.state.waveType}
             handleChange={this.handleChange}
-            masterGain={this.masterGain}
+            masterGain={this.state.masterGain}
             handleGainChange={this.handleGainChange}
             detune={this.state.detune}
             handleDetuneChange={this.handleDetuneChange}
