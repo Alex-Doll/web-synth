@@ -27,6 +27,7 @@ class Tone extends Component {
         osc.connect(adsrGain).connect(this.props.masterGainNode).connect(this.props.ctx.destination);
 
         adsrGain.gain.linearRampToValueAtTime(1, audioContext.currentTime + this.props.adsrEnvelope.attack); // Attack
+        adsrGain.gain.linearRampToValueAtTime(this.props.adsrEnvelope.sustain, audioContext.currentTime + this.props.adsrEnvelope.attack + this.props.adsrEnvelope.decay); // Decay AND Sustain
 
         this.setState({ osc, adsrGain });
       }
