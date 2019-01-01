@@ -7,12 +7,25 @@ class Sequencer extends Component {
 
     this.state = {
       tempo: 60.0,
+      currentNote: 0,
+      nextNoteTime: 0.0,
     }
   }
 
   componentDidMount() {
     /*     this.playFreq(440); */
     /*     this.playModulatedFreq(60, 8); */
+    let lookahead = 25.0;
+    let scheduleAheadTime = 0.1;
+  }
+
+  nextNote = () => {
+    const secondsPerBeat = 60.0 / this.state.tempo;
+
+    this.setState(prevState => ({
+        nextNoteTime: prevState.nextNoteTime + secondsPerBeat,
+        currentNote: prevState.currentNote === 4 ? 0 : prevState.currentNote + 1,
+    }));
   }
 
   playFreq = (frequency) => {
