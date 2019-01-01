@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { audioContext } from '../audio';
+import { audioContext, masterGainNode } from '../audio';
 
 class Sequencer extends Component {
   constructor(props) {
@@ -7,16 +7,18 @@ class Sequencer extends Component {
 
     this.state = {
       tempo: 60.0,
+      lookahead: 25.0,
+      scheduleAheadTime: 0.1,
       currentNote: 0,
       nextNoteTime: 0.0,
+      notesInQueue: [],
     }
   }
 
   componentDidMount() {
     /*     this.playFreq(440); */
     /*     this.playModulatedFreq(60, 8); */
-    let lookahead = 25.0;
-    let scheduleAheadTime = 0.1;
+    this.scheduleNote(2, 20);
   }
 
   nextNote = () => {
@@ -24,7 +26,20 @@ class Sequencer extends Component {
 
     this.setState(prevState => ({
         nextNoteTime: prevState.nextNoteTime + secondsPerBeat,
-        currentNote: prevState.currentNote === 4 ? 0 : prevState.currentNote + 1,
+        currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
+    }));
+  }
+
+  scheduleNote = (beatNumber, time) => {
+    if (this.state.currentNote % 2 === 0) {
+      this.playFreq(440);
+    }
+    else {
+      this.playModulatedFreq(60, 8);
+    }
+
+    this.setState(prevState => ({
+      notesInQueue: [...prevState.notesInQueue, {note: beatNumber, time}],
     }));
   }
 
@@ -33,7 +48,7 @@ class Sequencer extends Component {
       frequency,
       type: 'sawtooth',
     });
-    osc.connect(audioContext.destination);
+    osc.connect(masterGainNode).connect(audioContext.destination);
     osc.start();
     osc.stop(audioContext.currentTime + 1);
   }
@@ -53,7 +68,7 @@ class Sequencer extends Component {
     amp.gain.setValueAtTime(1, audioContext.currentTime);
 
     lfo.connect(amp.gain);
-    osc.connect(amp).connect(audioContext.destination);
+    osc.connect(amp).connect(masterGainNode).connect(audioContext.destination);
     lfo.start();
     osc.start();
     osc.stop(audioContext.currentTime + 1);
