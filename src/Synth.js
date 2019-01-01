@@ -39,7 +39,7 @@ class Synth extends Component {
 
   handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      [e.target.id]: e.target.value,
     });
   }
 
@@ -84,19 +84,20 @@ class Synth extends Component {
       <section>
         { Tones }
 
-        <select name='waveType' value={this.state.waveType} onChange={this.handleChange}>
+        <label htmlFor='waveType'>Wave Type: </label>
+        <select id='waveType' value={this.state.waveType} onChange={this.handleChange}>
           <option value='sine'>Sine</option>
           <option value='square'>Square</option>
           <option value='sawtooth'>Sawtooth</option>
           <option value='triangle'>Triangle</option>
         </select>
 
-        <div>
-          <input name='masterGain' type='range' min='0' max='1' step='0.1' value={this.state.masterGain} onChange={this.handleGainChange} />
-          <p>Volume: {this.state.masterGain} dB</p>
+        <div style={{display: 'flex', flexDirection: 'column', maxWidth: '200px'}}>
+          <label htmlFor='masterGain'>Volume: {this.state.masterGain} dB</label>
+          <input id='masterGain' type='range' min='0' max='1' step='0.1' value={this.state.masterGain} onChange={this.handleGainChange} />
 
-          <input name='detune' type='range' min='-100' max='100' value={this.state.detune} onChange={this.handleDetuneChange} />
-          <p>Detune: {this.state.detune} cents</p>
+          <label htmlFor='detune'>Detune: {this.state.detune} cents</label>
+          <input id='detune' type='range' min='-100' max='100' value={this.state.detune} onChange={this.handleDetuneChange} />
 
           <ADSRGain
             attack={this.state.attack}

@@ -4,7 +4,7 @@ function ADSRGain(props) {
   return (
     <fieldset style={{display: 'flex', flexDirection: 'column'}}>
       <legend>ADSR Gain Envelope</legend>
-      <label htmlFor='attack'>Attack: {props.attack} sec </label>
+      <label htmlFor='attack'>Attack: {props.attack} sec</label>
       <input
         id='attack'
         type='range'
@@ -15,7 +15,7 @@ function ADSRGain(props) {
         onChange={props.handleADSRChange}
       />
 
-      <label htmlFor='decay'>Decay: {props.decay} sec </label>
+      <label htmlFor='decay'>Decay: {props.decay} sec</label>
       <input
         id='decay'
         type='range'
@@ -26,7 +26,7 @@ function ADSRGain(props) {
         onChange={props.handleADSRChange}
       />
 
-      <label htmlFor='sustain'>Sustain: {props.sustain} dB </label>
+      <label htmlFor='sustain'>Sustain: {props.sustain} dB</label>
       <input
         id='sustain'
         type='range'
@@ -37,7 +37,7 @@ function ADSRGain(props) {
         onChange={props.handleADSRChange}
       />
 
-      <label htmlFor='release'>Release: {props.release} sec </label>
+      <label htmlFor='release'>Release: {props.release} sec</label>
       <input
         id='release'
         type='range'
