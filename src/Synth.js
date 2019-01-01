@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Tone from './Tone';
+import ADSRGain from './ADSRGain';
 import { INITIAL_MASTER_GAIN, INITIAL_DETUNE_AMT } from './constants.js';
 import { audioContext, masterGainNode } from './audio';
 
@@ -84,52 +85,13 @@ class Synth extends Component {
           <input name='detune' type='range' min='-100' max='100' value={this.state.detune} onChange={this.handleDetuneChange} />
           <p>Detune: {this.state.detune} cents</p>
 
-          <fieldset style={{display: 'flex', flexDirection: 'column'}}>
-            <legend>ADSR Gain Envelope</legend>
-            <label htmlFor='attack'>Attack: {this.state.attack} sec </label>
-            <input
-              id='attack'
-              type='range'
-              min='0'
-              max='1'
-              step='0.1'
-              value={this.state.attack}
-              onChange={this.handleADSRChange}
-            />
-
-            <label htmlFor='decay'>Decay: {this.state.decay} sec </label>
-            <input
-              id='decay'
-              type='range'
-              min='0'
-              max='1'
-              step='0.1'
-              value={this.state.decay}
-              onChange={this.handleADSRChange}
-            />
-
-            <label htmlFor='sustain'>Sustain: {this.state.sustain} dB </label>
-            <input
-              id='sustain'
-              type='range'
-              min='0'
-              max='1'
-              step='0.1'
-              value={this.state.sustain}
-              onChange={this.handleADSRChange}
-            />
-
-            <label htmlFor='release'>Release: {this.state.release} sec </label>
-            <input
-              id='release'
-              type='range'
-              min='0'
-              max='1'
-              step='0.1'
-              value={this.state.release}
-              onChange={this.handleADSRChange}
-            />
-          </fieldset>
+          <ADSRGain
+            attack={this.state.attack}
+            decay={this.state.decay}
+            sustain={this.state.sustain}
+            release={this.state.release}
+            handleADSRChange={this.handleADSRChange}
+          />
         </div>
       </section>
     );
