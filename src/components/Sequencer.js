@@ -17,13 +17,22 @@ class Sequencer extends Component {
     /*     this.playModulatedFreq(60, 8); */
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.tempo !== this.state.tempo) {
+      if (this.timerId) {
+        window.clearInterval(this.timerId);
+        this.beginSequencing()
+      }
+    }
+  }
+
   componentWillUnmount() {
     if (this.timerId) {
       window.clearInterval(this.timerId);
     }
   }
 
-    playFreq = (frequency) => {
+  playFreq = (frequency) => {
     const secondsPerBeat = 60.0 / this.state.tempo;
     const osc = new OscillatorNode(audioContext, {
       frequency,
@@ -66,9 +75,18 @@ class Sequencer extends Component {
     }
   }
 
-  controlSequencer = () => {
+  beginSequencing = () => {
     const millisecondsPerBeat = (60.0 / this.state.tempo) * 1000;
+    this.timerId = window.setInterval(() => {
+      this.setState(prevState => {
+        return {
+          currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
+        };
+      }, this.playNotes);
+    }, millisecondsPerBeat);
+  }
 
+  controlSequencer = () => {
     if (this.state.isPlaying) {
       console.log('The Sequencer is now playing');
       if (audioContext.state === 'suspended') {
@@ -76,14 +94,7 @@ class Sequencer extends Component {
       }
 
       this.playNotes();
-
-      this.timerId = window.setInterval(() => {
-        this.setState(prevState => {
-          return {
-            currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
-          };
-        }, this.playNotes);
-      }, millisecondsPerBeat);
+      this.beginSequencing();
     }
     else {
       console.log('The Sequencer has stopped playing');
