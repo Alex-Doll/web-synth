@@ -57,6 +57,7 @@ class Sequencer extends Component {
   }
 
   playNotes = () => {
+    console.log(this.state.currentNote);
     if (this.state.currentNote % 2 === 0) {
       this.playFreq(440);
     }
@@ -74,6 +75,8 @@ class Sequencer extends Component {
         audioContext.resume();
       }
 
+      this.playNotes();
+
       this.timerId = window.setInterval(() => {
         this.setState(prevState => {
           return {
@@ -86,6 +89,7 @@ class Sequencer extends Component {
       console.log('The Sequencer has stopped playing');
       if (this.timerId) {
         window.clearInterval(this.timerId);
+        this.setState({ currentNote: 0 });
       }
     }
   }
