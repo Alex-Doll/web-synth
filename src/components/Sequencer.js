@@ -7,14 +7,9 @@ class Sequencer extends Component {
 
     this.state = {
       tempo: 60.0,
+      currentNote: 0,
       isPlaying: false,
     }
-
-    this.lookahead =  25.0;
-    this.scheduleAheadTime =  0.1;
-    this.currentNote =  0;
-    this.nextNoteTime =  0.0;
-    this.notesInQueue =  [];
   }
 
   componentDidMount() {
@@ -22,39 +17,13 @@ class Sequencer extends Component {
     /*     this.playModulatedFreq(60, 8); */
   }
 
-  scheduler = () => {
-    while (this.nextNoteTime < audioContext.currentTime + this.scheduleAheadTime) {
-      this.scheduleNote(this.currentNote, this.nextNoteTime);
-      this.nextNote();
-    }
-    this.timerID = window.setTimeout(this.scheduler, this.lookahead);
-    console.log(this.currentNote);
-    console.log(this.nextNoteTime);
-  }
-
-  nextNote = () => {
-    const secondsPerBeat = 60.0 / this.state.tempo;
-
-    this.nextNoteTime += secondsPerBeat;
-
-    this.currentNote++;
-    if (this.currentNote === 4) {
-      this.currentNote = 0;
+  componentWillUnmount() {
+    if (this.timerId) {
+      window.clearInterval(this.timerId);
     }
   }
 
-  scheduleNote = (beatNumber, time) => {
-    this.notesInQueue.push({ note: beatNumber, time });
-
-    if (this.currentNote % 2 === 0) {
-      this.playFreq(440);
-    }
-    else {
-      this.playModulatedFreq(60, 8);
-    }
-  }
-
-  playFreq = (frequency) => {
+    playFreq = (frequency) => {
     const secondsPerBeat = 60.0 / this.state.tempo;
     const osc = new OscillatorNode(audioContext, {
       frequency,
@@ -87,20 +56,37 @@ class Sequencer extends Component {
     osc.stop(audioContext.currentTime + secondsPerBeat);
   }
 
+  playNotes = () => {
+    if (this.state.currentNote % 2 === 0) {
+      this.playFreq(440);
+    }
+    else {
+      this.playModulatedFreq(440, 5);
+    }
+  }
+
   controlSequencer = () => {
+    const millisecondsPerBeat = (60.0 / this.state.tempo) * 1000;
+
     if (this.state.isPlaying) {
       console.log('The Sequencer is now playing');
       if (audioContext.state === 'suspended') {
         audioContext.resume();
       }
 
-      this.currentNote = 0;
-      this.nextNoteTime = audioContext.currentTime;
-      this.scheduler();
+      this.timerId = window.setInterval(() => {
+        this.setState(prevState => {
+          return {
+            currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
+          };
+        }, this.playNotes);
+      }, millisecondsPerBeat);
     }
     else {
       console.log('The Sequencer has stopped playing');
-      window.clearTimeout(this.timerID);
+      if (this.timerId) {
+        window.clearInterval(this.timerId);
+      }
     }
   }
 
