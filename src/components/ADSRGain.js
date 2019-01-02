@@ -1,53 +1,64 @@
 import React from 'react';
 
+import { Label, ColumnFieldset, FieldsetHeader, Slider } from './styled';
+
 function ADSRGain(props) {
   return (
-    <fieldset style={{display: 'flex', flexDirection: 'column'}}>
-      <legend>ADSR Gain Envelope</legend>
-      <label htmlFor='attack'>Attack: {props.attack} sec</label>
-      <input
-        id='attack'
-        type='range'
-        min='0'
-        max='1'
-        step='0.1'
-        value={props.attack}
-        onChange={props.handleADSRChange}
-      />
+    <ColumnFieldset>
+      <FieldsetHeader>ADSR Gain Envelope</FieldsetHeader>
 
-      <label htmlFor='decay'>Decay: {props.decay} sec</label>
-      <input
-        id='decay'
-        type='range'
-        min='0'
-        max='1'
-        step='0.1'
-        value={props.decay}
-        onChange={props.handleADSRChange}
-      />
+      <Slider>
+        <Label htmlFor='attack'>Attack: {props.attack} sec</Label>
+        <input
+          id='attack'
+          type='range'
+          min='0'
+          max='1'
+          step='0.1'
+          value={props.attack}
+          onChange={props.handleADSRChange}
+        />
+      </Slider>
 
-      <label htmlFor='sustain'>Sustain: {props.sustain} dB</label>
-      <input
-        id='sustain'
-        type='range'
-        min='0'
-        max='1'
-        step='0.1'
-        value={props.sustain}
-        onChange={props.handleADSRChange}
-      />
+      <Slider>
+        <Label htmlFor='decay'>Decay: {props.decay} sec</Label>
+        <input
+          id='decay'
+          type='range'
+          min='0'
+          max='1'
+          step='0.1'
+          value={props.decay}
+          onChange={props.handleADSRChange}
+        />
+      </Slider>
 
-      <label htmlFor='release'>Release: {props.release} sec</label>
-      <input
-        id='release'
-        type='range'
-        min='0'
-        max='1'
-        step='0.1'
-        value={props.release}
-        onChange={props.handleADSRChange}
-      />
-    </fieldset>
+      <Slider>
+        <Label htmlFor='sustain'>Sustain: {props.sustain} dB</Label>
+        <input
+          id='sustain'
+          type='range'
+          min='0'
+          max='1'
+          step='0.1'
+          value={props.sustain}
+          onChange={props.handleADSRChange}
+        />
+      </Slider>
+
+      <Slider>
+        <Label htmlFor='release'>Release: {props.release} sec</Label>
+        <input
+          id='release'
+          type='range'
+          min='0'
+          max='1'
+          step='0.1'
+          value={props.release}
+          onChange={props.handleADSRChange}
+        />
+      </Slider>
+    </ColumnFieldset>
   );
 }
 

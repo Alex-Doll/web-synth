@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { audioContext, masterGainNode } from '../audio';
 
-const Button = styled.button`
-  background-color: black;
-  color: white;
-  border-radius: 0;
-  border: 1px solid black;
-`;
+import { Button } from './styled';
+
+
 
 class Sequencer extends Component {
   constructor(props) {

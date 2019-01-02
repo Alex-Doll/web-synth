@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { Label } from './styled';
+
 function MasterControls(props) {
   return (
     <fieldset style={{display: 'flex', flexDirection: 'column'}}>
       <legend>Master Controls</legend>
-      <label htmlFor='waveType'>Wave Type: </label>
+      <Label htmlFor='waveType'>Wave Type: </Label>
       <select id='waveType' value={props.waveType} onChange={props.handleChange}>
         <option value='sine'>Sine</option>
         <option value='square'>Square</option>
@@ -12,10 +14,10 @@ function MasterControls(props) {
         <option value='triangle'>Triangle</option>
       </select>
 
-      <label htmlFor='masterGain'>Volume: {props.masterGain} dB</label>
+      <Label htmlFor='masterGain'>Volume: {props.masterGain} dB</Label>
       <input id='masterGain' type='range' min='0' max='1' step='0.1' value={props.masterGain} onChange={props.handleGainChange} />
 
-      <label htmlFor='detune'>Detune: {props.detune} cents</label>
+      <Label htmlFor='detune'>Detune: {props.detune} cents</Label>
       <input id='detune' type='range' min='-100' max='100' value={props.detune} onChange={props.handleDetuneChange} />
     </fieldset>
   );
