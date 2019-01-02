@@ -7,13 +7,14 @@ class Sequencer extends Component {
 
     this.state = {
       tempo: 60.0,
-      lookahead: 25.0,
-      scheduleAheadTime: 0.1,
-      currentNote: 0,
-      nextNoteTime: 0.0,
-      notesInQueue: [],
       isPlaying: false,
     }
+
+    this.lookahead =  25.0;
+    this.scheduleAheadTime =  0.1;
+    this.currentNote =  0;
+    this.nextNoteTime =  0.0;
+    this.notesInQueue =  [];
   }
 
   componentDidMount() {
@@ -22,46 +23,50 @@ class Sequencer extends Component {
   }
 
   scheduler = () => {
-    while (this.state.nextNoteTime < audioContext.currentTime + this.state.scheduleAheadTime) {
-      this.scheduleNote(this.state.currentNote, this.state.nextNoteTime);
+    while (this.nextNoteTime < audioContext.currentTime + this.scheduleAheadTime) {
+      this.scheduleNote(this.currentNote, this.nextNoteTime);
       this.nextNote();
     }
-    const timerID = window.setTimeout(this.scheduler, this.state.lookahead);
+    this.timerID = window.setTimeout(this.scheduler, this.lookahead);
+    console.log(this.currentNote);
+    console.log(this.nextNoteTime);
   }
 
   nextNote = () => {
     const secondsPerBeat = 60.0 / this.state.tempo;
 
-    this.setState(prevState => ({
-        nextNoteTime: prevState.nextNoteTime + secondsPerBeat,
-        currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
-    }));
+    this.nextNoteTime += secondsPerBeat;
+
+    this.currentNote++;
+    if (this.currentNote === 4) {
+      this.currentNote = 0;
+    }
   }
 
   scheduleNote = (beatNumber, time) => {
-    if (this.state.currentNote % 2 === 0) {
+    this.notesInQueue.push({ note: beatNumber, time });
+
+    if (this.currentNote % 2 === 0) {
       this.playFreq(440);
     }
     else {
       this.playModulatedFreq(60, 8);
     }
-
-    this.setState(prevState => ({
-      notesInQueue: [...prevState.notesInQueue, {note: beatNumber, time}],
-    }));
   }
 
   playFreq = (frequency) => {
+    const secondsPerBeat = 60.0 / this.state.tempo;
     const osc = new OscillatorNode(audioContext, {
       frequency,
       type: 'sawtooth',
     });
     osc.connect(masterGainNode).connect(audioContext.destination);
     osc.start();
-    osc.stop(audioContext.currentTime + 1);
+    osc.stop(audioContext.currentTime + secondsPerBeat);
   }
 
   playModulatedFreq = (toneFreq, modFreq) => {
+    const secondsPerBeat = 60.0 / this.state.tempo;
     const osc = new OscillatorNode(audioContext, {
       frequency: toneFreq,
       type: 'triangle',
@@ -79,7 +84,24 @@ class Sequencer extends Component {
     osc.connect(amp).connect(masterGainNode).connect(audioContext.destination);
     lfo.start();
     osc.start();
-    osc.stop(audioContext.currentTime + 1);
+    osc.stop(audioContext.currentTime + secondsPerBeat);
+  }
+
+  controlSequencer = () => {
+    if (this.state.isPlaying) {
+      console.log('The Sequencer is now playing');
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+
+      this.currentNote = 0;
+      this.nextNoteTime = audioContext.currentTime;
+      this.scheduler();
+    }
+    else {
+      console.log('The Sequencer has stopped playing');
+      window.clearTimeout(this.timerID);
+    }
   }
 
   handleChange = (e) => {
@@ -88,10 +110,10 @@ class Sequencer extends Component {
     });
   }
 
-  handlePlayPause = (e) => {
+  handlePlayStop = (e) => {
     this.setState(prevState => ({
       isPlaying: !prevState.isPlaying,
-    }));
+    }), this.controlSequencer);
   }
 
   render() {
@@ -99,9 +121,9 @@ class Sequencer extends Component {
       <div>
         SEQUENCER
         <label htmlFor='tempo'>Tempo: {this.state.tempo} bpm</label>
-        <input id='tempo' type='range' min='0' max='120' step='1.0' value={this.state.tempo} onChange={this.handleChange} />
-        <button onClick={this.handlePlayPause}>
-          {this.state.isPlaying ? 'Pause' : 'Play'}
+        <input id='tempo' type='range' min='1' max='120' step='1.0' value={this.state.tempo} onChange={this.handleChange} />
+        <button onClick={this.handlePlayStop}>
+          {this.state.isPlaying ? 'Stop' : 'Play'}
         </button>
       </div>
     );
