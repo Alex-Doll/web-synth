@@ -55,10 +55,10 @@ class Sequencer extends Component {
 
   playNotes = () => {
     console.log(this.state.currentNote);
-    if (this.state.currentNote % 2 === 0) {
+    if (this.state.note[this.state.currentNote]) {
       this.playFreq(440);
     }
-    else {
+    if (this.state.oscNote[this.state.currentNote]) {
       this.playModulatedFreq(440, 5);
     }
   }
