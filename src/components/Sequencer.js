@@ -9,12 +9,9 @@ class Sequencer extends Component {
       tempo: 60.0,
       currentNote: 0,
       isPlaying: false,
+      note: [false, false, false, false],
+      oscNote: [false, false, false, false],
     }
-  }
-
-  componentDidMount() {
-    /*     this.playFreq(440); */
-    /*     this.playModulatedFreq(60, 8); */
   }
 
   componentWillUnmount() {
@@ -112,6 +109,16 @@ class Sequencer extends Component {
     }), this.controlSequencer);
   }
 
+  handlePadChange = (index, type) => {
+    this.setState(prevState => {
+      let newArray = [...prevState[type]];
+      newArray[index] = !newArray[index];
+      return {
+        [type]: newArray,
+      };
+    });
+  }
+
   render() {
     return (
       <div>
@@ -121,6 +128,20 @@ class Sequencer extends Component {
         <button onClick={this.handlePlayStop}>
           {this.state.isPlaying ? 'Stop' : 'Play'}
         </button>
+        <div style={{display: 'flex', flexDirection: 'row'}} >
+          <p>Note: </p>
+          <input type='checkbox' onChange={() => this.handlePadChange(0, 'note')} checked={this.state.note[0]} />
+          <input type='checkbox' onChange={() => this.handlePadChange(1, 'note')} checked={this.state.note[1]} />
+          <input type='checkbox' onChange={() => this.handlePadChange(2, 'note')} checked={this.state.note[2]} />
+          <input type='checkbox' onChange={() => this.handlePadChange(3, 'note')} checked={this.state.note[3]} />
+        </div>
+        <div style={{display: 'flex', flexDirection: 'row'}} >
+          <p>OscNote: </p>
+          <input type='checkbox' onChange={() => this.handlePadChange(0, 'oscNote')} checked={this.state.oscNote[0]} />
+          <input type='checkbox' onChange={() => this.handlePadChange(1, 'oscNote')} checked={this.state.oscNote[1]} />
+          <input type='checkbox' onChange={() => this.handlePadChange(2, 'oscNote')} checked={this.state.oscNote[2]} />
+          <input type='checkbox' onChange={() => this.handlePadChange(3, 'oscNote')} checked={this.state.oscNote[3]} />
+        </div>
       </div>
     );
   }
