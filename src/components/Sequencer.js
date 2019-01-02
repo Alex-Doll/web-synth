@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { audioContext, masterGainNode } from '../audio';
+
+const Button = styled.button`
+  background-color: black;
+  color: white;
+  border-radius: 0;
+  border: 1px solid black;
+`;
 
 class Sequencer extends Component {
   constructor(props) {
@@ -125,9 +133,9 @@ class Sequencer extends Component {
         SEQUENCER
         <label htmlFor='tempo'>Tempo: {this.state.tempo} bpm</label>
         <input id='tempo' type='range' min='1' max='120' step='1.0' value={this.state.tempo} onChange={this.handleChange} />
-        <button onClick={this.handlePlayStop}>
+        <Button onClick={this.handlePlayStop}>
           {this.state.isPlaying ? 'Stop' : 'Play'}
-        </button>
+        </Button>
         <div style={{display: 'flex', flexDirection: 'row'}} >
           <p>Note: </p>
           <input type='checkbox' onChange={() => this.handlePadChange(0, 'note')} checked={this.state.note[0]} />
