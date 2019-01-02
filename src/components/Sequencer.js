@@ -17,15 +17,6 @@ class Sequencer extends Component {
     /*     this.playModulatedFreq(60, 8); */
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.tempo !== this.state.tempo) {
-      if (this.timerId) {
-        window.clearInterval(this.timerId);
-        this.beginSequencing()
-      }
-    }
-  }
-
   componentWillUnmount() {
     if (this.timerId) {
       window.clearInterval(this.timerId);
@@ -76,14 +67,18 @@ class Sequencer extends Component {
   }
 
   beginSequencing = () => {
-    const millisecondsPerBeat = (60.0 / this.state.tempo) * 1000;
-    this.timerId = window.setInterval(() => {
-      this.setState(prevState => {
-        return {
-          currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
-        };
-      }, this.playNotes);
-    }, millisecondsPerBeat);
+    var updateNote = () => {
+      this.setState(prevState => ({
+        currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
+      }), this.playNotes);
+    }
+
+    var internalCallback = () => {
+      updateNote();
+      this.timerId = window.setTimeout(internalCallback, (60 / this.state.tempo) * 1000);
+    };
+
+    window.setTimeout(internalCallback, (60 / this.state.tempo) * 1000);
   }
 
   controlSequencer = () => {
