@@ -23,7 +23,25 @@ export class Tone {
   }
 
   public playFor(seconds: number) {
-    this.osc.connect(masterGainNode).connect(audioContext.destination);
+    this.connectToMaster(this.osc);
+    this.osc.start();
+    this.osc.stop(audioContext.currentTime + seconds);
+  }
+
+  private connectToMaster(source: any) {
+    source.connect(masterGainNode).connect(audioContext.destination)
+  }
+
+  public connectToLFO(frequency: number = 10, waveType: any = 'sine', seconds: number) {
+    const lfo = new Tone(frequency, 0, waveType);
+
+    const amp = audioContext.createGain();
+    amp.gain.setValueAtTime(1, audioContext.currentTime);
+
+    lfo.osc.connect(amp.gain);
+
+    this.connectToMaster(this.osc.connect(amp));
+    lfo.osc.start();
     this.osc.start();
     this.osc.stop(audioContext.currentTime + seconds);
   }

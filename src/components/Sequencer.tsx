@@ -37,30 +37,14 @@ class Sequencer extends Component <any, any> {
 
   playFreq = (frequency: number) => {
     const secondsPerBeat = 60.0 / this.state.tempo;
-    const tone = new Tone();
+    const tone = new Tone(frequency);
     tone.playFor(secondsPerBeat);
   }
 
   playModulatedFreq = (toneFreq: number, modFreq: number) => {
     const secondsPerBeat = 60.0 / this.state.tempo;
-    const osc = new OscillatorNode(audioContext, {
-      frequency: toneFreq,
-      type: 'triangle',
-    });
-
-    const lfo = new OscillatorNode(audioContext, {
-      frequency: modFreq,
-      type: 'sine',
-    });
-
-    const amp = audioContext.createGain();
-    amp.gain.setValueAtTime(1, audioContext.currentTime);
-
-    lfo.connect(amp.gain);
-    osc.connect(amp).connect(masterGainNode).connect(audioContext.destination);
-    lfo.start();
-    osc.start();
-    osc.stop(audioContext.currentTime + secondsPerBeat);
+    const tone = new Tone(toneFreq, 0, 'triangle');
+    tone.connectToLFO(modFreq, 'sine', secondsPerBeat);
   }
 
   playNotes = () => {
