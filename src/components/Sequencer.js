@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { audioContext, masterGainNode } from '../audio';
 
 import SequencerControls from './SequencerControls';
+import StepSequencer from './StepSequencer';
 import { Button, SequencerWrapper } from './styled';
 
 
@@ -134,20 +135,11 @@ class Sequencer extends Component {
           isPlaying={this.state.isPlaying}
           handlePlayStop={this.handlePlayStop}
         />
-        <div style={{display: 'flex', flexDirection: 'row'}} >
-          <p>Note: </p>
-          <input type='checkbox' onChange={() => this.handlePadChange(0, 'note')} checked={this.state.note[0]} />
-          <input type='checkbox' onChange={() => this.handlePadChange(1, 'note')} checked={this.state.note[1]} />
-          <input type='checkbox' onChange={() => this.handlePadChange(2, 'note')} checked={this.state.note[2]} />
-          <input type='checkbox' onChange={() => this.handlePadChange(3, 'note')} checked={this.state.note[3]} />
-        </div>
-        <div style={{display: 'flex', flexDirection: 'row'}} >
-          <p>OscNote: </p>
-          <input type='checkbox' onChange={() => this.handlePadChange(0, 'oscNote')} checked={this.state.oscNote[0]} />
-          <input type='checkbox' onChange={() => this.handlePadChange(1, 'oscNote')} checked={this.state.oscNote[1]} />
-          <input type='checkbox' onChange={() => this.handlePadChange(2, 'oscNote')} checked={this.state.oscNote[2]} />
-          <input type='checkbox' onChange={() => this.handlePadChange(3, 'oscNote')} checked={this.state.oscNote[3]} />
-        </div>
+        <StepSequencer
+          note={this.state.note}
+          oscNote={this.state.oscNote}
+          handlePadChange={this.handlePadChange}
+        />
       </SequencerWrapper>
     );
   }
