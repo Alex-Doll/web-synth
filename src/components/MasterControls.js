@@ -1,25 +1,32 @@
 import React from 'react';
 
-import { Label } from './styled';
+import { Label, ColumnFieldset, FieldsetHeader, Slider, Select, Option } from './styled';
 
 function MasterControls(props) {
   return (
-    <fieldset style={{display: 'flex', flexDirection: 'column'}}>
-      <legend>Master Controls</legend>
-      <Label htmlFor='waveType'>Wave Type: </Label>
-      <select id='waveType' value={props.waveType} onChange={props.handleChange}>
-        <option value='sine'>Sine</option>
-        <option value='square'>Square</option>
-        <option value='sawtooth'>Sawtooth</option>
-        <option value='triangle'>Triangle</option>
-      </select>
+    <ColumnFieldset>
+      <FieldsetHeader>Master Controls</FieldsetHeader>
 
+      <Slider>
+      <Label htmlFor='waveType'>Wave Type: </Label>
+      <Select id='waveType' value={props.waveType} onChange={props.handleChange}>
+        <Option value='sine'>Sine</Option>
+        <Option value='square'>Square</Option>
+        <Option value='sawtooth'>Sawtooth</Option>
+        <Option value='triangle'>Triangle</Option>
+      </Select>
+      </Slider>
+
+      <Slider>
       <Label htmlFor='masterGain'>Volume: {props.masterGain} dB</Label>
       <input id='masterGain' type='range' min='0' max='1' step='0.1' value={props.masterGain} onChange={props.handleGainChange} />
+      </Slider>
 
+      <Slider>
       <Label htmlFor='detune'>Detune: {props.detune} cents</Label>
       <input id='detune' type='range' min='-100' max='100' value={props.detune} onChange={props.handleDetuneChange} />
-    </fieldset>
+      </Slider>
+    </ColumnFieldset>
   );
 }
 

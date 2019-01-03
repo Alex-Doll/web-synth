@@ -40,3 +40,18 @@ export const FieldsetHeader = styled.h3`
   margin: 3px auto;
   font-size: 16px;
 `;
+
+export const Select = styled.select`
+  margin: 4px;
+  padding: 4px;
+  background-color: #736f66;
+  color: #f3f3f3;
+  font-size: 16px;
+  border: 1px solid #736f66;
+  border-radius: 0;
+  font-family: 'Roboto', sans-serif;
+`;
+
+export const Option = styled.option`
+  font-family: 'Roboto', sans-serif;
+`;
