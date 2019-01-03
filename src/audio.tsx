@@ -46,3 +46,22 @@ export class Tone {
     this.osc.stop(audioContext.currentTime + seconds);
   }
 }
+
+export async function getFile(filepath: string) {
+  const response = await fetch(filepath);
+  const arrayBuffer = await response.arrayBuffer();
+  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+  return audioBuffer;
+}
+
+export function playSample(audioBuffer: any) {
+  const sampleSource = audioContext.createBufferSource();
+  sampleSource.buffer = audioBuffer;
+  sampleSource.playbackRate.setValueAtTime(1, audioContext.currentTime);
+  sampleSource.connect(masterGainNode).connect(audioContext.destination);
+  sampleSource.start();
+  return sampleSource;
+}
+
+export class Sample {
+}

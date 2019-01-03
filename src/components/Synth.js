@@ -63,6 +63,7 @@ class Synth extends Component {
     });
   }
 
+
   render() {
     const Tones = this.toneMap.map((tone, index) => (
       <Tone

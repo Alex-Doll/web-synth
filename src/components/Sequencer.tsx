@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { audioContext, masterGainNode, Tone } from '../audio';
+import { audioContext, masterGainNode, Tone,  getFile, playSample } from '../audio';
+import soundfile from '../samples/LS_TM_BASSLOOP_023_125_C.wav';
 
 import SequencerControls from './SequencerControls';
 import StepSequencer from './StepSequencer';
 import { SequencerWrapper } from './styled';
 
 
-
 class Sequencer extends Component <any, any> {
   private timerId: number | undefined;
+  private buffer: any;
 
   constructor(props: any) {
     super(props);
@@ -19,14 +20,12 @@ class Sequencer extends Component <any, any> {
       isPlaying: false,
       note: [false, false, false, false],
       oscNote: [false, false, false, false],
+      sample: [false, false, false, false],
     }
   }
 
   componentDidMount() {
-    const tone = new Tone();
-    console.log(tone.frequency);
-    console.log(tone.detune);
-    console.log(tone.type);
+    getFile(soundfile).then(buffer => this.buffer = buffer);
   }
 
   componentWillUnmount() {
@@ -54,6 +53,9 @@ class Sequencer extends Component <any, any> {
     }
     if (this.state.oscNote[this.state.currentNote]) {
       this.playModulatedFreq(440, 5);
+    }
+    if (this.state.sample[this.state.currentNote]) {
+      this.playBuffer();
     }
   }
 
@@ -113,6 +115,12 @@ class Sequencer extends Component <any, any> {
     });
   }
 
+  playBuffer = () => {
+    const secondsPerBeat = 60.0 / this.state.tempo;
+    const sampleSource = playSample(this.buffer);
+    sampleSource.stop(audioContext.currentTime + secondsPerBeat);
+  }
+
   render() {
     return (
       <SequencerWrapper>
@@ -126,6 +134,7 @@ class Sequencer extends Component <any, any> {
         <StepSequencer
           note={this.state.note}
           oscNote={this.state.oscNote}
+          sample={this.state.sample}
           handlePadChange={this.handlePadChange}
           currentNote={this.state.currentNote}
           isPlaying={this.state.isPlaying}

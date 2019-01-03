@@ -24,6 +24,16 @@ function StepSequencer(props) {
     />
   ));
 
+  const samples = props.sample.map((isChecked, index) => (
+    <SequencerPad
+      key={index}
+      handleClick={() => props.handlePadChange(index, 'sample')}
+      checked={isChecked}
+      isPlaying={props.currentNote === index}
+      sequencerOn={props.isPlaying}
+    />
+  ));
+
   return (
     <StepSequencerWrapper beatCount='4' instrumentCount='2'>
       <Label>Note: </Label>
@@ -31,6 +41,9 @@ function StepSequencer(props) {
 
       <Label>OscNote: </Label>
       { oscNotes }
+
+      <Label>Sample: </Label>
+      { samples }
     </StepSequencerWrapper>
   );
 }
