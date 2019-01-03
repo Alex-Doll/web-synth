@@ -8,7 +8,7 @@ export const Button = styled.button`
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
-  margin: 5px auto;
+  margin: 5px 0;
   padding: 4px 6px;
 `;
 
@@ -23,6 +23,19 @@ export const ColumnFieldset = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid #736f66;
+  padding: 10px;
+  margin: 10px;
+`;
+
+export const RowFieldset = styled.section`
+  background-color: #f3f3f3;
+  color: #736f66;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
   border-radius: 5px;
   border: 1px solid #736f66;

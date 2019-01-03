@@ -9,6 +9,8 @@ function StepSequencer(props) {
       key={index}
       handleClick={() => props.handlePadChange(index, 'note')}
       checked={isChecked}
+      isPlaying={props.currentNote === index}
+      sequencerOn={props.isPlaying}
     />
   ));
 
@@ -17,6 +19,8 @@ function StepSequencer(props) {
       key={index}
       handleClick={() => props.handlePadChange(index, 'oscNote')}
       checked={isChecked}
+      isPlaying={props.currentNote === index}
+      sequencerOn={props.isPlaying}
     />
   ));
 

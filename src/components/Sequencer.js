@@ -139,6 +139,8 @@ class Sequencer extends Component {
           note={this.state.note}
           oscNote={this.state.oscNote}
           handlePadChange={this.handlePadChange}
+          currentNote={this.state.currentNote}
+          isPlaying={this.state.isPlaying}
         />
       </SequencerWrapper>
     );

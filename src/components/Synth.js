@@ -10,7 +10,7 @@ import {
   INITIAL_ADSR_GAIN_SUSTAIN,
   INITIAL_ADSR_GAIN_RELEASE,
 } from '../constants.js';
-import { audioContext, masterGainNode } from '../audio';
+import { masterGainNode } from '../audio';
 
 class Synth extends Component {
   constructor(props) {
@@ -82,6 +82,8 @@ class Synth extends Component {
     ));
     return (
       <section>
+        <h2 style={{textAlign: 'center'}}>SYNTH</h2>
+        <p style={{textAlign: 'center'}}>Use the a - k keys to play notes</p>
         { Tones }
         <div style={{display: 'flex'}}>
           <MasterControls
