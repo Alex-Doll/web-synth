@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { audioContext, masterGainNode } from '../audio';
 
 import SequencerControls from './SequencerControls';
-import { Button } from './styled';
+import { Button, SequencerWrapper } from './styled';
 
 
 
@@ -126,8 +126,8 @@ class Sequencer extends Component {
 
   render() {
     return (
-      <div>
-        SEQUENCER
+      <SequencerWrapper>
+        <h2 style={{textAlign: 'center'}}>SEQUENCER</h2>
         <SequencerControls
           tempo={this.state.tempo}
           handleTempoChange={this.handleChange}
@@ -148,7 +148,7 @@ class Sequencer extends Component {
           <input type='checkbox' onChange={() => this.handlePadChange(2, 'oscNote')} checked={this.state.oscNote[2]} />
           <input type='checkbox' onChange={() => this.handlePadChange(3, 'oscNote')} checked={this.state.oscNote[3]} />
         </div>
-      </div>
+      </SequencerWrapper>
     );
   }
 }
