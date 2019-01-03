@@ -1,4 +1,3 @@
-/* import { audioContext } from './audio'; */
 import { AudioContextMock } from './setupTests';
 
 function getAudioContext(audioContextExists = true) {
@@ -7,7 +6,7 @@ function getAudioContext(audioContextExists = true) {
   }
 
   jest.resetModules();
-  return require('./audio').audioContext;
+  return require('./audio.tsx').audioContext;
 }
 
 it('loads AudioContext when AudioContext is present on window', () => {

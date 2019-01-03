@@ -10,7 +10,7 @@ import {
   INITIAL_ADSR_GAIN_SUSTAIN,
   INITIAL_ADSR_GAIN_RELEASE,
 } from '../constants.js';
-import { masterGainNode } from '../audio';
+import { masterGainNode } from '../audio.tsx';
 
 class Synth extends Component {
   constructor(props) {

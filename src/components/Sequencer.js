@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { audioContext, masterGainNode } from '../audio';
+import { audioContext, masterGainNode, Tone } from '../audio.tsx';
 
 import SequencerControls from './SequencerControls';
 import StepSequencer from './StepSequencer';
@@ -18,6 +18,14 @@ class Sequencer extends Component {
       note: [false, false, false, false],
       oscNote: [false, false, false, false],
     }
+  }
+
+  componentDidMount() {
+    const tone = new Tone();
+    console.log(tone.frequency);
+    console.log(tone.detune);
+    console.log(tone.type);
+    console.log(tone.osc);
   }
 
   componentWillUnmount() {
