@@ -25,7 +25,7 @@ export const ColumnFieldset = styled.section`
   margin: 10px;
 `;
 
-export const Slider = styled.div`
+export const LabeledInput = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
