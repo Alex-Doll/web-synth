@@ -71,17 +71,8 @@ export const StepSequencerWrapper = styled.section`
   display: grid;
   grid-template-columns: repeat(${props => Number(props.beatCount) + 1}, 1fr);
   grid-template-rows: repeat(${props => Number(props.instrumentCount)}, 1fr);
-`;
-
-export const StepSequencerLabels = styled.aside`
-  grid-row: 1 / 3;
-  grid-column: 1;
-`;
-
-export const StepSequencerPads = styled.section`
-  grid-row: 1 / 3;
-  grid-column: 2 / 6;
-`;
-
-export const StepSequencerPadRow = styled.div`
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  padding: 10px;
+  margin: 10px;
 `;
