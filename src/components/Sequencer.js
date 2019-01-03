@@ -36,13 +36,10 @@ class Sequencer extends Component {
 
   playFreq = (frequency) => {
     const secondsPerBeat = 60.0 / this.state.tempo;
-    const osc = new OscillatorNode(audioContext, {
-      frequency,
-      type: 'sawtooth',
-    });
-    osc.connect(masterGainNode).connect(audioContext.destination);
-    osc.start();
-    osc.stop(audioContext.currentTime + secondsPerBeat);
+    const tone = new Tone();
+    tone.osc.connect(masterGainNode).connect(audioContext.destination);
+    tone.osc.start();
+    tone.osc.stop(audioContext.currentTime + secondsPerBeat);
   }
 
   playModulatedFreq = (toneFreq, modFreq) => {

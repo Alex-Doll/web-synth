@@ -7,10 +7,12 @@ masterGainNode.gain.value = INITIAL_MASTER_GAIN;
 
 
 export class Tone {
+  osc: OscillatorNode;
+
   constructor(
     public frequency: number = 440,
     public detune: number = 0,
-    public type: string = 'sine',
+    public type: any = 'sine',
   ) {
 
     this.osc = new OscillatorNode(audioContext, {
