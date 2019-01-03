@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/App.css';
 
 import Synth from './Synth';
-import Sequencer from './Sequencer';
+import Sequencer from './Sequencer.tsx';
 
 
 class App extends Component {

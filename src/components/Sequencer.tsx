@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { audioContext, masterGainNode, Tone } from '../audio.tsx';
+import { audioContext, masterGainNode, Tone } from '../audio';
 
 import SequencerControls from './SequencerControls';
 import StepSequencer from './StepSequencer';
@@ -7,8 +7,10 @@ import { SequencerWrapper } from './styled';
 
 
 
-class Sequencer extends Component {
-  constructor(props) {
+class Sequencer extends Component <any, any> {
+  private timerId: number | undefined;
+
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -25,7 +27,6 @@ class Sequencer extends Component {
     console.log(tone.frequency);
     console.log(tone.detune);
     console.log(tone.type);
-    console.log(tone.osc);
   }
 
   componentWillUnmount() {
@@ -34,15 +35,13 @@ class Sequencer extends Component {
     }
   }
 
-  playFreq = (frequency) => {
+  playFreq = (frequency: number) => {
     const secondsPerBeat = 60.0 / this.state.tempo;
     const tone = new Tone();
-    tone.osc.connect(masterGainNode).connect(audioContext.destination);
-    tone.osc.start();
-    tone.osc.stop(audioContext.currentTime + secondsPerBeat);
+    tone.playFor(secondsPerBeat);
   }
 
-  playModulatedFreq = (toneFreq, modFreq) => {
+  playModulatedFreq = (toneFreq: number, modFreq: number) => {
     const secondsPerBeat = 60.0 / this.state.tempo;
     const osc = new OscillatorNode(audioContext, {
       frequency: toneFreq,
@@ -76,7 +75,7 @@ class Sequencer extends Component {
 
   beginSequencing = () => {
     var updateNote = () => {
-      this.setState(prevState => ({
+      this.setState((prevState: any) => ({
         currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
       }), this.playNotes);
     }
@@ -108,20 +107,20 @@ class Sequencer extends Component {
     }
   }
 
-  handleChange = (e) => {
+  handleChange = (e: any) => {
     this.setState({
       [e.target.id]: Number(e.target.value),
     });
   }
 
-  handlePlayStop = (e) => {
-    this.setState(prevState => ({
+  handlePlayStop = (e: any) => {
+    this.setState((prevState: any) => ({
       isPlaying: !prevState.isPlaying,
     }), this.controlSequencer);
   }
 
-  handlePadChange = (index, type) => {
-    this.setState(prevState => {
+  handlePadChange = (index: number, type: string) => {
+    this.setState((prevState: any) => {
       let newArray = [...prevState[type]];
       newArray[index] = !newArray[index];
       return {

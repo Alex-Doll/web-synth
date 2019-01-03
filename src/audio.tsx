@@ -7,7 +7,7 @@ masterGainNode.gain.value = INITIAL_MASTER_GAIN;
 
 
 export class Tone {
-  osc: OscillatorNode;
+  private osc: OscillatorNode;
 
   constructor(
     public frequency: number = 440,
@@ -20,5 +20,11 @@ export class Tone {
       detune,
       type,
     });
+  }
+
+  public playFor(seconds: number) {
+    this.osc.connect(masterGainNode).connect(audioContext.destination);
+    this.osc.start();
+    this.osc.stop(audioContext.currentTime + seconds);
   }
 }
