@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  background-color: black;
-  color: white;
+  background-color: #736f66;
+  color: #f3f3f3;
   border-radius: 0;
-  border: 1px solid black;
+  border: 1px solid #736f66;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 5px auto;
+  padding: 4px 6px;
 `;
 
 export const Label = styled.label`
