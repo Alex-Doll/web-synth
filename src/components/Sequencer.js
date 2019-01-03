@@ -3,7 +3,7 @@ import { audioContext, masterGainNode } from '../audio';
 
 import SequencerControls from './SequencerControls';
 import StepSequencer from './StepSequencer';
-import { Button, SequencerWrapper } from './styled';
+import { SequencerWrapper } from './styled';
 
 
 
