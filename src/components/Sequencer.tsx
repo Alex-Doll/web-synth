@@ -9,14 +9,24 @@ import { SequencerWrapper } from './styled';
 
 class Sequencer extends Component <any, any> {
   private buffer: any;
+  private instrumentMap: any;
 
   constructor(props: any) {
     super(props);
 
+    const instruments = ['note', 'oscNote', 'sample', 'note2'];
+    const padStatus = this.initializePads(instruments);
+
     this.state = {
-      note: [false, false, false, false],
-      oscNote: [false, false, false, false],
-      sample: [false, false, false, false],
+      instruments,
+      padStatus,
+    }
+
+    this.instrumentMap = {
+      note: this.playFreq.bind(this, 440),
+      oscNote: this.playModulatedFreq.bind(this, 440, 5),
+      sample: this.playBuffer,
+      note2: this.playFreq.bind(this, 60),
     }
   }
 
@@ -24,16 +34,22 @@ class Sequencer extends Component <any, any> {
     getFile(soundfile).then(buffer => this.buffer = buffer);
   }
 
+  initializePads = (instruments: any) => {
+    // For some reason couldnt get typescript to work with reduce function
+    let padStatus: { [index:string] : any } = {};
+    instruments.forEach((instrument: string, index: number) => {
+      padStatus[instrument] = new Array(this.props.metronome.barLength).fill(false);
+    });
+
+    return padStatus;
+  }
+
   playNotes = () => {
-    console.log(this.props.metronome.currentNote);
-    if (this.state.note[this.props.metronome.currentNote]) {
-      this.playFreq(440);
-    }
-    if (this.state.oscNote[this.props.metronome.currentNote]) {
-      this.playModulatedFreq(440, 5);
-    }
-    if (this.state.sample[this.props.metronome.currentNote]) {
-      this.playBuffer();
+    console.log(this.props.metronome.beat);
+    for (let key in this.state.padStatus) {
+      if (this.state.padStatus[key][this.props.metronome.beat]) {
+        this.instrumentMap[key]();
+      }
     }
   }
 
@@ -55,12 +71,15 @@ class Sequencer extends Component <any, any> {
     sampleSource.stop(audioContext.currentTime + secondsPerBeat);
   }
 
-  handlePadChange = (index: number, type: string) => {
+  handlePadChange = (instrument: string, index: number) => {
     this.setState((prevState: any) => {
-      let newArray = [...prevState[type]];
-      newArray[index] = !newArray[index];
+      let instrumentStatus = [...prevState.padStatus[instrument]];
+      instrumentStatus[index] = !instrumentStatus[index];
       return {
-        [type]: newArray,
+        padStatus: {
+          ...prevState.padStatus,
+          [instrument]: instrumentStatus,
+        }
       };
     });
   }
@@ -76,12 +95,12 @@ class Sequencer extends Component <any, any> {
           handlePlayStop={() => this.props.metronome.togglePlaying(this.playNotes)}
         />
         <StepSequencer
-          note={this.state.note}
-          oscNote={this.state.oscNote}
-          sample={this.state.sample}
+          instruments={this.state.instruments}
+          padStatus={this.state.padStatus}
           handlePadChange={this.handlePadChange}
-          currentNote={this.props.metronome.currentNote}
+          currentNote={this.props.metronome.beat}
           isPlaying={this.props.metronome.isPlaying}
+          barLength={this.props.metronome.barLength}
         />
       </SequencerWrapper>
     );

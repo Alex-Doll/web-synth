@@ -4,46 +4,34 @@ import SequencerPad from './SequencerPad';
 import { StepSequencerWrapper, Label } from './styled';
 
 function StepSequencer(props) {
-  const notes = props.note.map((isChecked, index) => (
-    <SequencerPad
-      key={index}
-      handleClick={() => props.handlePadChange(index, 'note')}
-      checked={isChecked}
-      isPlaying={props.currentNote === index}
-      sequencerOn={props.isPlaying}
-    />
-  ));
+  let pads = {};
 
-  const oscNotes = props.oscNote.map((isChecked, index) => (
-    <SequencerPad
-      key={index}
-      handleClick={() => props.handlePadChange(index, 'oscNote')}
-      checked={isChecked}
-      isPlaying={props.currentNote === index}
-      sequencerOn={props.isPlaying}
-    />
-  ));
-
-  const samples = props.sample.map((isChecked, index) => (
-    <SequencerPad
-      key={index}
-      handleClick={() => props.handlePadChange(index, 'sample')}
-      checked={isChecked}
-      isPlaying={props.currentNote === index}
-      sequencerOn={props.isPlaying}
-    />
-  ));
-
+  props.instruments.forEach((instrument, index) => {
+    const instrumentEl = props.padStatus[instrument].map((isChecked, index) => (
+      <SequencerPad
+        key={index}
+        handleClick={() => props.handlePadChange(instrument, index)}
+        checked={isChecked}
+        isPlaying={props.currentNote === index}
+        sequencerOn={props.isPlaying}
+      />
+    ));
+    pads[instrument] = instrumentEl;
+  });
+console.log(props.barLength)
   return (
-    <StepSequencerWrapper beatCount='4' instrumentCount='2'>
+    <StepSequencerWrapper beatCount={props.barLength} instrumentCount={props.instruments.length}>
       <Label>Note: </Label>
-      { notes }
+      { pads['note'] }
 
       <Label>OscNote: </Label>
-      { oscNotes }
+      { pads['oscNote'] }
 
       <Label>Sample: </Label>
-      { samples }
+      { pads['sample'] }
+
+      <Label>Low: </Label>
+      { pads['note2'] }
     </StepSequencerWrapper>
   );
 }

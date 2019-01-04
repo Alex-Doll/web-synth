@@ -8,7 +8,8 @@ interface Props {
 
 interface State {
   readonly tempo: number;
-  readonly currentNote: number;
+  readonly beat: number;
+  readonly barLength: number;
   readonly isPlaying: boolean;
 }
 
@@ -20,7 +21,8 @@ class Metronome extends Component <Props, State> {
 
     this.state = {
       tempo: 60,
-      currentNote: 0,
+      beat: 0,
+      barLength: 4,
       isPlaying: false,
     }
   }
@@ -44,7 +46,7 @@ class Metronome extends Component <Props, State> {
 
   private advanceNote = (callback: Function) => {
     this.setState((prevState: State) => ({
-      currentNote: prevState.currentNote === 3 ? 0 : prevState.currentNote + 1,
+      beat: prevState.beat === (prevState.barLength - 1) ? 0 : prevState.beat + 1,
     }), callback);
   }
 
@@ -53,7 +55,7 @@ class Metronome extends Component <Props, State> {
 
     if (this.timerId) {
       window.clearInterval(this.timerId);
-      this.setState({ currentNote: 0 });
+      this.setState({ beat: 0 });
     }
   }
 
