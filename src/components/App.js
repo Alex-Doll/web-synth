@@ -3,6 +3,7 @@ import '../styles/App.css';
 
 import Synth from './Synth';
 import Sequencer from './Sequencer.tsx';
+import Metronome from './Metronome.tsx';
 
 
 class App extends Component {
@@ -13,7 +14,9 @@ class App extends Component {
           Web Synth
         </header>
         <Synth />
-        <Sequencer />
+        <Metronome>
+          {(props) => <Sequencer metronome={props} />}
+        </Metronome>
       </div>
     );
   }
