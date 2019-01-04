@@ -24,18 +24,6 @@ class Sequencer extends Component <any, any> {
     getFile(soundfile).then(buffer => this.buffer = buffer);
   }
 
-  playFreq = (frequency: number) => {
-    const secondsPerBeat = 60.0 / this.props.metronome.tempo;
-    const tone = new Tone(frequency);
-    tone.playFor(secondsPerBeat);
-  }
-
-  playModulatedFreq = (toneFreq: number, modFreq: number) => {
-    const secondsPerBeat = 60.0 / this.props.metronome.tempo;
-    const tone = new Tone(toneFreq, 0, 'triangle');
-    tone.connectToLFO(modFreq, 'sine', secondsPerBeat);
-  }
-
   playNotes = () => {
     console.log(this.props.metronome.currentNote);
     if (this.state.note[this.props.metronome.currentNote]) {
@@ -49,10 +37,22 @@ class Sequencer extends Component <any, any> {
     }
   }
 
-  handleChange = (e: any) => {
-    this.setState({
-      [e.target.id]: Number(e.target.value),
-    });
+  playFreq = (frequency: number) => {
+    const secondsPerBeat = 60.0 / this.props.metronome.tempo;
+    const tone = new Tone(frequency);
+    tone.playFor(secondsPerBeat);
+  }
+
+  playModulatedFreq = (toneFreq: number, modFreq: number) => {
+    const secondsPerBeat = 60.0 / this.props.metronome.tempo;
+    const tone = new Tone(toneFreq, 0, 'triangle');
+    tone.connectToLFO(modFreq, 'sine', secondsPerBeat);
+  }
+
+  playBuffer = () => {
+    const secondsPerBeat = 60.0 / this.props.metronome.tempo;
+    const sampleSource = playSample(this.buffer);
+    sampleSource.stop(audioContext.currentTime + secondsPerBeat);
   }
 
   handlePadChange = (index: number, type: string) => {
@@ -63,12 +63,6 @@ class Sequencer extends Component <any, any> {
         [type]: newArray,
       };
     });
-  }
-
-  playBuffer = () => {
-    const secondsPerBeat = 60.0 / this.props.metronome.tempo;
-    const sampleSource = playSample(this.buffer);
-    sampleSource.stop(audioContext.currentTime + secondsPerBeat);
   }
 
   render() {
