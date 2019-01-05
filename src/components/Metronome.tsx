@@ -22,7 +22,7 @@ class Metronome extends Component <Props, State> {
     this.state = {
       tempo: 60,
       beat: 0,
-      barLength: 4,
+      barLength: 8,
       isPlaying: false,
     }
   }
