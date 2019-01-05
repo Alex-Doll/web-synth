@@ -16,7 +16,7 @@ interface State {
 class Metronome extends Component <Props, State> {
   private timerId: number | undefined;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -33,7 +33,7 @@ class Metronome extends Component <Props, State> {
     }
   }
 
-  private start = (functionOnNote) => {
+  private start = (functionOnNote: Function) => {
     console.log('Metronome has started playing');
 
     const internalCallback = () => {
@@ -44,7 +44,7 @@ class Metronome extends Component <Props, State> {
     window.setTimeout(internalCallback, (60 / this.state.tempo) * 1000);
   }
 
-  private advanceNote = (callback: Function) => {
+  private advanceNote = (callback: any) => {
     this.setState((prevState: State) => ({
       beat: prevState.beat === (prevState.barLength - 1) ? 0 : prevState.beat + 1,
     }), callback);
