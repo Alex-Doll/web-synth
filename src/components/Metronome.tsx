@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { audioContext } from '../audio.tsx';
+import { audioContext } from '../audio';
 
 
 interface Props {
