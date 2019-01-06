@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  background-color: #736f66;
-  color: #f3f3f3;
+  background-color: ${(props) => props.inverted ? '#f3f3f3' : '#736f66'};
+  color: ${(props) => props.inverted ? '#736f66' : '#f3f3f3'};
   border-radius: 0;
-  border: 1px solid #736f66;
+  border: 1px solid ${(props) => props.inverted ? '#f3f3f3' : '#736f66'};
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;

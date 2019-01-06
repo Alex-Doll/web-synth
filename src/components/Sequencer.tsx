@@ -4,12 +4,14 @@ import soundfile from '../samples/LS_TM_BASSLOOP_023_125_C.wav';
 
 import SequencerControls from './SequencerControls';
 import StepSequencer from './StepSequencer';
+import SequencerInstrumentCreator from './SequencerInstrumentCreator';
 import { SequencerWrapper } from './styled';
 
 
 class Sequencer extends Component <any, any> {
   private buffer: any;
   private instrumentMap: any;
+  private availableInstruments: any;
 
   constructor(props: any) {
     super(props);
@@ -28,6 +30,14 @@ class Sequencer extends Component <any, any> {
       sample: this.playBuffer,
       note2: this.playFreq.bind(this, 60),
       sample2: this.playBuffer,
+    }
+
+    this.availableInstruments = {
+      highNote: this.playFreq.bind(this, 440),
+      bassNote: this.playFreq.bind(this, 60),
+      modHighNote: this.playModulatedFreq.bind(this, 440, 5),
+      modBassNote: this.playModulatedFreq.bind(this, 60, 5),
+      sample: this.playBuffer,
     }
   }
 
@@ -97,6 +107,20 @@ class Sequencer extends Component <any, any> {
     });
   }
 
+  addInstrument = (name: string, type: string) => {
+    this.setState((prevState: any) => {
+      this.instrumentMap[name] = this.availableInstruments[type];
+      console.log(this.instrumentMap);
+      return {
+        instruments: [...prevState.instruments, name],
+        padStatus: {
+          ...prevState.padStatus,
+          [name]: new Array(this.props.metronome.barLength).fill(false),
+        }
+      };
+    });
+  }
+
   render() {
     return (
       <SequencerWrapper>
@@ -115,6 +139,10 @@ class Sequencer extends Component <any, any> {
           isPlaying={this.props.metronome.isPlaying}
           barLength={this.props.metronome.barLength}
           removeInstrument={this.removeInstrument}
+        />
+        <SequencerInstrumentCreator
+          addInstrument={this.addInstrument}
+          instruments={Object.keys(this.availableInstruments)}
         />
       </SequencerWrapper>
     );
