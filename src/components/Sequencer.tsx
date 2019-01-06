@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { audioContext, masterGainNode, Tone,  getFile, playSample } from '../audio';
 import soundfile from '../samples/LS_TM_BASSLOOP_023_125_C.wav';
+import kickloop from '../samples/LS_TM_KICKLOOP_004_125.wav';
+import snareloop from '../samples/LS_TM_SNARECLAPLOOP_004_125.wav';
+import hatloop from '../samples/LS_TM_HATLOOP_012_125.wav'
 
 import SequencerControls from './SequencerControls';
 import StepSequencer from './StepSequencer';
@@ -9,14 +12,17 @@ import { SequencerWrapper } from './styled';
 
 
 class Sequencer extends Component <any, any> {
-  private buffer: any;
+  private bassBuffer: any;
+  private kickBuffer: any;
+  private snareBuffer: any;
+  private hatBuffer: any;
   private instrumentMap: any;
   private availableInstruments: any;
 
   constructor(props: any) {
     super(props);
 
-    const instruments = ['note', 'oscNote', 'sample', 'note2', 'sample2'];
+    const instruments = ['kick', 'snare', 'hat', 'bass'];
     const padStatus = this.initializePads(instruments);
 
     this.state = {
@@ -25,11 +31,10 @@ class Sequencer extends Component <any, any> {
     }
 
     this.instrumentMap = {
-      note: this.playFreq.bind(this, 440),
-      oscNote: this.playModulatedFreq.bind(this, 440, 5),
-      sample: this.playBuffer,
-      note2: this.playFreq.bind(this, 60),
-      sample2: this.playBuffer,
+      kick: this.playBuffer.bind(this, 'kick'),
+      snare: this.playBuffer.bind(this, 'snare'),
+      hat: this.playBuffer.bind(this, 'hat'),
+      bass: this.playFreq.bind(this, 60),
     }
 
     this.availableInstruments = {
@@ -38,11 +43,17 @@ class Sequencer extends Component <any, any> {
       modHighNote: this.playModulatedFreq.bind(this, 440, 5),
       modBassNote: this.playModulatedFreq.bind(this, 60, 5),
       sample: this.playBuffer,
+      kick: this.playBuffer.bind(this, 'kick'),
+      snare: this.playBuffer.bind(this, 'snare'),
+      hat: this.playBuffer.bind(this, 'hat'),
     }
   }
 
   componentDidMount() {
-    getFile(soundfile).then(buffer => this.buffer = buffer);
+    getFile(soundfile).then(buffer => this.bassBuffer = buffer);
+    getFile(kickloop).then(buffer => this.kickBuffer = buffer);
+    getFile(snareloop).then(buffer => this.snareBuffer = buffer);
+    getFile(hatloop).then(buffer => this.hatBuffer = buffer);
   }
 
   initializePads = (instruments: any) => {
@@ -76,9 +87,25 @@ class Sequencer extends Component <any, any> {
     tone.connectToLFO(modFreq, 'sine', secondsPerBeat);
   }
 
-  playBuffer = () => {
+  playBuffer = (buffer: string) => {
     const secondsPerBeat = 60.0 / this.props.metronome.tempo;
-    const sampleSource = playSample(this.buffer);
+    switch (buffer) {
+      case 'kick':
+        var sampleSource = playSample(this.kickBuffer);
+        break;
+      case 'snare':
+        var sampleSource = playSample(this.snareBuffer);
+        break;
+      case 'hat':
+        var sampleSource = playSample(this.hatBuffer);
+        break;
+      case 'bass':
+        var sampleSource = playSample(this.bassBuffer);
+        break;
+      default:
+        var sampleSource = playSample(this.bassBuffer);
+    }
+
     sampleSource.stop(audioContext.currentTime + secondsPerBeat);
   }
 
