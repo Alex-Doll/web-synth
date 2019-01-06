@@ -1,10 +1,10 @@
 import React from 'react';
 
 import SequencerPad from './SequencerPad';
-import { StepSequencerWrapper, Label } from './styled';
+import { StepSequencerWrapper, StepSequencerRow, Label } from './styled';
 
 function StepSequencer(props) {
-  let pads = {};
+  let sequencerRows = [];
 
   props.instruments.forEach((instrument, index) => {
     const instrumentEl = props.padStatus[instrument].map((isChecked, index) => (
@@ -16,22 +16,21 @@ function StepSequencer(props) {
         sequencerOn={props.isPlaying}
       />
     ));
-    pads[instrument] = instrumentEl;
+
+    const row = (
+      <StepSequencerRow beatCount={props.barLength}>
+        <Label>{instrument}: </Label>
+        { instrumentEl }
+      </StepSequencerRow>
+    );
+
+    sequencerRows.push(row);
   });
+
 console.log(props.barLength)
   return (
-    <StepSequencerWrapper beatCount={props.barLength} instrumentCount={props.instruments.length}>
-      <Label>Note: </Label>
-      { pads['note'] }
-
-      <Label>OscNote: </Label>
-      { pads['oscNote'] }
-
-      <Label>Sample: </Label>
-      { pads['sample'] }
-
-      <Label>Low: </Label>
-      { pads['note2'] }
+    <StepSequencerWrapper instrumentCount={props.instruments.length}>
+      { sequencerRows }
     </StepSequencerWrapper>
   );
 }

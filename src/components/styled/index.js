@@ -82,10 +82,14 @@ export const SequencerWrapper = styled.section`
 
 export const StepSequencerWrapper = styled.section`
   display: grid;
-  grid-template-columns: repeat(${props => Number(props.beatCount) + 1}, 1fr);
   grid-template-rows: repeat(${props => Number(props.instrumentCount)}, 1fr);
   grid-row-gap: 10px;
-  grid-column-gap: 10px;
   padding: 10px;
   margin: 10px;
+`;
+
+export const StepSequencerRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(${props => Number(props.beatCount) + 1}, 1fr);
+  grid-column-gap: 10px;
 `;
