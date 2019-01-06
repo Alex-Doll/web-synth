@@ -14,7 +14,7 @@ class Sequencer extends Component <any, any> {
   constructor(props: any) {
     super(props);
 
-    const instruments = ['note', 'oscNote', 'sample', 'note2'];
+    const instruments = ['note', 'oscNote', 'sample', 'note2', 'sample2'];
     const padStatus = this.initializePads(instruments);
 
     this.state = {
@@ -27,6 +27,7 @@ class Sequencer extends Component <any, any> {
       oscNote: this.playModulatedFreq.bind(this, 440, 5),
       sample: this.playBuffer,
       note2: this.playFreq.bind(this, 60),
+      sample2: this.playBuffer,
     }
   }
 
@@ -84,6 +85,18 @@ class Sequencer extends Component <any, any> {
     });
   }
 
+  removeInstrument = (instrumentToRemove: string) => {
+    this.setState((prevState: any) => {
+      const newInstruments = prevState.instruments.filter((instrument: string) => instrument !== instrumentToRemove);
+      const { [instrumentToRemove]: value, ...newPadStatus } = prevState.padStatus;
+      delete this.instrumentMap[instrumentToRemove];
+      return {
+        instruments: newInstruments,
+        padStatus: newPadStatus,
+      };
+    });
+  }
+
   render() {
     return (
       <SequencerWrapper>
@@ -101,6 +114,7 @@ class Sequencer extends Component <any, any> {
           currentNote={this.props.metronome.beat}
           isPlaying={this.props.metronome.isPlaying}
           barLength={this.props.metronome.barLength}
+          removeInstrument={this.removeInstrument}
         />
       </SequencerWrapper>
     );

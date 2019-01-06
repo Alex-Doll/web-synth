@@ -18,8 +18,8 @@ function StepSequencer(props) {
     ));
 
     const row = (
-      <StepSequencerRow beatCount={props.barLength}>
-        <Label>{instrument}: </Label>
+      <StepSequencerRow key={index} beatCount={props.barLength}>
+        <Label>{instrument}: <span onClick={() => props.removeInstrument(instrument) }>X</span></Label>
         { instrumentEl }
       </StepSequencerRow>
     );
@@ -27,7 +27,6 @@ function StepSequencer(props) {
     sequencerRows.push(row);
   });
 
-console.log(props.barLength)
   return (
     <StepSequencerWrapper instrumentCount={props.instruments.length}>
       { sequencerRows }
