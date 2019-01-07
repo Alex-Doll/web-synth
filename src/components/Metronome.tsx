@@ -72,7 +72,7 @@ class Metronome extends Component <Props, State> {
     });
 
     if (this.functionOnNote) {
-      this.functionOnNote(beatNumber, time);
+      this.functionOnNote({ beatNumber, time });
     }
   }
 

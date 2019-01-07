@@ -22,17 +22,17 @@ export class Tone {
     });
   }
 
-  public playFor(seconds: number) {
+  public playFor(seconds: number, startTime: number = audioContext.currentTime) {
     this.connectToMaster(this.osc);
-    this.osc.start();
-    this.osc.stop(audioContext.currentTime + seconds);
+    this.osc.start(startTime);
+    this.osc.stop(startTime + seconds);
   }
 
   private connectToMaster(source: any) {
     source.connect(masterGainNode).connect(audioContext.destination)
   }
 
-  public connectToLFO(frequency: number = 10, waveType: any = 'sine', seconds: number) {
+  public connectToLFO(frequency: number = 10, waveType: any = 'sine', seconds: number, startTime: number = audioContext.currentTime) {
     const lfo = new Tone(frequency, 0, waveType);
 
     const amp = audioContext.createGain();
@@ -41,9 +41,9 @@ export class Tone {
     lfo.osc.connect(amp.gain);
 
     this.connectToMaster(this.osc.connect(amp));
-    lfo.osc.start();
-    this.osc.start();
-    this.osc.stop(audioContext.currentTime + seconds);
+    lfo.osc.start(startTime);
+    this.osc.start(startTime);
+    this.osc.stop(startTime + seconds);
   }
 }
 
@@ -54,12 +54,12 @@ export async function getFile(filepath: string) {
   return audioBuffer;
 }
 
-export function playSample(audioBuffer: any) {
+export function playSample(audioBuffer: any, startTime: number = audioContext.currentTime) {
   const sampleSource = audioContext.createBufferSource();
   sampleSource.buffer = audioBuffer;
   sampleSource.playbackRate.setValueAtTime(1, audioContext.currentTime);
   sampleSource.connect(masterGainNode).connect(audioContext.destination);
-  sampleSource.start();
+  sampleSource.start(startTime);
   return sampleSource;
 }
 

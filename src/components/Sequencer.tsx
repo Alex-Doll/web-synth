@@ -42,7 +42,7 @@ class Sequencer extends Component <any, any> {
       bassNote: this.playFreq.bind(this, 60),
       modHighNote: this.playModulatedFreq.bind(this, 440, 5),
       modBassNote: this.playModulatedFreq.bind(this, 60, 5),
-      sample: this.playBuffer,
+      sample: this.playBuffer.bind(this, 'bass'),
       kick: this.playBuffer.bind(this, 'kick'),
       snare: this.playBuffer.bind(this, 'snare'),
       hat: this.playBuffer.bind(this, 'hat'),
@@ -66,47 +66,46 @@ class Sequencer extends Component <any, any> {
     return padStatus;
   }
 
-  playNotes = () => {
-    console.log(this.props.metronome.beat);
+  playNotes = (...args: any) => {
     for (let key in this.state.padStatus) {
       if (this.state.padStatus[key][this.props.metronome.beat]) {
-        this.instrumentMap[key]();
+        this.instrumentMap[key](...args);
       }
     }
   }
 
-  playFreq = (frequency: number) => {
+  playFreq = (frequency: number, ...args: any) => {
     const secondsPerBeat = 60.0 / this.props.metronome.tempo;
     const tone = new Tone(frequency);
-    tone.playFor(secondsPerBeat);
+    tone.playFor(secondsPerBeat, args[0].time);
   }
 
-  playModulatedFreq = (toneFreq: number, modFreq: number) => {
+  playModulatedFreq = (toneFreq: number, modFreq: number, ...args: any) => {
     const secondsPerBeat = 60.0 / this.props.metronome.tempo;
     const tone = new Tone(toneFreq, 0, 'triangle');
-    tone.connectToLFO(modFreq, 'sine', secondsPerBeat);
+    tone.connectToLFO(modFreq, 'sine', secondsPerBeat, args[0].time);
   }
 
-  playBuffer = (buffer: string) => {
+  playBuffer = (buffer: string, ...args: any) => {
     const secondsPerBeat = 60.0 / this.props.metronome.tempo;
     switch (buffer) {
       case 'kick':
-        var sampleSource = playSample(this.kickBuffer);
+        var sampleSource = playSample(this.kickBuffer, args[0].time);
         break;
       case 'snare':
-        var sampleSource = playSample(this.snareBuffer);
+        var sampleSource = playSample(this.snareBuffer, args[0].time);
         break;
       case 'hat':
-        var sampleSource = playSample(this.hatBuffer);
+        var sampleSource = playSample(this.hatBuffer, args[0].time);
         break;
       case 'bass':
-        var sampleSource = playSample(this.bassBuffer);
+        var sampleSource = playSample(this.bassBuffer, args[0].time);
         break;
       default:
-        var sampleSource = playSample(this.bassBuffer);
+        var sampleSource = playSample(this.bassBuffer, args[0].time);
+        console.log('Sample not found for: ' + buffer);
     }
-
-    sampleSource.stop(audioContext.currentTime + secondsPerBeat);
+    sampleSource.stop(args[0].time + secondsPerBeat);
   }
 
   handlePadChange = (instrument: string, index: number) => {
@@ -137,7 +136,6 @@ class Sequencer extends Component <any, any> {
   addInstrument = (name: string, type: string) => {
     this.setState((prevState: any) => {
       this.instrumentMap[name] = this.availableInstruments[type];
-      console.log(this.instrumentMap);
       return {
         instruments: [...prevState.instruments, name],
         padStatus: {

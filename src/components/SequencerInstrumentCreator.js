@@ -38,7 +38,10 @@ class SequencerInstrumentCreator extends Component {
           </Select>
         </LabeledInput>
 
-        <Button onClick={() => this.props.addInstrument(this.state.instrumentName, this.state.instrumentType)}>Add Instrument</Button>
+        <Button onClick={() => {
+          this.setState({ instrumentName: '' });
+          this.props.addInstrument(this.state.instrumentName, this.state.instrumentType);
+        }}>Add Instrument</Button>
       </ColumnFieldset>
     );
   }
