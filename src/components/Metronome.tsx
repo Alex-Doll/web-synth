@@ -9,12 +9,19 @@ interface Props {
 interface State {
   readonly tempo: number;
   readonly beat: number;
+  readonly beatDivision: number;
   readonly barLength: number;
   readonly isPlaying: boolean;
 }
 
 class Metronome extends Component <Props, State> {
   private timerId: number | undefined;
+  private lookahead: number;
+  private scheduleAheadTime: number;
+  private currentNote: number;
+  private nextNoteTime: number;
+  private notesInQueue: any;
+  private functionOnNote: Function | undefined;
 
   constructor(props: Props) {
     super(props);
@@ -22,9 +29,17 @@ class Metronome extends Component <Props, State> {
     this.state = {
       tempo: 60,
       beat: 0,
-      barLength: 8,
+      beatDivision: 1,
+      barLength: 4,
       isPlaying: false,
     }
+
+    this.lookahead = 25.0;
+    this.scheduleAheadTime = 0.1;
+
+    this.currentNote = 0;
+    this.nextNoteTime = 0.0;
+    this.notesInQueue = [];
   }
 
   componentWillUnmount() {
@@ -33,25 +48,53 @@ class Metronome extends Component <Props, State> {
     }
   }
 
-  private start = (functionOnNote: Function) => {
-    console.log('Metronome has started playing');
+  private nextNote = () => {
+    const secondsPerBeat = 60.0 / this.state.tempo;
 
-    const internalCallback = () => {
-      this.advanceNote(functionOnNote);
-      this.timerId = window.setTimeout(internalCallback, (60 / this.state.tempo) * 1000);
-    };
+    this.nextNoteTime += secondsPerBeat; // Add beat length to last beat time
 
-    window.setTimeout(internalCallback, (60 / this.state.tempo) * 1000);
+    // Advance the beat number, wrap to zero
+    this.currentNote++;
+    if (this.currentNote === this.state.barLength) {
+      this.currentNote = 0;
+    }
   }
 
-  private advanceNote = (callback: any) => {
-    this.setState((prevState: State) => ({
-      beat: prevState.beat === (prevState.barLength - 1) ? 0 : prevState.beat + 1,
-    }), callback);
+  private scheduleNote = (beatNumber: number, time: number) => {
+    // push the note on the queue, even if we're not playing.
+    this.notesInQueue.splice(0, 1);
+    this.notesInQueue.push({
+      note: beatNumber,
+      time: time,
+    });
+    this.setState({
+      beat: beatNumber,
+    });
+
+    if (this.functionOnNote) {
+      this.functionOnNote(beatNumber, time);
+    }
+  }
+
+  private scheduler = () => {
+    // While there are notes that will need to play before the next interval, schedule them and advance the pointer
+    while (this.nextNoteTime < audioContext.currentTime + this.scheduleAheadTime) {
+      this.scheduleNote(this.currentNote, this.nextNoteTime);
+      this.nextNote();
+    }
+    this.timerId = window.setTimeout(this.scheduler, this.lookahead);
+  }
+
+  private start = () => {
+    console.log('Metronome has started playing');
+    this.currentNote = 0;
+    this.nextNoteTime = audioContext.currentTime;
+    this.scheduler();
   }
 
   private stop = () => {
     console.log('Metronome has stopped playing');
+    this.functionOnNote = undefined;
 
     if (this.timerId) {
       window.clearInterval(this.timerId);
@@ -65,9 +108,8 @@ class Metronome extends Component <Props, State> {
     }
 
     if (this.state.isPlaying) {
-      functionOnNote();
-
-      this.start(functionOnNote);
+      this.functionOnNote = functionOnNote;
+      this.start();
     }
     else {
       this.stop();

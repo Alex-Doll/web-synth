@@ -5,7 +5,6 @@ import Synth from './Synth';
 import Sequencer from './Sequencer.tsx';
 import Metronome from './Metronome.tsx';
 
-
 class App extends Component {
   render() {
     return (
