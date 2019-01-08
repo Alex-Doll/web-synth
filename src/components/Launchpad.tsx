@@ -23,7 +23,7 @@ import fxloop3 from '../samples/LS_TM_FXLOOP_011_125_F.wav';
 import fxloop4 from '../samples/LS_TM_FXLOOP_018_125_F.wav';
 
 interface Props {
-  metronome: object;
+  metronome: any;
 }
 
 interface State {
