@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { audioContext, masterGainNode, Tone,  getFile, playSample } from '../audio';
+import { audioContext, masterGainNode, Tone, Sample } from '../audio';
 import soundfile from '../samples/LS_TM_BASSLOOP_023_125_C.wav';
 import kickloop from '../samples/LS_TM_KICKLOOP_004_125.wav';
 import snareloop from '../samples/LS_TM_SNARECLAPLOOP_004_125.wav';
@@ -50,10 +50,10 @@ class Sequencer extends Component <any, any> {
   }
 
   componentDidMount() {
-    getFile(soundfile).then(buffer => this.bassBuffer = buffer);
-    getFile(kickloop).then(buffer => this.kickBuffer = buffer);
-    getFile(snareloop).then(buffer => this.snareBuffer = buffer);
-    getFile(hatloop).then(buffer => this.hatBuffer = buffer);
+    this.bassBuffer = new Sample(soundfile);
+    this.kickBuffer = new Sample(kickloop);
+    this.snareBuffer = new Sample(snareloop);
+    this.hatBuffer = new Sample(hatloop);
   }
 
   initializePads = (instruments: any) => {
@@ -88,24 +88,26 @@ class Sequencer extends Component <any, any> {
 
   playBuffer = (buffer: string, ...args: any) => {
     const secondsPerBeat = 60.0 / this.props.metronome.tempo;
+    const startTime = args[0].time;
+    const stopTime = args[0].time + secondsPerBeat;
+
     switch (buffer) {
       case 'kick':
-        var sampleSource = playSample(this.kickBuffer, args[0].time);
+        this.kickBuffer.playSample(startTime, stopTime);
         break;
       case 'snare':
-        var sampleSource = playSample(this.snareBuffer, args[0].time);
+        this.snareBuffer.playSample(startTime, stopTime);
         break;
       case 'hat':
-        var sampleSource = playSample(this.hatBuffer, args[0].time);
+        this.hatBuffer.playSample(startTime, stopTime);
         break;
       case 'bass':
-        var sampleSource = playSample(this.bassBuffer, args[0].time);
+        this.bassBuffer.playSample(startTime, stopTime);
         break;
       default:
-        var sampleSource = playSample(this.bassBuffer, args[0].time);
+        this.bassBuffer.playSample(startTime, stopTime);
         console.log('Sample not found for: ' + buffer);
     }
-    sampleSource.stop(args[0].time + secondsPerBeat);
   }
 
   handlePadChange = (instrument: string, index: number) => {

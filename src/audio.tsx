@@ -47,21 +47,37 @@ export class Tone {
   }
 }
 
-export async function getFile(filepath: string) {
-  const response = await fetch(filepath);
-  const arrayBuffer = await response.arrayBuffer();
-  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-  return audioBuffer;
-}
-
-export function playSample(audioBuffer: any, startTime: number = audioContext.currentTime) {
-  const sampleSource = audioContext.createBufferSource();
-  sampleSource.buffer = audioBuffer;
-  sampleSource.playbackRate.setValueAtTime(1, audioContext.currentTime);
-  sampleSource.connect(masterGainNode).connect(audioContext.destination);
-  sampleSource.start(startTime);
-  return sampleSource;
-}
-
 export class Sample {
+  public buffer: any;
+  public source: any;
+  public isPlaying: boolean = false;
+
+  constructor(public path: string) {
+    this.getFile(path).then(buffer => {
+      this.buffer = buffer;
+    });
+  }
+
+  private async getFile(filepath: string) {
+    const response = await fetch(filepath);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    return audioBuffer;
+  }
+
+  private getSource(buffer: any) {
+    return audioContext.createBufferSource();
+  }
+
+  public playSample(startTime: number = audioContext.currentTime, stopTime: number|undefined = undefined) {
+    const source = this.getSource(this.buffer);
+    source.buffer = this.buffer;
+    source.playbackRate.setValueAtTime(1, startTime);
+    source.connect(masterGainNode).connect(audioContext.destination);
+    source.start(startTime);
+
+    if (stopTime) {
+      source.stop(stopTime);
+    }
+  }
 }
