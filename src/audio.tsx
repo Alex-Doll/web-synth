@@ -55,7 +55,8 @@ export class Sample {
   constructor(public path: string) {
     this.getFile(path).then(buffer => {
       this.buffer = buffer;
-    });
+    })
+    .catch(err => console.log(err));
   }
 
   private async getFile(filepath: string) {

@@ -17,7 +17,7 @@ class App extends Component {
         <Metronome beatDivision={4}>
           {(props) => <Sequencer metronome={props} />}
         </Metronome>
-        <Metronome>
+        <Metronome tempo={125.0}>
           {(props) => <Launchpad metronome={props} />}
         </Metronome>
       </div>

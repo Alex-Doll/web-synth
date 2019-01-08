@@ -5,6 +5,7 @@ import { audioContext } from '../audio';
 interface Props {
   children: (state: State) => React.ReactNode;
   beatDivision: number;
+  tempo: number | undefined;
 }
 
 interface State {
@@ -32,7 +33,7 @@ class Metronome extends Component <Props, State> {
     super(props);
 
     this.state = {
-      tempo: 60,
+      tempo: this.props.tempo || 60.0,
       beat: 0,
       barLength: 4,
       isPlaying: false,
