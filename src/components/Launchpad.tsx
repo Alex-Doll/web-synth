@@ -32,6 +32,10 @@ interface State {
 
 class Launchpad extends Component <Props, State> {
   private instruments: any;
+  private drums: any;
+  private basses: any;
+  private synths: any;
+  private fxs: any;
 
   constructor(props: Props) {
     super(props);
