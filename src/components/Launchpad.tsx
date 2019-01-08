@@ -82,11 +82,11 @@ class Launchpad extends Component <Props, State> {
     
   }
 
-  private triggerOnBeat = (...args) => {
+  private triggerOnBeat = (...args: any) => {
     const secondsPerBar = (60 / this.props.metronome.tempo) * this.props.metronome.barLength;
     if (args[0].beatNumber === 0) {
-      this.instruments.forEach((instrument, instrumentIndex) => {
-        this.state[instrument].forEach((instrumentStatus, index) => {
+      this.instruments.forEach((instrument: string, instrumentIndex: number) => {
+        this.state[instrument].forEach((instrumentStatus: string, index: number) => {
           if (instrumentStatus === 'prepPlay') {
             this[instrument][index].playSample(args[0].time, args[0].time + secondsPerBar);
             this.setState((prevState: State) => {
