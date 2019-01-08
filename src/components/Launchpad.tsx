@@ -26,11 +26,8 @@ interface Props {
   metronome: any;
 }
 
-interface State {
-}
 
-
-class Launchpad extends Component <Props, State> {
+class Launchpad extends Component <Props, any> {
   private instruments: any;
   private drums: any;
   private basses: any;
@@ -89,7 +86,7 @@ class Launchpad extends Component <Props, State> {
         this.state[instrument].forEach((instrumentStatus: string, index: number) => {
           if (instrumentStatus === 'prepPlay') {
             this[instrument][index].playSample(args[0].time, args[0].time + secondsPerBar);
-            this.setState((prevState: State) => {
+            this.setState((prevState: any) => {
               const newInstrument = [...prevState[instrument]];
               newInstrument[index] = 'playing';
               return {
@@ -98,7 +95,7 @@ class Launchpad extends Component <Props, State> {
             });
           }
           else if (instrumentStatus === 'prepStop') {
-            this.setState((prevState: State) => {
+            this.setState((prevState: any) => {
               const newInstrument = [...prevState[instrument]];
               newInstrument[index] = 'stopped';
               return {
@@ -121,7 +118,7 @@ class Launchpad extends Component <Props, State> {
 
     const instrumentStatus = this.state[instrument][index];
     if (instrumentStatus === 'playing') {
-      this.setState((prevState: State) => {
+      this.setState((prevState: any) => {
         const newInstrument = [...prevState[instrument]];
         newInstrument[index] = 'prepStop';
         return {
@@ -130,7 +127,7 @@ class Launchpad extends Component <Props, State> {
       });
     }
     else if (instrumentStatus === 'stopped') {
-      this.setState((prevState: State) => {
+      this.setState((prevState: any) => {
         const newInstrument = [...prevState[instrument]];
         newInstrument[index] = 'prepPlay';
         return {
