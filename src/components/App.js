@@ -4,6 +4,7 @@ import '../styles/App.css';
 import Synth from './Synth';
 import Sequencer from './Sequencer.tsx';
 import Metronome from './Metronome.tsx';
+import Launchpad from './Launchpad.tsx';
 
 class App extends Component {
   render() {
@@ -13,8 +14,11 @@ class App extends Component {
           Web Synth
         </header>
         <Synth />
-        <Metronome>
+        <Metronome beatDivision={4}>
           {(props) => <Sequencer metronome={props} />}
+        </Metronome>
+        <Metronome>
+          {(props) => <Launchpad metronome={props} />}
         </Metronome>
       </div>
     );

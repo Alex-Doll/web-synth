@@ -4,12 +4,12 @@ import { audioContext } from '../audio';
 
 interface Props {
   children: (state: State) => React.ReactNode;
+  beatDivision: number;
 }
 
 interface State {
   readonly tempo: number;
   readonly beat: number;
-  readonly beatDivision: number;
   readonly barLength: number;
   readonly isPlaying: boolean;
 }
@@ -23,13 +23,17 @@ class Metronome extends Component <Props, State> {
   private notesInQueue: any;
   private functionOnNote: Function | undefined;
 
+  public static defaultProps = {
+    children: null,
+    beatDivision: 1,
+  };
+
   constructor(props: Props) {
     super(props);
 
     this.state = {
       tempo: 60,
       beat: 0,
-      beatDivision: 1,
       barLength: 4,
       isPlaying: false,
     }
@@ -42,7 +46,7 @@ class Metronome extends Component <Props, State> {
     this.notesInQueue = [];
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     if (this.timerId) {
       window.clearInterval(this.timerId);
     }
@@ -51,11 +55,11 @@ class Metronome extends Component <Props, State> {
   private nextNote = () => {
     const secondsPerBeat = 60.0 / this.state.tempo;
 
-    this.nextNoteTime += secondsPerBeat; // Add beat length to last beat time
+    this.nextNoteTime +=  (1 / this.props.beatDivision) * secondsPerBeat; // Add beat length to last beat time
 
     // Advance the beat number, wrap to zero
     this.currentNote++;
-    if (this.currentNote === this.state.barLength) {
+    if (this.currentNote === (this.state.barLength * this.props.beatDivision)) {
       this.currentNote = 0;
     }
   }
@@ -73,6 +77,7 @@ class Metronome extends Component <Props, State> {
 
     if (this.functionOnNote) {
       this.functionOnNote({ beatNumber, time });
+      console.log(beatNumber, time);
     }
   }
 
@@ -116,17 +121,17 @@ class Metronome extends Component <Props, State> {
     }
   }
 
-  setTempo = (tempo: number) => {
+  public setTempo = (tempo: number) => {
     this.setState({ tempo });
   }
 
-  togglePlaying = (functionOnNote: Function) => {
+  public togglePlaying = (functionOnNote: Function) => {
     this.setState((prevState: State) => ({
       isPlaying: !prevState.isPlaying,
     }), () => this.controlMetronome(functionOnNote));
   }
 
-  render() {
+  public render() {
     const propsToSend = {
       ...this.state,
       setTempo: this.setTempo,

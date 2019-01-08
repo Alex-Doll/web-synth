@@ -93,3 +93,20 @@ export const StepSequencerRow = styled.div`
   grid-template-columns: repeat(${props => Number(props.beatCount) + 1}, 1fr);
   grid-column-gap: 10px;
 `;
+
+export const LaunchpadWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const LaunchpadGrid = styled.section`
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(4, 40px);
+  grid-template-rows: repeat(4, 40px);
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+  padding: 10px;
+  margin: 10px auto;
+`;
