@@ -139,7 +139,7 @@ class Launchpad extends Component <Props, any> {
   }
 
   public render() {
-    const colorMap = {
+    const colorMap: { [index:string]: string } = {
       prepPlay: 'orange',
       playing: 'green',
       prepStop: 'yellow',
