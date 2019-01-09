@@ -33,6 +33,7 @@ class Launchpad extends Component <Props, any> {
   private basses: any;
   private synths: any;
   private fxs: any;
+  [key: string]: any;
 
   constructor(props: Props) {
     super(props);
