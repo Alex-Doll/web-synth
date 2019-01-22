@@ -31,7 +31,7 @@ class App extends Component {
             <NavLink to='/contact' activeClassName='active-route'>Contact</NavLink>
             <NavLink to='/synth' activeClassName='active-route'>Synth</NavLink>
             <NavLink to='/sequencer' activeClassName='active-route'>Sequencer</NavLink>
-            <NavLink to='/launchpad' activeClassName='active-route'>LaunchPad</NavLink>
+            <NavLink to='/launchpad' activeClassName='active-route'>Launchpad</NavLink>
           </nav>
         </header>
 
