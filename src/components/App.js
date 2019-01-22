@@ -35,15 +35,17 @@ class App extends Component {
           </nav>
         </header>
 
-        <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/about' component={About} />
-          <Route path='/contact' component={Contact} />
-          <Route path='/synth' component={synthPage} />
-          <Route path='/sequencer' component={sequencerPage} />
-          <Route path='/launchpad' component={launchpadPage} />
-          <Route component={NoMatch} />
-        </Switch>
+        <main>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/about' component={About} />
+            <Route path='/contact' component={Contact} />
+            <Route path='/synth' component={synthPage} />
+            <Route path='/sequencer' component={sequencerPage} />
+            <Route path='/launchpad' component={launchpadPage} />
+            <Route component={NoMatch} />
+          </Switch>
+        </main>
       </div>
     );
   }
