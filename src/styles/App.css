@@ -3,3 +3,8 @@
   color: #f3f3f3;
   font-family: 'Roboto', sans-serif;
 }
+
+.active-route {
+  color: #736f66;
+  background-color: #f3f3f3;
+}
