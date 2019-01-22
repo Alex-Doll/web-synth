@@ -24,7 +24,7 @@ class App extends Component {
     return (
       <div className="App">
         <header>
-          Music App
+          <h1>Music App</h1>
           <nav>
             <Link to='/'>Home</Link>
             <NavLink to='/about' activeClassName='active-route'>About</NavLink>

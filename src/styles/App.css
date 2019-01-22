@@ -2,9 +2,28 @@
   background-color: #736F66 ;
   color: #f3f3f3;
   font-family: 'Roboto', sans-serif;
+  height: 100vh;
 }
 
-.active-route {
-  color: #736f66;
+header {
   background-color: #f3f3f3;
+  color: #736f66;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  color: #736f66;
+  text-decoration: none;
+  margin: 5px;
+  padding: 4px;
+}
+
+a.active-route {
+  color:  #f3f3f3;
+  background-color: #736f66;
+  border-radius: 4px;
 }
