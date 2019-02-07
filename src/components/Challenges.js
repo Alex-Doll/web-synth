@@ -18,15 +18,15 @@ const challenges = [
 function Challenges(props) {
   const [currChallenge, setCurrChallenge] = useState(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  console.log(currChallenge);
 
   useEffect(() => {
     if (isRedirecting) {
-      console.log('redirecting!');
       setIsRedirecting(false);
       props.history.push(`${props.match.url}${currChallenge !== null ? '/'+challenges[currChallenge] : ''}`);
     }
   }, [isRedirecting]);
+
+  console.log(challenges[currChallenge]);
 
   return (
     <main>
