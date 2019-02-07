@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Tone from './Tone';
+import React, { Component, useState, useEffect, useContext, useReducer, useRef } from 'react';
+import SynthKey from './SynthKey';
 import ADSRGain from './ADSRGain';
 import MasterControls from './MasterControls';
 import {
@@ -11,6 +11,63 @@ import {
   INITIAL_ADSR_GAIN_RELEASE,
 } from '../constants.js';
 import { masterGainNode } from '../audio.tsx';
+
+const ThemeContext = React.createContext('wave');
+
+function oddReducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { oddCount: state.oddCount + 1 };
+    default:
+      console.log(`No case for ${action.type}`);
+      return state;
+  }
+}
+
+function useOddCount(count) {
+  const [state, dispatch] = useReducer(oddReducer, { oddCount: 0 });
+
+  useEffect(() => {
+    if (count % 2 === 1) {
+      console.log(`${count} is odd`);
+      dispatch({ type: 'increment' });
+    }
+    return function cleanup() {
+      console.log(`Cleaning up effect with count = ${count}`);
+    }
+  }, [count]);
+
+  return state.oddCount;
+}
+
+
+function HooksTest() {
+  const [count, setCount] = useState(0);
+  const [word, setWord] = useState('');
+  const oddCount = useOddCount(count);
+  const wave = useContext(ThemeContext);
+  const catchphrase = useRef('Yo');
+
+  if (count === 3) {
+    catchphrase.current = 'Haha';
+  }
+
+  return (
+    <div>
+      <p>You clicked {count} times!</p>
+      <p>Odd Count: {oddCount}</p>
+      <p>Wave: {wave}</p>
+      <p>Catchphrase: {catchphrase.current}</p>
+      <p>{word}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click to increase!
+      </button>
+      <button onClick={() => setWord(word + 'a')}>
+        Click to add a!
+      </button>
+    </div>
+  );
+}
 
 class Synth extends Component {
   constructor(props) {
@@ -66,7 +123,7 @@ class Synth extends Component {
 
   render() {
     const Tones = this.toneMap.map((tone, index) => (
-      <Tone
+      <SynthKey
         key={index}
         triggerKey={tone.triggerKey}
         freq={tone.frequency}
@@ -104,6 +161,9 @@ class Synth extends Component {
             handleADSRChange={this.handleADSRChange}
           />
         </div>
+        <ThemeContext.Provider value={this.state.waveType}>
+          {(this.state.waveType === 'sawtooth' || this.state.waveType === 'square') && <HooksTest />}
+        </ThemeContext.Provider>
       </section>
     );
   }
