@@ -1,5 +1,5 @@
-import React, { useState, useReducer, useEffect } from 'react';
-import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, Switch, Route } from 'react-router-dom';
 
 import Challenge from './Challenge';
 
