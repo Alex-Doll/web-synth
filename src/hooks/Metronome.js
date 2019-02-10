@@ -2,20 +2,21 @@ import { useState, useRef, useEffect } from 'react';
 import { audioContext } from '../audio';
 
 
-export function useMetronome(beatDivision = 1) {
+export function useMetronome(beatDivision = 1, barLength = 4) {
   const [tempo, setTempo] = useState(60);
-  const [beat, setBeat] = useState(0);
-  const [barLength, setBarLength] = useState(4);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const lookahead = 25.0;
-  const scheduleAheadTime = 0.1;
-
+  // Mutable Refs for time tracking and note scheduling
   const currentNote = useRef(0);
   const nextNoteTime = useRef(0.0);
   const notesInQueue = useRef([]);
   const functionOnNote = useRef(null);
   const timerId = useRef(null);
+
+  // Timing/Scheduling constants
+  const LOOKAHEAD = 25.0;
+  const SCHEDULE_AHEAD_TIME = 0.1;
+
 
   function nextNote() {
     const secondsPerBeat = 60.0 / tempo;
@@ -36,7 +37,6 @@ export function useMetronome(beatDivision = 1) {
       note: beatNumber,
       time,
     });
-    setBeat(beatNumber);
 
     if (functionOnNote.current) {
       functionOnNote.current({ beatNumber, time});
@@ -46,11 +46,11 @@ export function useMetronome(beatDivision = 1) {
 
   function scheduler() {
     // While there are notes that will need to play before the next interval, schedule them and advance the pointer
-    while (nextNoteTime.current < audioContext.currentTime + scheduleAheadTime) {
+    while (nextNoteTime.current < audioContext.currentTime + SCHEDULE_AHEAD_TIME) {
       scheduleNote(currentNote.current, nextNoteTime.current)
       nextNote();
     }
-    timerId.current = window.setTimeout(scheduler, lookahead);
+    timerId.current = window.setTimeout(scheduler, LOOKAHEAD);
   }
 
   function start() {
@@ -66,7 +66,6 @@ export function useMetronome(beatDivision = 1) {
 
     if (timerId.current) {
       window.clearTimeout(timerId.current);
-      setBeat(0);
     }
   }
 
