@@ -61,8 +61,9 @@ function Sequencer(props) {
     });
   }
 
-  function addInstrument() {
+  function addInstrument(name, type) {
     console.log('Add Instrument not yet implemented');
+    console.log(name, type);
   }
 
   function removeInstrument() {
