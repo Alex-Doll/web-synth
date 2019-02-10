@@ -16,7 +16,7 @@ function ADSRGain(props) {
           max='1'
           step='0.1'
           value={props.attack}
-          onChange={props.handleADSRChange}
+          onChange={props.handleADSRChange.setAttack}
         />
       </LabeledInput>
 
@@ -29,7 +29,7 @@ function ADSRGain(props) {
           max='1'
           step='0.1'
           value={props.decay}
-          onChange={props.handleADSRChange}
+          onChange={props.handleADSRChange.setDecay}
         />
       </LabeledInput>
 
@@ -42,7 +42,7 @@ function ADSRGain(props) {
           max='1'
           step='0.1'
           value={props.sustain}
-          onChange={props.handleADSRChange}
+          onChange={props.handleADSRChange.setSustain}
         />
       </LabeledInput>
 
@@ -55,7 +55,7 @@ function ADSRGain(props) {
           max='1'
           step='0.1'
           value={props.release}
-          onChange={props.handleADSRChange}
+          onChange={props.handleADSRChange.setRelease}
         />
       </LabeledInput>
     </ColumnFieldset>

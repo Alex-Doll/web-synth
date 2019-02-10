@@ -9,7 +9,7 @@ function MasterControls(props) {
 
       <LabeledInput>
         <Label htmlFor='waveType'>Wave Type: </Label>
-        <Select id='waveType' value={props.waveType} onChange={props.handleChange}>
+        <Select id='waveType' value={props.waveType} onChange={props.handleWaveTypeChange}>
           <Option value='sine'>Sine</Option>
           <Option value='square'>Square</Option>
           <Option value='sawtooth'>Sawtooth</Option>
