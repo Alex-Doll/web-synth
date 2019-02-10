@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { audioContext } from '../audio';
 
 
-export function useMetronome(beatCallback = () => console.log('No callback attached'), beatDivision = 1, barLength = 4) {
-  const [tempo, setTempo] = useState(60);
+export function useMetronome(beatCallback = () => console.log('No callback attached'), beatDivision = 1, barLength = 4, initialTempo = 60) {
+  const [tempo, setTempo] = useState(initialTempo);
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Mutable Refs for time tracking and note scheduling
@@ -82,5 +82,5 @@ export function useMetronome(beatCallback = () => console.log('No callback attac
     return () => window.clearTimeout(timerId.current);
   }, [isPlaying, tempo]);
 
-  return [setIsPlaying, { tempo, setTempo }];
+  return [setIsPlaying, { tempo, setTempo }, isPlaying];
 }

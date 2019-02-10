@@ -6,6 +6,7 @@ import Synth from './Synth';
 import Sequencer from './Sequencer.tsx';
 import Metronome from './Metronome.tsx';
 import Launchpad from './Launchpad.tsx';
+import Launchpad2 from './Launchpad';
 import Challenges from './Challenges';
 
 const Home = () => (<h2>Home</h2>);
@@ -37,6 +38,7 @@ const NoMatch = () => {
         value={tempo.tempo}
         onChange={(e) => tempo.setTempo(Number(e.target.value))}
       />
+      <Launchpad2 />
     </div>
   );
 };
