@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { useMetronome } from '../hooks/Metronome';
 
 import Synth from './Synth';
 import Sequencer from './Sequencer.tsx';
@@ -17,7 +18,29 @@ const sequencerPage = () => (<Metronome beatDivision={4}>
 const launchpadPage = () => (<Metronome tempo={125.0}>
   {(props) => <Launchpad metronome={props} />}
 </Metronome>);
-const NoMatch = () => (<h2>404 Page Not Found</h2>);
+const NoMatch = () => {
+
+  const [setIsPlaying, setFunctionOnNote, tempo] = useMetronome(1);
+  setFunctionOnNote(() => console.log('From No Match!'));
+
+  return (
+    <div>
+      <h2>404 Page Not Found</h2>
+      <button onClick={() => setIsPlaying(true)}>Start</button>
+      <button onClick={() => setIsPlaying(false)}>Stop</button>
+      <label htmlFor='tempo'>Tempo: {tempo.tempo} bpm</label>
+      <input
+        id='tempo'
+        type='range'
+        min='1'
+        max='120'
+        step='1.0'
+        value={tempo.tempo}
+        onChange={(e) => tempo.setTempo(Number(e.target.value))}
+      />
+    </div>
+  );
+};
 
 
 function Routes(props) {
