@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect, useContext, useReducer, useRef } from 'react';
-import SynthKey from './SynthKey';
-import ADSRGain from './ADSRGain';
-import MasterControls from './MasterControls';
+import SynthKey from '../SynthKey';
+import ADSRGain from '../ADSRGain';
+import MasterControls from '../MasterControls';
 import {
   INITIAL_MASTER_GAIN,
   INITIAL_DETUNE_AMT,
@@ -9,8 +9,8 @@ import {
   INITIAL_ADSR_GAIN_DECAY,
   INITIAL_ADSR_GAIN_SUSTAIN,
   INITIAL_ADSR_GAIN_RELEASE,
-} from '../constants.js';
-import { masterGainNode } from '../audio.tsx';
+} from '../../constants.js';
+import { masterGainNode } from '../../audio.tsx';
 
 
 class Synth extends Component {

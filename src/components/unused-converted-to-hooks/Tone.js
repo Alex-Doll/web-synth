@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { audioContext } from '../audio.tsx';
+import { audioContext } from '../../audio.tsx';
 
 class Tone extends Component {
   constructor(props) {

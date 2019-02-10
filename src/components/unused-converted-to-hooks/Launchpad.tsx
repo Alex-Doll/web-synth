@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
-import { LaunchpadWrapper, LaunchpadGrid } from './styled';
-import { Sample } from '../audio';
+import { LaunchpadWrapper, LaunchpadGrid } from '../styled';
+import { Sample } from '../../audio';
 
-import drumloop1 from '../samples/LS_PTH_FULL_DRUMLOOP_012_125.wav';
-import drumloop2 from '../samples/LS_PTH_FULL_DRUMLOOP_025_125.wav';
-import drumloop3 from '../samples/LS_TM_DRUMLOOP_017_125.wav';
-import drumloop4 from '../samples/LS_TM_DRUMLOOP_042_125.wav';
+import drumloop1 from '../../samples/LS_PTH_FULL_DRUMLOOP_012_125.wav';
+import drumloop2 from '../../samples/LS_PTH_FULL_DRUMLOOP_025_125.wav';
+import drumloop3 from '../../samples/LS_TM_DRUMLOOP_017_125.wav';
+import drumloop4 from '../../samples/LS_TM_DRUMLOOP_042_125.wav';
 
-import bassloop1 from '../samples/LS_TM_BASSLOOP_023_125_C.wav';
-import bassloop2 from '../samples/LS_TM_BASSLOOP_030_125_Am.wav';
-import bassloop3 from '../samples/LS_PTH_BASSLOOP_027_125_Bm.wav';
-import bassloop4 from '../samples/LS_PTH_SYNTHHIT_008_125_Gm.wav';
+import bassloop1 from '../../samples/LS_TM_BASSLOOP_023_125_C.wav';
+import bassloop2 from '../../samples/LS_TM_BASSLOOP_030_125_Am.wav';
+import bassloop3 from '../../samples/LS_PTH_BASSLOOP_027_125_Bm.wav';
+import bassloop4 from '../../samples/LS_PTH_SYNTHHIT_008_125_Gm.wav';
 
-import synthloop1 from '../samples/LS_PTH_SYNTHLOOP_015_125_Fm.wav';
-import synthloop2 from '../samples/LS_PTH_SYNTHLOOP_016_125_Fm.wav';
-import synthloop3 from '../samples/LS_TM_SYNTHLOOP_010_125_E.wav';
-import synthloop4 from '../samples/LS_TM_SYNTHLOOP_049_125_B.wav';
+import synthloop1 from '../../samples/LS_PTH_SYNTHLOOP_015_125_Fm.wav';
+import synthloop2 from '../../samples/LS_PTH_SYNTHLOOP_016_125_Fm.wav';
+import synthloop3 from '../../samples/LS_TM_SYNTHLOOP_010_125_E.wav';
+import synthloop4 from '../../samples/LS_TM_SYNTHLOOP_049_125_B.wav';
 
-import fxloop1 from '../samples/LS_PTH_TOPLOOP_011_125.wav';
-import fxloop2 from '../samples/LS_PTH_FXLOOP_003_125_Cm.wav';
-import fxloop3 from '../samples/LS_TM_FXLOOP_011_125_F.wav';
-import fxloop4 from '../samples/LS_TM_FXLOOP_018_125_F.wav';
+import fxloop1 from '../../samples/LS_PTH_TOPLOOP_011_125.wav';
+import fxloop2 from '../../samples/LS_PTH_FXLOOP_003_125_Cm.wav';
+import fxloop3 from '../../samples/LS_TM_FXLOOP_011_125_F.wav';
+import fxloop4 from '../../samples/LS_TM_FXLOOP_018_125_F.wav';
 
 interface Props {
   metronome: any;

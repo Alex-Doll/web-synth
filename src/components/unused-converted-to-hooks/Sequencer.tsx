@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { audioContext, masterGainNode, Tone, Sample } from '../audio';
-import soundfile from '../samples/LS_TM_BASSLOOP_023_125_C.wav';
-import kickloop from '../samples/LS_TM_KICKLOOP_004_125.wav';
-import snareloop from '../samples/LS_TM_SNARECLAPLOOP_004_125.wav';
-import hatloop from '../samples/LS_TM_HATLOOP_012_125.wav';
+import { audioContext, masterGainNode, Tone, Sample } from '../../audio';
+import soundfile from '../../samples/LS_TM_BASSLOOP_023_125_C.wav';
+import kickloop from '../../samples/LS_TM_KICKLOOP_004_125.wav';
+import snareloop from '../../samples/LS_TM_SNARECLAPLOOP_004_125.wav';
+import hatloop from '../../samples/LS_TM_HATLOOP_012_125.wav';
 
-import SequencerControls from './SequencerControls';
-import StepSequencer from './StepSequencer';
-import SequencerInstrumentCreator from './SequencerInstrumentCreator';
-import { SequencerWrapper } from './styled';
+import SequencerControls from '../SequencerControls';
+import StepSequencer from '../StepSequencer';
+import SequencerInstrumentCreator from '../SequencerInstrumentCreator';
+import { SequencerWrapper } from '../styled';
 
 
 class Sequencer extends Component <any, any> {
