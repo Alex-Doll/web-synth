@@ -91,7 +91,9 @@ export function useMetronome(beatDivision = 1) {
     else {
       stop();
     }
-  }, [isPlaying]);
+
+    return () => window.clearTimeout(timerId.current);
+  }, [isPlaying, tempo]);
 
   return [setIsPlaying, setFunctionOnNote, {tempo, setTempo,},];
 }
