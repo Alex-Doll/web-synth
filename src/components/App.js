@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Link, NavLink } from 'react-router-dom';
 import '../styles/App.css';
 
+import Navbar from './Navbar';
 import Synth from './Synth';
 import Sequencer from './Sequencer.tsx';
 import Metronome from './Metronome.tsx';
@@ -24,18 +25,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header>
-          <h1>Music App</h1>
-          <nav>
-            <Link to='/'>Home</Link>
-            <NavLink to='/about' activeClassName='active-route'>About</NavLink>
-            <NavLink to='/contact' activeClassName='active-route'>Contact</NavLink>
-            <NavLink to='/synth' activeClassName='active-route'>Synth</NavLink>
-            <NavLink to='/sequencer' activeClassName='active-route'>Sequencer</NavLink>
-            <NavLink to='/launchpad' activeClassName='active-route'>Launchpad</NavLink>
-            <NavLink to='/challenges' activeClassName='active-route'>Challenges</NavLink>
-          </nav>
-        </header>
+        <Navbar />
 
         <main>
           <Switch>
