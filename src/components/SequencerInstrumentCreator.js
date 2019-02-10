@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 
 import { LabeledInput, Label, Button, ColumnFieldset, Select, Option } from './styled';
 

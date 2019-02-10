@@ -1,10 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useMetronome } from '../hooks/Metronome';
 
 import Synth from './Synth';
 import Sequencer from './Sequencer';
-import Metronome from './Metronome.tsx';
 import Launchpad from './Launchpad';
 import Challenges from './Challenges';
 
