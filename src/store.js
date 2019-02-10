@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 
-const userReducer = (state, action) => {
+const userReducer = (state = {}, action) => {
   switch (action.type) {
     default:
       console.log(`No action found for ${action.type}`);
@@ -8,7 +8,7 @@ const userReducer = (state, action) => {
   }
 };
 
-const challengeReducer = (state, action) => {
+const challengeReducer = (state = [], action) => {
   switch (action.type) {
     default:
       console.log(`No action found for ${action.type}`);
@@ -16,7 +16,10 @@ const challengeReducer = (state, action) => {
   }
 };
 
-const rootReducer = combineReducers(userReducer, challengeReducer);
+const rootReducer = combineReducers({
+  user: userReducer,
+  challenges: challengeReducer,
+});
 
 const initialState = {
   user: {
@@ -31,7 +34,7 @@ const initialState = {
 
 const middleware = [];
 
-const store = createStore(
+export const store = createStore(
   rootReducer,
   initialState,
   compose(
@@ -39,5 +42,3 @@ const store = createStore(
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   ),
 );
-
-export default store;
