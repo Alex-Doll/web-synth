@@ -13,6 +13,7 @@ const ChallengeLinks = (props) => (
 const challenges = [
   'challenge1',
   'challenge2',
+  'challenge3',
 ];
 
 function Challenges(props) {
