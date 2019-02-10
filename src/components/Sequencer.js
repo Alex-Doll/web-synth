@@ -17,12 +17,12 @@ function Sequencer(props) {
   const [barLength, setBarLength] = useState(4);
   const [instruments, setInstruments] = useState(['kick', 'snare', 'hat', 'bass']);
   const [padStatus, setPadStatus] = useState(initializePads());
-  const [setIsPlaying, isPlaying, tempo, beat] = useMetronome();
+  const [setIsPlaying, isPlaying, tempo, beat] = useMetronome(playNotes);
   const [instrumentMap, setInstrumentMap] = useState({
-    kick: null,
-    snare: null,
-    hat: null,
-    bass: null,
+    kick: playBuffer.bind(this, 'kick'),
+    snare: playBuffer.bind(this, 'snare'),
+    hat: playBuffer.bind(this, 'hat'),
+    bass: playFreq.bind(this, 60),
   });
 
   const bassBuffer = useRef();
@@ -31,14 +31,14 @@ function Sequencer(props) {
   const hatBuffer = useRef();
 
   const availableInstruments = {
-    highNote: null,
-    bassNote: null,
-    modHighNote: null,
-    modBassNote: null,
-    sample: null,
-    kick: null,
-    snare: null,
-    hat: null,
+    highNote: playFreq.bind(this, 440),
+    bassNote: playFreq.bind(this, 60),
+    modHighNote: playModulatedFreq.bind(this, 440, 5),
+    modBassNote: playModulatedFreq.bind(this, 60, 5),
+    sample: playBuffer.bind(this, 'bass'),
+    kick: playBuffer.bind(this, 'kick'),
+    snare: playBuffer.bind(this, 'snare'),
+    hat: playBuffer.bind(this, 'hat'),
   };
 
   useEffect(() => {
@@ -48,6 +48,50 @@ function Sequencer(props) {
     hatBuffer.current = new Sample(hatloop);
   }, []);
 
+  
+  function playNotes({ beatNumber, time }) {
+    for (let key in padStatus) {
+      if (padStatus[key][beatNumber]) {
+        instrumentMap[key]({ beatNumber, time });
+      }
+    }
+  }
+
+  function playBuffer(buffer, { beatNumber, time }) {
+    const secondsPerBeat = 60 / tempo.tempo;
+    const startTime = time;
+    const stopTime = startTime + secondsPerBeat;
+
+    switch (buffer) {
+      case 'kick':
+        kickBuffer.current.playSample(startTime, stopTime);
+        break;
+      case 'snare':
+        snareBuffer.current.playSample(startTime, stopTime);
+        break;
+      case 'hat':
+        hatBuffer.current.playSample(startTime, stopTime);
+        break;
+      case 'bass':
+        bassBuffer.current.playSample(startTime, stopTime);
+        break;
+      default:
+        bassBuffer.current.playSample(startTime, stopTime);
+        console.log('Sample not found for: ' + buffer);
+    }
+  }
+
+  function playFreq(frequency, { beatNumber, time }) {
+    const secondsPerBeat = 60 / tempo.tempo;
+    const tone = new Tone(frequency);
+    tone.playFor(secondsPerBeat, time);
+  }
+
+  function playModulatedFreq(toneFreq, modFreq, { beatNumber, time }) {
+    const secondsPerBeat = 60 / tempo.tempo;
+    const tone = new Tone(toneFreq, 0, 'triangle');
+    tone.connectToLFO(modFreq, 'sine', secondsPerBeat, time);
+  }
 
   function initializePads() {
     let padStatus = {};
@@ -91,10 +135,6 @@ function Sequencer(props) {
     const { [name]: mapValue, ...filteredInstrumentMap } = instrumentMap;
     setInstrumentMap(filteredInstrumentMap);
   }
-
-  console.log(instruments);
-  console.log(padStatus);
-  console.log(instrumentMap);
 
   return (
     <SequencerWrapper>
