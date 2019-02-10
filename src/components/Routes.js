@@ -20,8 +20,7 @@ const launchpadPage = () => (<Metronome tempo={125.0}>
 </Metronome>);
 const NoMatch = () => {
 
-  const [setIsPlaying, setFunctionOnNote, tempo] = useMetronome(1);
-  setFunctionOnNote(() => console.log('From No Match!'));
+  const [setIsPlaying, tempo] = useMetronome(() => console.log('From No Match!'), 1);
 
   return (
     <div>

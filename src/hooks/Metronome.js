@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { audioContext } from '../audio';
 
 
-export function useMetronome(beatDivision = 1, barLength = 4) {
+export function useMetronome(beatCallback = () => console.log('No callback attached'), beatDivision = 1, barLength = 4) {
   const [tempo, setTempo] = useState(60);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -10,7 +10,6 @@ export function useMetronome(beatDivision = 1, barLength = 4) {
   const currentNote = useRef(0);
   const nextNoteTime = useRef(0.0);
   const notesInQueue = useRef([]);
-  const functionOnNote = useRef(null);
   const timerId = useRef(null);
 
   // Timing/Scheduling constants
@@ -38,8 +37,8 @@ export function useMetronome(beatDivision = 1, barLength = 4) {
       time,
     });
 
-    if (functionOnNote.current) {
-      functionOnNote.current({ beatNumber, time});
+    if (beatCallback) {
+      beatCallback({ beatNumber, time});
       console.log(`beat: ${beatNumber}, time: ${time}`);
     }
   }
@@ -62,15 +61,10 @@ export function useMetronome(beatDivision = 1, barLength = 4) {
 
   function stop() {
     console.log('Metronome has stopped playing');
-    functionOnNote.current = undefined;
 
     if (timerId.current) {
       window.clearTimeout(timerId.current);
     }
-  }
-
-  function setFunctionOnNote(func) {
-    functionOnNote.current = func;
   }
 
   useEffect(() => {
@@ -79,13 +73,7 @@ export function useMetronome(beatDivision = 1, barLength = 4) {
     }
 
     if (isPlaying) {
-      if (functionOnNote.current) {
         start();
-      }
-      else {
-        console.log('No function attached to Metronome...');
-        setIsPlaying(false);
-      }
     }
     else {
       stop();
@@ -94,5 +82,5 @@ export function useMetronome(beatDivision = 1, barLength = 4) {
     return () => window.clearTimeout(timerId.current);
   }, [isPlaying, tempo]);
 
-  return [setIsPlaying, setFunctionOnNote, {tempo, setTempo,},];
+  return [setIsPlaying, { tempo, setTempo }];
 }
