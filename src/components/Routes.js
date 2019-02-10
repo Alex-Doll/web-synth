@@ -11,28 +11,7 @@ import Challenges from './Challenges';
 const Home = () => (<h2>Home</h2>);
 const About = () => (<h2>About</h2>);
 const Contact = () => (<h2>Contact</h2>);
-const NoMatch = () => {
-
-  const [setIsPlaying, tempo] = useMetronome(() => console.log('From No Match!'), 1);
-
-  return (
-    <div>
-      <h2>404 Page Not Found</h2>
-      <button onClick={() => setIsPlaying(true)}>Start</button>
-      <button onClick={() => setIsPlaying(false)}>Stop</button>
-      <label htmlFor='tempo'>Tempo: {tempo.tempo} bpm</label>
-      <input
-        id='tempo'
-        type='range'
-        min='1'
-        max='120'
-        step='1.0'
-        value={tempo.tempo}
-        onChange={(e) => tempo.setTempo(Number(e.target.value))}
-      />
-    </div>
-  );
-};
+const NoMatch = () => (<h2>404 Page Not Found</h2>);
 
 
 function Routes(props) {
