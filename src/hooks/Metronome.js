@@ -87,5 +87,5 @@ export function useMetronome(beatCallback = () => console.log('No callback attac
     return () => window.clearTimeout(timerId.current);
   }, [isPlaying, tempo]);
 
-  return [setIsPlaying, isPlaying, { tempo, setTempo }];
+  return [setIsPlaying, isPlaying, { tempo, setTempo }, currentNote];
 }
