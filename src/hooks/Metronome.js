@@ -16,6 +16,11 @@ export function useMetronome(beatCallback = () => console.log('No callback attac
   const LOOKAHEAD = 25.0;
   const SCHEDULE_AHEAD_TIME = 0.1;
 
+  const savedCallback = useRef();
+  useEffect(() => {
+    savedCallback.current = beatCallback;
+  }, [beatCallback]);
+
 
   function nextNote() {
     const secondsPerBeat = 60.0 / tempo;
@@ -37,8 +42,8 @@ export function useMetronome(beatCallback = () => console.log('No callback attac
       time,
     });
 
-    if (beatCallback) {
-      beatCallback({ beatNumber, time});
+    if (savedCallback.current) {
+      savedCallback.current({ beatNumber, time});
       console.log(`beat: ${beatNumber}, time: ${time}`);
     }
   }
