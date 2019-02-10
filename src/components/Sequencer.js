@@ -18,6 +18,12 @@ function Sequencer(props) {
   const [instruments, setInstruments] = useState(['kick', 'snare', 'hat', 'bass']);
   const [padStatus, setPadStatus] = useState(initializePads());
   const [setIsPlaying, isPlaying, tempo, beat] = useMetronome();
+  const [instrumentMap, setInstrumentMap] = useState({
+    kick: null,
+    snare: null,
+    hat: null,
+    bass: null,
+  });
 
   const bassBuffer = useRef();
   const kickBuffer = useRef();
@@ -62,13 +68,33 @@ function Sequencer(props) {
   }
 
   function addInstrument(name, type) {
-    console.log('Add Instrument not yet implemented');
-    console.log(name, type);
+    setInstruments([...instruments, name]);
+
+    setPadStatus({
+      ...padStatus,
+      [name]: new Array(barLength).fill(false),
+    });
+
+    setInstrumentMap({
+      ...instrumentMap,
+      [name]: availableInstruments[type],
+    });
   }
 
-  function removeInstrument() {
-    console.log('Remove Instrument not yet implemented');
+  function removeInstrument(name) {
+    const filteredInstruments = instruments.filter(instrument => instrument !== name);
+    setInstruments(filteredInstruments);
+
+    const { [name]: padValue, ...filteredPadStatus } = padStatus;
+    setPadStatus(filteredPadStatus);
+
+    const { [name]: mapValue, ...filteredInstrumentMap } = instrumentMap;
+    setInstrumentMap(filteredInstrumentMap);
   }
+
+  console.log(instruments);
+  console.log(padStatus);
+  console.log(instrumentMap);
 
   return (
     <SequencerWrapper>
