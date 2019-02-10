@@ -5,8 +5,7 @@ import { useMetronome } from '../hooks/Metronome';
 import Synth from './Synth';
 import Sequencer from './Sequencer.tsx';
 import Metronome from './Metronome.tsx';
-import Launchpad from './Launchpad.tsx';
-import Launchpad2 from './Launchpad';
+import Launchpad from './Launchpad';
 import Challenges from './Challenges';
 
 const Home = () => (<h2>Home</h2>);
@@ -15,9 +14,6 @@ const Contact = () => (<h2>Contact</h2>);
 const synthPage = () => (<Synth />);
 const sequencerPage = () => (<Metronome beatDivision={4}>
   {(props) => <Sequencer metronome={props} />}
-</Metronome>);
-const launchpadPage = () => (<Metronome tempo={125.0}>
-  {(props) => <Launchpad metronome={props} />}
 </Metronome>);
 const NoMatch = () => {
 
@@ -38,7 +34,6 @@ const NoMatch = () => {
         value={tempo.tempo}
         onChange={(e) => tempo.setTempo(Number(e.target.value))}
       />
-      <Launchpad2 />
     </div>
   );
 };
@@ -52,7 +47,7 @@ function Routes(props) {
       <Route path='/contact' component={Contact} />
       <Route path='/synth' component={synthPage} />
       <Route path='/sequencer' component={sequencerPage} />
-      <Route path='/launchpad' component={launchpadPage} />
+      <Route path='/launchpad' component={Launchpad} />
       <Route path='/challenges' component={Challenges} />
       <Route component={NoMatch} />
     </Switch>

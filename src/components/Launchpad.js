@@ -25,7 +25,7 @@ import fxloop3 from '../samples/LS_TM_FXLOOP_011_125_F.wav';
 import fxloop4 from '../samples/LS_TM_FXLOOP_018_125_F.wav';
 
 
-function Launchpad2(props) {
+function Launchpad(props) {
   const [instrumentState, setInstrumentState] = useState({
     drums: ['stopped', 'stopped', 'stopped', 'stopped'],
     basses: ['stopped', 'stopped', 'stopped', 'stopped'],
@@ -61,8 +61,6 @@ function Launchpad2(props) {
         instrumentState[instrument].forEach((instrumentStatus, index) => {
           if (instrumentStatus === 'prepPlay') {
             sampleMap[instrument].current[index].playSample(time, time + secondsPerBar);
-            console.log('switching to PLAY!!!');
-            console.log(instrumentState);
             const newInstrument = [...instrumentState[instrument]];
             newInstrument[index] = 'playing';
             setInstrumentState({
@@ -86,7 +84,7 @@ function Launchpad2(props) {
     }
   }
 
-  const [setIsPlaying, {tempo, setTempo}, isPlaying] = useMetronome(triggerOnBeat, 1, barLength, initialTempo);
+  const [setIsPlaying, isPlaying] = useMetronome(triggerOnBeat, 1, barLength, initialTempo);
 
   function loadSamples() {
     drumSamples.current[0] = new Sample(drumloop1);
@@ -177,4 +175,4 @@ function Launchpad2(props) {
 }
 
 
-export default Launchpad2;
+export default Launchpad;
