@@ -25,6 +25,7 @@ function Sequencer(props) {
     bass: playFreq.bind(this, 60),
   });
 
+  // Sample Buffers
   const bassBuffer = useRef();
   const kickBuffer = useRef();
   const snareBuffer = useRef();
