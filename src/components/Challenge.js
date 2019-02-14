@@ -3,24 +3,50 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { setChallengeIsComplete } from '../store';
-
+import { useTestRunner } from '../hooks/TestRunner';
 
 
 function Challenge(props) {
   const challenge = props.challenges.find(({ pathName }) => pathName === props.match.params.challenge);
   const index = props.challenges.indexOf(challenge);
 
+  const tests = [
+    () => true,
+    () => true,
+    () => true,
+  ];
+
+  function handleSuccess() {
+    props.setChallengeIsComplete(true, index);
+  }
+
+  function handleFailure() {
+    console.log('Challenges failed...');
+  }
+  
+  const { results, runTests } = useTestRunner(tests, handleSuccess, handleFailure);
+
+  const resultItems = results.map((result, index) => (
+    <li key={index}>Test {index}: {result ? 'PASSED' : 'FAILED'}</li>
+  ));
 
   return (
     <section>
       <h3>{challenge.title}{challenge.isComplete ? ' - COMPLETE' : ''}</h3>
+      <ol>
+        { resultItems }
+      </ol>
       <button
-        onClick={() => props.setChallengeIsComplete(true, index)}
+        onClick={() => {
+          runTests();
+        }}
       >
-        Complete Challenge
+        RUN TESTS
       </button>
       <button
-        onClick={() => props.setChallengeIsComplete(false, index)}
+        onClick={() => {
+          props.setChallengeIsComplete(false, index)
+        }}
       >
         Reset Challenge
       </button>
@@ -33,7 +59,7 @@ function Challenge(props) {
             Prev
           </Link>
         }
-        { index < props.challenges.length - 1 &&
+        { challenge.isComplete && index < props.challenges.length - 1 &&
           <Link
             className='challenge-link'
             to={`${props.url}/${props.challenges[index + 1].pathName}`}
@@ -42,12 +68,12 @@ function Challenge(props) {
           </Link>
         }
         <div>
-            <Link
-              className='challenge-link'
-              to={props.url}
-              >
-              Challenges
-            </Link>
+          <Link
+            className='challenge-link'
+            to={props.url}
+          >
+            Challenges
+          </Link>
         </div>
       </div>
     </section>

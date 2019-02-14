@@ -3,7 +3,6 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 const userReducer = (state = {}, action) => {
   switch (action.type) {
     default:
-      console.log(`No action found for ${action.type}`);
       return state;
   }
 };
@@ -25,7 +24,6 @@ const challengeReducer = (state = [], action) => {
       updatedState[action.payload.index].isComplete = action.payload.isComplete;
       return updatedState;
     default:
-      console.log(`No action found for ${action.type}`);
       return state;
   }
 };
