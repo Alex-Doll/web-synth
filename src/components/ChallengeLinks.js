@@ -7,7 +7,7 @@ function ChallengeLinks(props) {
     <li key={index}>
       <Link
         className='challenge-link'
-        to={`${props.match.url}/${challenge.pathName}`}
+        to={`${props.url}/${challenge.pathName}`}
       >
         {challenge.title}{challenge.isComplete ? ' - complete' : ''}
       </Link>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -7,51 +7,27 @@ import ChallengeLinks from './ChallengeLinks';
 
 
 function Challenges(props) {
-  const [currChallenge, setCurrChallenge] = useState(null);
-  const [isRedirecting, setIsRedirecting] = useState(false);
-
-  useEffect(() => {
-    if (isRedirecting) {
-      setIsRedirecting(false);
-      props.history.push(`${props.match.url}${currChallenge !== null ? '/'+props.challenges[currChallenge].pathName : ''}`);
-    }
-  }, [isRedirecting]);
-
-  console.log(currChallenge);
+  const amountComplete = props.challenges.filter(({ isComplete}) => isComplete === true).length;
   return (
     <main>
-      <h2>Challenges</h2>
-      <p>Start your learning journey here!</p>
+      <h2>Challenges!</h2>
+      <p>Completed {amountComplete} of {props.challenges.length}</p>
 
       <Switch>
-        <Route exact path={props.match.url} component={ChallengeLinks} />
-        { currChallenge !== null &&
-          <Route path={props.match.url + '/:challenge'} component={() => <Challenge challengeIndex={currChallenge} />} />
-        }
+        <Route
+          exact
+          path={props.match.path}
+          render={(rProps) => (
+            <ChallengeLinks {...rProps} url={props.match.url} />
+          )}
+        />
+        <Route
+          path={`${props.match.path}/:challenge`}
+          render={(rProps) => (
+            <Challenge {...rProps} url={props.match.url} />
+          )}
+        />
       </Switch>
-
-      <button onClick={() => {
-        setCurrChallenge(null);
-        setIsRedirecting(true);
-      }}>CHALLENGES</button>  
-      <button onClick={() => {
-        if (currChallenge !== null && currChallenge > 0) {
-          setCurrChallenge(currChallenge - 1);
-        }
-        else {
-          setCurrChallenge(props.challenges.length - 1);
-        }
-        setIsRedirecting(true);
-      }}>PREV</button>  
-      <button onClick={() => {
-        if (currChallenge !== null && currChallenge < (props.challenges.length - 1)) {
-          setCurrChallenge(currChallenge + 1);
-        }
-        else {
-          setCurrChallenge(0);
-        }
-        setIsRedirecting(true);
-      }}>NEXT</button>
     </main>
   );
 }
@@ -62,4 +38,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, {})(Challenges);
+export default connect(mapStateToProps, null)(Challenges);
