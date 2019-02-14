@@ -2,40 +2,29 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import TestResults from './TestResults';
 import { setChallengeIsComplete } from '../store';
 import { useTestRunner } from '../hooks/TestRunner';
 
 
 function Challenge(props) {
-  const challenge = props.challenges.find(({ pathName }) => pathName === props.match.params.challenge);
-  const index = props.challenges.indexOf(challenge);
+  const { results, runTests } = useTestRunner(props.tests, handleSuccess, handleFailure);
 
-  const tests = [
-    () => true,
-    () => true,
-    () => true,
-  ];
 
   function handleSuccess() {
-    props.setChallengeIsComplete(true, index);
+    props.setChallengeIsComplete(true, props.index);
   }
 
   function handleFailure() {
     console.log('Challenges failed...');
   }
-  
-  const { results, runTests } = useTestRunner(tests, handleSuccess, handleFailure);
 
-  const resultItems = results.map((result, index) => (
-    <li key={index}>Test {index}: {result ? 'PASSED' : 'FAILED'}</li>
-  ));
 
   return (
     <section>
-      <h3>{challenge.title}{challenge.isComplete ? ' - COMPLETE' : ''}</h3>
-      <ol>
-        { resultItems }
-      </ol>
+      <h3>{props.title}{props.isComplete ? ' - COMPLETE' : ''}</h3>
+      { props.content }
+      <TestResults tests={props.tests} results={results} />
       <button
         onClick={() => {
           runTests();
@@ -45,24 +34,24 @@ function Challenge(props) {
       </button>
       <button
         onClick={() => {
-          props.setChallengeIsComplete(false, index)
+          props.setChallengeIsComplete(false, props.index)
         }}
       >
         Reset Challenge
       </button>
       <div>
-        { index > 0 &&
+        { props.index > 0 &&
           <Link
             className='challenge-link'
-            to={`${props.url}/${props.challenges[index - 1].pathName}`}
+            to={`${props.url}/${props.prevChallengePath}`}
             >
             Prev
           </Link>
         }
-        { challenge.isComplete && index < props.challenges.length - 1 &&
+        { props.isComplete && props.index < props.totalChallenges - 1 &&
           <Link
             className='challenge-link'
-            to={`${props.url}/${props.challenges[index + 1].pathName}`}
+            to={`${props.url}/${props.nextChallengePath}`}
             >
             Next
           </Link>
@@ -81,8 +70,21 @@ function Challenge(props) {
 }
 
 
-const mapStateToProps = (state) => ({
-  challenges: state.challenges,
-});
+const mapStateToProps = (state, ownProps) => {
+  const challenge = state.challenges.find(({ pathName }) => pathName === ownProps.match.params.challenge);
+
+  const index = state.challenges.indexOf(challenge);
+
+  const nextIndex = index < state.challenges.length - 1 ? index + 1 : state.challenges.length - 1;
+  const prevIndex = index > 0 ? index - 1 : 0;
+
+  return {
+    ...challenge,
+    index,
+    totalChallenges: state.challenges.length,
+    nextChallengePath: state.challenges[nextIndex].pathName,
+    prevChallengePath: state.challenges[prevIndex].pathName,
+  };
+};
 
 export default connect(mapStateToProps, { setChallengeIsComplete })(Challenge);

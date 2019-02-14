@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { challenges } from './challenges';
 
 const userReducer = (state = {}, action) => {
   switch (action.type) {
@@ -37,23 +38,7 @@ const initialState = {
   user: {
     name: 'Alex',
   },
-  challenges: [
-    {
-      pathName: 'challenge1',
-      title: 'Challenge 1',
-      isComplete: false,
-    },
-    {
-      pathName: 'challenge2',
-      title: 'Second Challenge',
-      isComplete: false,
-    },
-    {
-      pathName: 'challenge3',
-      title: 'Challenge The Third',
-      isComplete: false,
-    },
-  ],
+  challenges,
 };
 
 const middleware = [];

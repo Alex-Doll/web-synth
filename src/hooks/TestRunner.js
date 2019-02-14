@@ -10,7 +10,7 @@ export function useTestRunner(
   function runTests() {
     let newResults = [...results];
     tests.forEach((test, index) => {
-      const result = test();
+      const result = test.func();
       newResults[index] = result;
     });
     setResults(newResults);

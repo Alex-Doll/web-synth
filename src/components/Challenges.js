@@ -7,7 +7,7 @@ import ChallengeLinks from './ChallengeLinks';
 
 
 function Challenges(props) {
-  const amountComplete = props.challenges.filter(({ isComplete}) => isComplete === true).length;
+  const amountComplete = props.challenges.filter(({ isComplete }) => isComplete === true).length;
   return (
     <main>
       <h2>Challenges!</h2>
