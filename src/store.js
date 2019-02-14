@@ -8,8 +8,22 @@ const userReducer = (state = {}, action) => {
   }
 };
 
+const SET_CHALLENGE_IS_COMPLETE = 'SET_CHALLENGE_IS_COMPLETE';
+
+export const setChallengeIsComplete = (isComplete, index) => ({
+  type: SET_CHALLENGE_IS_COMPLETE,
+  payload: {
+    isComplete,
+    index,
+  },
+});
+
 const challengeReducer = (state = [], action) => {
   switch (action.type) {
+    case SET_CHALLENGE_IS_COMPLETE:
+      let updatedState = [...state];
+      updatedState[action.payload.index].isComplete = action.payload.isComplete;
+      return updatedState;
     default:
       console.log(`No action found for ${action.type}`);
       return state;
@@ -26,9 +40,21 @@ const initialState = {
     name: 'Alex',
   },
   challenges: [
-    'challenge1',
-    'challenge2',
-    'challenge3',
+    {
+      pathName: 'challenge1',
+      title: 'Challenge 1',
+      isComplete: false,
+    },
+    {
+      pathName: 'challenge2',
+      title: 'Second Challenge',
+      isComplete: false,
+    },
+    {
+      pathName: 'challenge3',
+      title: 'Challenge The Third',
+      isComplete: false,
+    },
   ],
 };
 

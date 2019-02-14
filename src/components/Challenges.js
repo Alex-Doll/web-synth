@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Challenge from './Challenge';
+import ChallengeLinks from './ChallengeLinks';
 
-const ChallengeLinks = (props) => (
-  <ul>
-    <li><Link className='challenge-link' to={props.match.url + '/challenge1'}>Challenge 1</Link></li>
-    <li><Link className='challenge-link' to={props.match.url + '/challenge2'}>Challenge 2</Link></li>
-  </ul>
-);
-
-const challenges = [
-  'challenge1',
-  'challenge2',
-  'challenge3',
-];
 
 function Challenges(props) {
   const [currChallenge, setCurrChallenge] = useState(null);
@@ -23,12 +13,11 @@ function Challenges(props) {
   useEffect(() => {
     if (isRedirecting) {
       setIsRedirecting(false);
-      props.history.push(`${props.match.url}${currChallenge !== null ? '/'+challenges[currChallenge] : ''}`);
+      props.history.push(`${props.match.url}${currChallenge !== null ? '/'+props.challenges[currChallenge].pathName : ''}`);
     }
   }, [isRedirecting]);
 
-  console.log(challenges[currChallenge]);
-
+  console.log(currChallenge);
   return (
     <main>
       <h2>Challenges</h2>
@@ -36,7 +25,9 @@ function Challenges(props) {
 
       <Switch>
         <Route exact path={props.match.url} component={ChallengeLinks} />
-        <Route path={props.match.url + '/:challenge'} component={() => <Challenge title={challenges[currChallenge]} />} />
+        { currChallenge !== null &&
+          <Route path={props.match.url + '/:challenge'} component={() => <Challenge challengeIndex={currChallenge} />} />
+        }
       </Switch>
 
       <button onClick={() => {
@@ -48,12 +39,12 @@ function Challenges(props) {
           setCurrChallenge(currChallenge - 1);
         }
         else {
-          setCurrChallenge(challenges.length - 1);
+          setCurrChallenge(props.challenges.length - 1);
         }
         setIsRedirecting(true);
       }}>PREV</button>  
       <button onClick={() => {
-        if (currChallenge !== null && currChallenge < (challenges.length - 1)) {
+        if (currChallenge !== null && currChallenge < (props.challenges.length - 1)) {
           setCurrChallenge(currChallenge + 1);
         }
         else {
@@ -66,4 +57,9 @@ function Challenges(props) {
 }
 
 
-export default Challenges;
+const mapStateToProps = (state) => ({
+  challenges: state.challenges,
+});
+
+
+export default connect(mapStateToProps, {})(Challenges);
