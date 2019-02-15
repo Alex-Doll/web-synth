@@ -20,7 +20,7 @@ function Challenges(props) {
           )}
         />
         <Route
-          path={`${props.match.path}/:challenge`}
+          path={`${props.match.path}/:group/:challenge`}
           render={(rProps) => (
             <Challenge {...rProps} url={props.match.url} />
           )}

@@ -71,19 +71,20 @@ function Challenge(props) {
 
 
 const mapStateToProps = (state, ownProps) => {
-  const challenge = state.challenges.find(({ pathName }) => pathName === ownProps.match.params.challenge);
+  const challengeGroup = state.challenges[ownProps.match.params.group];
+  const challenge = challengeGroup.find(({ pathName }) => pathName === ownProps.match.params.challenge);
 
-  const index = state.challenges.indexOf(challenge);
+  const index = challengeGroup.indexOf(challenge);
 
-  const nextIndex = index < state.challenges.length - 1 ? index + 1 : state.challenges.length - 1;
+  const nextIndex = index < challengeGroup.length - 1 ? index + 1 : challengeGroup.length - 1;
   const prevIndex = index > 0 ? index - 1 : 0;
 
   return {
     ...challenge,
     index,
-    totalChallenges: state.challenges.length,
-    nextChallengePath: state.challenges[nextIndex].pathName,
-    prevChallengePath: state.challenges[prevIndex].pathName,
+    totalChallenges: challengeGroup.length,
+    nextChallengePath: challengeGroup[nextIndex].pathName,
+    prevChallengePath: challengeGroup[prevIndex].pathName,
   };
 };
 

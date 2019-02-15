@@ -8,7 +8,7 @@ function ChallengeLinksGroup(props) {
     <li key={index}>
       <Link
         className='challenge-link'
-        to={`${props.url}/${challenge.pathName}`}
+        to={`${props.url}/${props.group}/${challenge.pathName}`}
       >
         {challenge.title}{challenge.isComplete ? ' - complete' : ''}
       </Link>
@@ -16,6 +16,7 @@ function ChallengeLinksGroup(props) {
   ));
 
   const amountComplete = props.groupChallenges.filter(({ isComplete }) => isComplete === true).length;
+
 
   return (
     <div>
