@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { challenges } from './challenges';
+import { challenges } from './challenges/index';
 
 const userReducer = (state = {}, action) => {
   switch (action.type) {

@@ -2,21 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import ChallengeLinksGroup from './ChallengeLinksGroup';
+
 function ChallengeLinks(props) {
-  const links = props.challenges.map((challenge, index) => (
-    <li key={index}>
-      <Link
-        className='challenge-link'
-        to={`${props.url}/${challenge.pathName}`}
-      >
-        {challenge.title}{challenge.isComplete ? ' - complete' : ''}
-      </Link>
-    </li>
+  const linkGroups = Object.keys(props.challenges).map((group, index) => (
+    <ChallengeLinksGroup key={index} group={group} {...props} />
   ));
 
   return (
     <ul>
-      { links }
+      { linkGroups }
     </ul>
   );
 };

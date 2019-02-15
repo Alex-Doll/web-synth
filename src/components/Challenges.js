@@ -7,11 +7,9 @@ import ChallengeLinks from './ChallengeLinks';
 
 
 function Challenges(props) {
-  const amountComplete = props.challenges.filter(({ isComplete }) => isComplete === true).length;
   return (
     <main>
       <h2>Challenges!</h2>
-      <p>Completed {amountComplete} of {props.challenges.length}</p>
 
       <Switch>
         <Route

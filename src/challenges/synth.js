@@ -1,10 +1,9 @@
 import React from 'react';
 
-import Synth from './components/Synth';
-import Sequencer from './components/Sequencer';
-import Launchpad from './components/Launchpad';
+import Synth from '../components/Synth';
 
-export const challenges = [
+
+export const synthChallenges = [
   {
     pathName: 'challenge1',
     title: 'Challenge 1',
@@ -46,7 +45,7 @@ export const challenges = [
       () => true,
       () => true,
     ],
-    content: <Sequencer />,
+    content: <Synth />,
   },
   {
     pathName: 'challenge3',
@@ -57,6 +56,6 @@ export const challenges = [
       () => true,
       () => true,
     ],
-    content: <Launchpad />,
+    content: <Synth />,
   },
 ];
