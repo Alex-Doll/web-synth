@@ -21,8 +21,8 @@ function Challenges(props) {
         />
         <Route
           path={`${props.match.path}/:group/:challenge`}
-          render={(rProps) => (
-            <Challenge {...rProps} url={props.match.url} />
+          render={() => (
+            <Challenge url={props.match.url} />
           )}
         />
       </Switch>
@@ -32,7 +32,6 @@ function Challenges(props) {
 
 
 const mapStateToProps = (state) => ({
-  challenges: state.challenges,
 });
 
 

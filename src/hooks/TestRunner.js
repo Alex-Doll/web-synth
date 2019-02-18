@@ -17,6 +17,10 @@ export function useTestRunner(
   }
 
   useEffect(() => {
+    setResults(new Array(tests.length).fill(false));
+  }, [tests]);
+
+  useEffect(() => {
     if (results.every((result) => result)) {
       onSuccess();
     }

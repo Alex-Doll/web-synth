@@ -1,40 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TestResults from './TestResults';
 import { setChallengeIsComplete } from '../store';
-import { useTestRunner } from '../hooks/TestRunner';
+
 
 
 function Challenge(props) {
-  const { results, runTests } = useTestRunner(props.tests, handleSuccess, handleFailure);
-
-
   function handleSuccess() {
-    props.setChallengeIsComplete(true, props.index);
+    props.setChallengeIsComplete(true, props.group, props.index);
   }
 
   function handleFailure() {
-    console.log('Challenges failed...');
+    // console.log('Challenges failed...');
   }
+
 
 
   return (
     <section>
       <h3>{props.title}{props.isComplete ? ' - COMPLETE' : ''}</h3>
       { props.content }
-      <TestResults tests={props.tests} results={results} />
+      <TestResults tests={props.tests} {...{handleSuccess, handleFailure}}/>
       <button
         onClick={() => {
-          runTests();
-        }}
-      >
-        RUN TESTS
-      </button>
-      <button
-        onClick={() => {
-          props.setChallengeIsComplete(false, props.index)
+          props.setChallengeIsComplete(false, props.group, props.index)
         }}
       >
         Reset Challenge
@@ -43,7 +34,7 @@ function Challenge(props) {
         { props.index > 0 &&
           <Link
             className='challenge-link'
-            to={`${props.url}/${props.prevChallengePath}`}
+            to={`${props.url}/${props.group}/${props.prevChallengePath}`}
             >
             Prev
           </Link>
@@ -51,7 +42,7 @@ function Challenge(props) {
         { props.isComplete && props.index < props.totalChallenges - 1 &&
           <Link
             className='challenge-link'
-            to={`${props.url}/${props.nextChallengePath}`}
+            to={`${props.url}/${props.group}/${props.nextChallengePath}`}
             >
             Next
           </Link>
@@ -82,10 +73,11 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...challenge,
     index,
+    group: ownProps.match.params.group,
     totalChallenges: challengeGroup.length,
     nextChallengePath: challengeGroup[nextIndex].pathName,
     prevChallengePath: challengeGroup[prevIndex].pathName,
   };
 };
 
-export default connect(mapStateToProps, { setChallengeIsComplete })(Challenge);
+export default withRouter(connect(mapStateToProps, { setChallengeIsComplete })(Challenge));

@@ -10,20 +10,24 @@ const userReducer = (state = {}, action) => {
 
 const SET_CHALLENGE_IS_COMPLETE = 'SET_CHALLENGE_IS_COMPLETE';
 
-export const setChallengeIsComplete = (isComplete, index) => ({
+export const setChallengeIsComplete = (isComplete, group, index) => ({
   type: SET_CHALLENGE_IS_COMPLETE,
   payload: {
     isComplete,
+    group,
     index,
   },
 });
 
-const challengeReducer = (state = [], action) => {
+const challengeReducer = (state = {}, action) => {
   switch (action.type) {
     case SET_CHALLENGE_IS_COMPLETE:
-      let updatedState = [...state];
-      updatedState[action.payload.index].isComplete = action.payload.isComplete;
-      return updatedState;
+      let updatedGroup = [...state[action.payload.group]];
+      updatedGroup[action.payload.index].isComplete = action.payload.isComplete;
+      return {
+        ...state,
+        [action.payload.group]: updatedGroup,
+      };
     default:
       return state;
   }

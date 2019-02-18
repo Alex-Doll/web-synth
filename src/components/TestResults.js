@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useTestRunner } from '../hooks/TestRunner';
 
 
 function TestResults(props) {
-  const resultItems = props.results.map((result, index) => (
-    <li key={index}><strong>{props.tests[index].name}</strong> - {props.tests[index].description}: <strong>{result ? 'PASSED' : 'FAILED'}</strong></li>
-  ));
+  const { results, runTests } = useTestRunner(props.tests, props.handleSuccess, props.handleFailure);
+
+  let resultItems = [];
+  if (results.length === props.tests.length) {
+    resultItems = results.map((result, index) => (
+      <li key={index}><strong>{props.tests[index].name}</strong> - {props.tests[index].description}: <strong>{result ? 'PASSED' : 'FAILED'}</strong></li>
+    ));
+  }
   
   return (
     <div>
@@ -12,6 +18,13 @@ function TestResults(props) {
       <ol>
         { resultItems }
       </ol>
+      <button
+        onClick={() => {
+          runTests();
+        }}
+      >
+        RUN TESTS
+      </button>
     </div>
   );
 }

@@ -41,9 +41,14 @@ export const synthChallenges = [
     title: 'Second Challenge',
     isComplete: false,
     tests: [
-      () => true,
-      () => true,
-      () => true,
+      {
+        name: 'Pick Wave',
+        description: 'Change the wave type of the synth to "square"',
+        func: () => {
+          const wavePicker = document.getElementById('waveType');
+          return wavePicker.value === 'square';
+        },
+      },
     ],
     content: <Synth />,
   },
@@ -52,9 +57,14 @@ export const synthChallenges = [
     title: 'Challenge The Third',
     isComplete: false,
     tests: [
-      () => true,
-      () => true,
-      () => true,
+      {
+        name: 'Pick Wave',
+        description: 'Change the wave type of the synth to "triangle"',
+        func: () => {
+          const wavePicker = document.getElementById('waveType');
+          return wavePicker.value === 'triangle';
+        },
+      },
     ],
     content: <Synth />,
   },
