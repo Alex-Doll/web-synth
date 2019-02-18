@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import TestResults from './TestResults';
 import { setChallengeIsComplete } from '../store';
-
+import { useTestRunner } from '../hooks/TestRunner';
 
 
 function Challenge(props) {
@@ -13,16 +13,23 @@ function Challenge(props) {
   }
 
   function handleFailure() {
-    // console.log('Challenges failed...');
+    console.log('Challenges failed...');
   }
 
-
+  const { results, runTests } = useTestRunner(props.tests, handleSuccess, handleFailure);
 
   return (
     <section>
       <h3>{props.title}{props.isComplete ? ' - COMPLETE' : ''}</h3>
       { props.content }
-      <TestResults tests={props.tests} {...{handleSuccess, handleFailure}}/>
+      <TestResults tests={props.tests} results={results} />
+      <button
+        onClick={() => {
+          runTests();
+        }}
+      >
+        RUN TESTS
+      </button>
       <button
         onClick={() => {
           props.setChallengeIsComplete(false, props.group, props.index)

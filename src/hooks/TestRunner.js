@@ -7,6 +7,15 @@ export function useTestRunner(
 ) {
   const [results, setResults] = useState(new Array(tests.length).fill(false));
 
+  // Implementation of getDerivedStateFromProps (see if it can be refactored)
+  const [prevTests, setPrevTests] = useState(tests);
+  if (prevTests !== tests) {
+    const updatedResults = new Array(tests.length).fill(false);
+    setResults(updatedResults);
+    setPrevTests(tests);
+    return { results: updatedResults, runTests };
+  }
+
   function runTests() {
     let newResults = [...results];
     tests.forEach((test, index) => {
@@ -15,10 +24,6 @@ export function useTestRunner(
     });
     setResults(newResults);
   }
-
-  useEffect(() => {
-    setResults(new Array(tests.length).fill(false));
-  }, [tests]);
 
   useEffect(() => {
     if (results.every((result) => result)) {
