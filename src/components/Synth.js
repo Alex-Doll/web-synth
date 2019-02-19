@@ -31,6 +31,14 @@ function Synth(props) {
   const [release, setRelease] = useState(INITIAL_ADSR_GAIN_RELEASE);
 
   const toneMap = [
+    { triggerKey: 'z', frequency: 130.81, note:'C3' },
+    { triggerKey: 'x', frequency: 146.83, note:'D3' },
+    { triggerKey: 'c', frequency: 164.81, note:'E3' },
+    { triggerKey: 'v', frequency: 174.61, note:'F3' },
+    { triggerKey: 'b', frequency: 196.00, note:'G3' },
+    { triggerKey: 'n', frequency: 220.00, note:'A3' },
+    { triggerKey: 'm', frequency: 246.94, note:'B3' },
+    { triggerKey: ',', frequency: 261.63, note:'C4' },
     { triggerKey: 'a', frequency: 261.63, note:'C4' },
     { triggerKey: 's', frequency: 293.66, note:'D4' },
     { triggerKey: 'd', frequency: 329.63, note:'E4' },
@@ -39,6 +47,14 @@ function Synth(props) {
     { triggerKey: 'h', frequency: 440.00, note:'A4' },
     { triggerKey: 'j', frequency: 493.88, note:'B4' },
     { triggerKey: 'k', frequency: 523.25, note:'C5' },
+    { triggerKey: 'q', frequency: 523.25, note:'C5' },
+    { triggerKey: 'w', frequency: 587.33, note:'D5' },
+    { triggerKey: 'e', frequency: 659.25, note:'E5' },
+    { triggerKey: 'r', frequency: 698.46, note:'F5' },
+    { triggerKey: 't', frequency: 783.99, note:'G5' },
+    { triggerKey: 'y', frequency: 880.00, note:'A5' },
+    { triggerKey: 'u', frequency: 987.77, note:'B5' },
+    { triggerKey: 'i', frequency: 1046.50, note:'C6' },
   ];
 
   masterGainNode.gain.value = masterGain;
