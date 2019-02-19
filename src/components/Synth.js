@@ -4,6 +4,8 @@ import ADSRGain from './ADSRGain';
 import MasterControls from './MasterControls';
 import Generator from './Generator';
 import FilterControls from './FilterControls';
+import ModulationEnvelope from './ModulationEnvelope';
+import LFOControls from './LFOControls';
 import {
   INITIAL_MASTER_GAIN,
   INITIAL_DETUNE_AMT,
@@ -33,32 +35,42 @@ function Synth(props) {
   const [filter, setFilter] = useState('lowpass');
   const [filterCutoff, setFilterCutoff] = useState(1.0);
   const [filterResonance, setFilterResonance] = useState(1.0);
+  const [modEnvDest, setModEnvDest] = useState('osc1');
+  const [modEnvAmt, setModEnvAmt] = useState(1.0);
+  const [modEnvAttack, setModEnvAttack] = useState(0.0);
+  const [modEnvDecay, setModEnvDecay] = useState(0.5);
+  const [lfoType, setLFOType] = useState('mono');
+  const [lfoWaveType, setLFOWaveType] = useState('square');
+  const [lfoIsTrigger, setLFOIsTrigger] = useState(true);
+  const [lfoAmt, setLFOAmt] = useState(1.0);
+  const [lfoRate, setLFORate] = useState(8);
+  const [lfoDest, setLFODest] = useState('osc2');
 
 
   const toneMap = [
-    { triggerKey: 'z', frequency: 130.81, note:'C3' },
-    { triggerKey: 'x', frequency: 146.83, note:'D3' },
-    { triggerKey: 'c', frequency: 164.81, note:'E3' },
-    { triggerKey: 'v', frequency: 174.61, note:'F3' },
-    { triggerKey: 'b', frequency: 196.00, note:'G3' },
-    { triggerKey: 'n', frequency: 220.00, note:'A3' },
-    { triggerKey: 'm', frequency: 246.94, note:'B3' },
-    { triggerKey: ',', frequency: 261.63, note:'C4' },
-    { triggerKey: 'a', frequency: 261.63, note:'C4' },
-    { triggerKey: 's', frequency: 293.66, note:'D4' },
-    { triggerKey: 'd', frequency: 329.63, note:'E4' },
-    { triggerKey: 'f', frequency: 349.23, note:'F4' },
-    { triggerKey: 'g', frequency: 392.00, note:'G4' },
-    { triggerKey: 'h', frequency: 440.00, note:'A4' },
-    { triggerKey: 'j', frequency: 493.88, note:'B4' },
-    { triggerKey: 'k', frequency: 523.25, note:'C5' },
-    { triggerKey: 'q', frequency: 523.25, note:'C5' },
-    { triggerKey: 'w', frequency: 587.33, note:'D5' },
-    { triggerKey: 'e', frequency: 659.25, note:'E5' },
-    { triggerKey: 'r', frequency: 698.46, note:'F5' },
-    { triggerKey: 't', frequency: 783.99, note:'G5' },
-    { triggerKey: 'y', frequency: 880.00, note:'A5' },
-    { triggerKey: 'u', frequency: 987.77, note:'B5' },
+    { triggerKey: 'z', frequency: 130.81,  note:'C3' },
+    { triggerKey: 'x', frequency: 146.83,  note:'D3' },
+    { triggerKey: 'c', frequency: 164.81,  note:'E3' },
+    { triggerKey: 'v', frequency: 174.61,  note:'F3' },
+    { triggerKey: 'b', frequency: 196.00,  note:'G3' },
+    { triggerKey: 'n', frequency: 220.00,  note:'A3' },
+    { triggerKey: 'm', frequency: 246.94,  note:'B3' },
+    { triggerKey: ',', frequency: 261.63,  note:'C4' },
+    { triggerKey: 'a', frequency: 261.63,  note:'C4' },
+    { triggerKey: 's', frequency: 293.66,  note:'D4' },
+    { triggerKey: 'd', frequency: 329.63,  note:'E4' },
+    { triggerKey: 'f', frequency: 349.23,  note:'F4' },
+    { triggerKey: 'g', frequency: 392.00,  note:'G4' },
+    { triggerKey: 'h', frequency: 440.00,  note:'A4' },
+    { triggerKey: 'j', frequency: 493.88,  note:'B4' },
+    { triggerKey: 'k', frequency: 523.25,  note:'C5' },
+    { triggerKey: 'q', frequency: 523.25,  note:'C5' },
+    { triggerKey: 'w', frequency: 587.33,  note:'D5' },
+    { triggerKey: 'e', frequency: 659.25,  note:'E5' },
+    { triggerKey: 'r', frequency: 698.46,  note:'F5' },
+    { triggerKey: 't', frequency: 783.99,  note:'G5' },
+    { triggerKey: 'y', frequency: 880.00,  note:'A5' },
+    { triggerKey: 'u', frequency: 987.77,  note:'B5' },
     { triggerKey: 'i', frequency: 1046.50, note:'C6' },
   ];
 
@@ -85,60 +97,93 @@ function Synth(props) {
       <h2 style={{textAlign: 'center'}}>SYNTH</h2>
       <p style={{textAlign: 'center'}}>Use the a - k keys to play notes</p>
       { Tones }
-      <div style={{display: 'flex'}}>
-        <Generator
-          oscs={{
-            osc1: {
-              isOscOnName: 'isOscOn1',
-              isOscOn: isOscOn1,
-              handleIsOscOnChange: (e) => setIsOscOn1(e.target.checked),
-              waveTypeName: 'waveType1',
-              waveType: waveType1,
-              handleWaveTypeChange: (e) => setWaveType1(e.target.value),
-              detuneName: 'detune1',
-              detune: detune1,
-              handleDetuneChange: (e) => setDetune1(e.target.value),
-            },
-            osc2: {
-              isOscOnName: 'isOscOn2',
-              isOscOn: isOscOn2,
-              handleIsOscOnChange: (e) => setIsOscOn2(e.target.checked),
-              waveTypeName: 'waveType2',
-              waveType: waveType2,
-              handleWaveTypeChange: (e) => setWaveType2(e.target.value),
-              detuneName: 'detune2',
-              detune: detune2,
-              handleDetuneChange: (e) => setDetune2(e.target.value),
-            },
-          }}
-          oscMix={oscMix}
-          handleOscMixChange={(e) => setOscMix(e.target.value)}
-        />
-        <FilterControls
-          filter={filter}
-          handleFilterChange={(e) => setFilter(e.target.value)}
-          cutoff={filterCutoff}
-          handleCutoffChange={(e) => setFilterCutoff(e.target.value)}
-          resonance={filterResonance}
-          handleResonanceChange={(e) => setFilterResonance(e.target.value)}
-        />
+      <div style={{display: 'flex', flexWrap: 'wrap',}}>
         <MasterControls
           masterGain={masterGain}
           handleGainChange={(e) => setMasterGain(e.target.value)}
         />
-
-        <ADSRGain
-          attack={attack}
-          decay={decay}
-          sustain={sustain}
-          release={release}
-          handleADSRChange={{
-            setAttack: (e) => setAttack(e.target.value),
-            setDecay: (e) => setDecay(e.target.value),
-            setSustain: (e) => setSustain(e.target.value),
-            setRelease: (e) => setRelease(e.target.value),
-          }}
-        />
+        { props.showGenerator &&
+          <Generator
+            oscs={{
+              osc1: {
+                isOscOnName: 'isOscOn1',
+                isOscOn: isOscOn1,
+                handleIsOscOnChange: (e) => setIsOscOn1(e.target.checked),
+                waveTypeName: 'waveType1',
+                waveType: waveType1,
+                handleWaveTypeChange: (e) => setWaveType1(e.target.value),
+                detuneName: 'detune1',
+                detune: detune1,
+                handleDetuneChange: (e) => setDetune1(e.target.value),
+              },
+              osc2: {
+                isOscOnName: 'isOscOn2',
+                isOscOn: isOscOn2,
+                handleIsOscOnChange: (e) => setIsOscOn2(e.target.checked),
+                waveTypeName: 'waveType2',
+                waveType: waveType2,
+                handleWaveTypeChange: (e) => setWaveType2(e.target.value),
+                detuneName: 'detune2',
+                detune: detune2,
+                handleDetuneChange: (e) => setDetune2(e.target.value),
+              },
+            }}
+            oscMix={oscMix}
+            handleOscMixChange={(e) => setOscMix(e.target.value)}
+          />
+        }
+        { props.showFilterControls &&
+          <FilterControls
+            filter={filter}
+            handleFilterChange={(e) => setFilter(e.target.value)}
+            cutoff={filterCutoff}
+            handleCutoffChange={(e) => setFilterCutoff(e.target.value)}
+            resonance={filterResonance}
+            handleResonanceChange={(e) => setFilterResonance(e.target.value)}
+          />
+        }
+        { props.showADSRGain &&
+          <ADSRGain
+            attack={attack}
+            decay={decay}
+            sustain={sustain}
+            release={release}
+            handleADSRChange={{
+              setAttack: (e) => setAttack(e.target.value),
+              setDecay: (e) => setDecay(e.target.value),
+              setSustain: (e) => setSustain(e.target.value),
+              setRelease: (e) => setRelease(e.target.value),
+            }}
+          />
+        }
+        { props.showModEnv &&
+          <ModulationEnvelope
+            dest={modEnvDest}
+            handleDestChange={(e) => setModEnvDest(e.target.value)}
+            amount={modEnvAmt}
+            handleAmountChange={(e) => setModEnvAmt(e.target.value)}
+            attack={modEnvAttack}
+            handleAttackChange={(e) => setModEnvAttack(e.target.value)}
+            decay={modEnvDecay}
+            handleDecayChange={(e) => setModEnvDecay(e.target.value)}
+          />
+        }
+        { props.showLFO &&
+          <LFOControls
+            lfoType={lfoType}
+            handleLFOTypeChange={(e) => setLFOType(e.target.value)}
+            waveType={lfoWaveType}
+            handleWaveTypeChange={(e) => setLFOWaveType(e.target.value)}
+            isTrigger={lfoIsTrigger}
+            handleIsTriggerChange={(e) => setLFOIsTrigger(e.target.checked)}
+            amount={lfoAmt}
+            handleAmountChange={(e) => setLFOAmt(e.target.value)}
+            rate={lfoRate}
+            handleRateChange={(e) => setLFORate(e.target.value)}
+            dest={lfoDest}
+            handleDestChange={(e) => setLFODest(e.target.value)}
+          />
+        }
       </div>
     </section>
   );

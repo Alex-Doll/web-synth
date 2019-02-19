@@ -18,16 +18,14 @@ function FilterControls(props) {
         </Select>
       </LabeledInput>
 
-      <RowFieldset>
-        <LabeledInput>
-          <Label htmlFor='filterCutoff'>Cutoff: {props.cutoff}</Label>
-          <input id='filterCutoff' type='range' min='0.0' max='1.0' step='0.1' value={props.cutoff} onChange={props.handleCutoffChange} />
-        </LabeledInput>
-        <LabeledInput>
-          <Label htmlFor='filterResonance'>Resonance: {props.resonance}</Label>
-          <input id='filterResonance' type='range' min='0.0' max='1.0' step='0.1' value={props.resonance} onChange={props.handleResonanceChange} />
-        </LabeledInput>
-      </RowFieldset>
+      <LabeledInput>
+        <Label htmlFor='filterCutoff'>Cutoff: {props.cutoff}</Label>
+        <input id='filterCutoff' type='range' min='0.0' max='1.0' step='0.1' value={props.cutoff} onChange={props.handleCutoffChange} />
+      </LabeledInput>
+      <LabeledInput>
+        <Label htmlFor='filterResonance'>Resonance: {props.resonance}</Label>
+        <input id='filterResonance' type='range' min='0.0' max='1.0' step='0.1' value={props.resonance} onChange={props.handleResonanceChange} />
+      </LabeledInput>
     </ColumnFieldset>
   )
 }

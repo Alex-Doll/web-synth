@@ -18,7 +18,7 @@ function Routes(props) {
       <Route exact path='/' component={Home} />
       <Route path='/about' component={About} />
       <Route path='/contact' component={Contact} />
-      <Route path='/synth' component={Synth} />
+      <Route path='/synth' component={() => <Synth showGenerator showFilterControls showADSRGain showModEnv showLFO />} />
       <Route path='/sequencer' component={Sequencer} />
       <Route path='/launchpad' component={Launchpad} />
       <Route path='/challenges' component={Challenges} />
