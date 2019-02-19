@@ -9,8 +9,8 @@ function Generator(props) {
     <ColumnFieldset>
       <FieldsetHeader>Generator</FieldsetHeader>
 
-      <OscillatorControls {...props.oscs.osc1} />
-      <OscillatorControls {...props.oscs.osc2} />
+      <OscillatorControls {...props.oscs.osc1} number='1' />
+      <OscillatorControls {...props.oscs.osc2} number='2' />
 
       <LabeledInput>
         <Label htmlFor='oscMix'>Mix: {props.oscMix}</Label>
@@ -18,7 +18,7 @@ function Generator(props) {
       </LabeledInput>
 
     </ColumnFieldset>
-  )  
+  );
 }
 
 

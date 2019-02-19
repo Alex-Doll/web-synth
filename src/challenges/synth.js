@@ -6,47 +6,30 @@ import Synth from '../components/Synth';
 export const synthChallenges = [
   {
     pathName: 'challenge1',
-    title: 'Challenge 1',
+    title: 'Play the Synth!',
     isComplete: false,
     tests: [
       {
-        name: 'Pick Wave',
-        description: 'Change the wave type of the synth to "sine"',
+        name: 'Unlock the next challenge',
+        description: 'To unlock the next challenge just click RUN TESTS and make sure you pass all of the tests! (I think you will pass the one easy)',
         func: () => {
-          const wavePicker = document.getElementById('waveType');
-          return wavePicker.value === 'sine';
+          return true;
         },
       },
-      {
-        name: 'Change Attack',
-        description: 'Change the attack value to 0.5 seconds',
-        func: () => {
-          const attackSlider = document.getElementById('attack');
-          return attackSlider.value === '0.5';
-        }
-      },
-      {
-        name: 'Adjust Release',
-        description: 'Adjust the release value to 0.8 seconds',
-        func: () => {
-          const releaseSlider = document.getElementById('release');
-          return releaseSlider.value === '0.8';
-        },
-      }
     ],
     content: <Synth />,
   },
   {
     pathName: 'challenge2',
-    title: 'Second Challenge',
+    title: 'Change the volume',
     isComplete: false,
     tests: [
       {
-        name: 'Pick Wave',
-        description: 'Change the wave type of the synth to "square"',
+        name: 'Set Volume',
+        description: 'Change the master volume of the synth to 0.5 dB',
         func: () => {
-          const wavePicker = document.getElementById('waveType');
-          return wavePicker.value === 'square';
+          const volumeSlider = document.getElementById('masterGain');
+          return volumeSlider.value === '0.5';
         },
       },
     ],
@@ -54,18 +37,26 @@ export const synthChallenges = [
   },
   {
     pathName: 'challenge3',
-    title: 'Challenge The Third',
+    title: 'Setting the wave type',
     isComplete: false,
     tests: [
       {
-        name: 'Pick Wave',
-        description: 'Change the wave type of the synth to "triangle"',
+        name: 'First Wave',
+        description: 'Change the wave type of oscillator 1 to Triangle',
         func: () => {
-          const wavePicker = document.getElementById('waveType');
+          const wavePicker = document.getElementById('waveType1');
           return wavePicker.value === 'triangle';
         },
       },
+      {
+        name: 'Second Wave',
+        description: 'Change the wave type of oscillator 2 to Sine',
+        func: () => {
+          const wavePicker = document.getElementById('waveType2');
+          return wavePicker.value === 'sine';
+        },
+      },
     ],
-    content: <Synth />,
+    content: <Synth showGenerator />,
   },
 ];
