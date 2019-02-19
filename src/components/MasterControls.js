@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Label, ColumnFieldset, FieldsetHeader, LabeledInput, Select, Option } from './styled';
+import { Label, ColumnFieldset, FieldsetHeader, LabeledInput } from './styled';
 
 function MasterControls(props) {
   return (

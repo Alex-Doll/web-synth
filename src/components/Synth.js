@@ -18,8 +18,10 @@ import { masterGainNode } from '../audio.tsx';
 
 function Synth(props) {
   const [masterGain, setMasterGain] = useState(INITIAL_MASTER_GAIN);
+  const [isOscOn1, setIsOscOn1] = useState(true);
   const [waveType1, setWaveType1] = useState(INITIAL_WAVE_TYPE);
   const [detune1, setDetune1] = useState(INITIAL_DETUNE_AMT);
+  const [isOscOn2, setIsOscOn2] = useState(false);
   const [waveType2, setWaveType2] = useState(INITIAL_WAVE_TYPE);
   const [detune2, setDetune2] = useState(INITIAL_DETUNE_AMT);
   const [oscMix, setOscMix] = useState(INITIAL_OSC_MIX);
@@ -64,15 +66,29 @@ function Synth(props) {
       { Tones }
       <div style={{display: 'flex'}}>
         <Generator
-          waveTypes={{ waveType1, waveType2 }}
-          handleWaveTypeChanges={{
-            setWaveType1: (e) => setWaveType1(e.target.value),
-            setWaveType2: (e) => setWaveType2(e.target.value),
-          }}
-          detunes={{ detune1, detune2 }}
-          handleDetuneChanges={{
-            setDetune1: (e) => setDetune1(e.target.value),
-            setDetune2: (e) => setDetune2(e.target.value),
+          oscs={{
+            osc1: {
+              isOscOnName: 'isOscOn1',
+              isOscOn: isOscOn1,
+              handleIsOscOnChange: (e) => setIsOscOn1(e.target.checked),
+              waveTypeName: 'waveType1',
+              waveType: waveType1,
+              handleWaveTypeChange: (e) => setWaveType1(e.target.value),
+              detuneName: 'detune1',
+              detune: detune1,
+              handleDetuneChange: (e) => setDetune1(e.target.value),
+            },
+            osc2: {
+              isOscOnName: 'isOscOn2',
+              isOscOn: isOscOn2,
+              handleIsOscOnChange: (e) => setIsOscOn2(e.target.checked),
+              waveTypeName: 'waveType2',
+              waveType: waveType2,
+              handleWaveTypeChange: (e) => setWaveType2(e.target.value),
+              detuneName: 'detune2',
+              detune: detune2,
+              handleDetuneChange: (e) => setDetune2(e.target.value),
+            },
           }}
           oscMix={oscMix}
           handleOscMixChange={(e) => setOscMix(e.target.value)}

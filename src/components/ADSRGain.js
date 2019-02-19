@@ -5,7 +5,7 @@ import { Label, ColumnFieldset, FieldsetHeader, LabeledInput } from './styled';
 function ADSRGain(props) {
   return (
     <ColumnFieldset>
-      <FieldsetHeader>ADSR Gain Envelope</FieldsetHeader>
+      <FieldsetHeader>Amp Envelope</FieldsetHeader>
 
       <LabeledInput>
         <Label htmlFor='attack'>Attack: {props.attack} sec</Label>
