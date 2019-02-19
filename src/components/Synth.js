@@ -3,6 +3,7 @@ import SynthKey from './SynthKey';
 import ADSRGain from './ADSRGain';
 import MasterControls from './MasterControls';
 import Generator from './Generator';
+import FilterControls from './FilterControls';
 import {
   INITIAL_MASTER_GAIN,
   INITIAL_DETUNE_AMT,
@@ -29,6 +30,10 @@ function Synth(props) {
   const [decay, setDecay] = useState(INITIAL_ADSR_GAIN_DECAY);
   const [sustain, setSustain] = useState(INITIAL_ADSR_GAIN_SUSTAIN);
   const [release, setRelease] = useState(INITIAL_ADSR_GAIN_RELEASE);
+  const [filter, setFilter] = useState('lowpass');
+  const [filterCutoff, setFilterCutoff] = useState(1.0);
+  const [filterResonance, setFilterResonance] = useState(1.0);
+
 
   const toneMap = [
     { triggerKey: 'z', frequency: 130.81, note:'C3' },
@@ -108,6 +113,14 @@ function Synth(props) {
           }}
           oscMix={oscMix}
           handleOscMixChange={(e) => setOscMix(e.target.value)}
+        />
+        <FilterControls
+          filter={filter}
+          handleFilterChange={(e) => setFilter(e.target.value)}
+          cutoff={filterCutoff}
+          handleCutoffChange={(e) => setFilterCutoff(e.target.value)}
+          resonance={filterResonance}
+          handleResonanceChange={(e) => setFilterResonance(e.target.value)}
         />
         <MasterControls
           masterGain={masterGain}
