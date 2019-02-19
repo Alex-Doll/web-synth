@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import SynthKey from './SynthKey';
 import ADSRGain from './ADSRGain';
 import MasterControls from './MasterControls';
+import Generator from './Generator';
 import {
   INITIAL_MASTER_GAIN,
   INITIAL_DETUNE_AMT,
+  INITIAL_WAVE_TYPE,
+  INITIAL_OSC_MIX,
   INITIAL_ADSR_GAIN_ATTACK,
   INITIAL_ADSR_GAIN_DECAY,
   INITIAL_ADSR_GAIN_SUSTAIN,
@@ -14,9 +17,12 @@ import { masterGainNode } from '../audio.tsx';
 
 
 function Synth(props) {
-  const [waveType, setWaveType] = useState('sawtooth');
   const [masterGain, setMasterGain] = useState(INITIAL_MASTER_GAIN);
-  const [detune, setDetune] = useState(INITIAL_DETUNE_AMT);
+  const [waveType1, setWaveType1] = useState(INITIAL_WAVE_TYPE);
+  const [detune1, setDetune1] = useState(INITIAL_DETUNE_AMT);
+  const [waveType2, setWaveType2] = useState(INITIAL_WAVE_TYPE);
+  const [detune2, setDetune2] = useState(INITIAL_DETUNE_AMT);
+  const [oscMix, setOscMix] = useState(INITIAL_OSC_MIX);
   const [attack, setAttack] = useState(INITIAL_ADSR_GAIN_ATTACK);
   const [decay, setDecay] = useState(INITIAL_ADSR_GAIN_DECAY);
   const [sustain, setSustain] = useState(INITIAL_ADSR_GAIN_SUSTAIN);
@@ -40,9 +46,9 @@ function Synth(props) {
       key={index}
       triggerKey={tone.triggerKey}
       freq={tone.frequency}
-      waveType={waveType}
+      waveType={waveType1}
       masterGainNode={masterGainNode}
-      detune={detune}
+      detune={detune1}
       adsrEnvelope={{
         attack: Number(attack),
         decay: Number(decay),
@@ -57,13 +63,23 @@ function Synth(props) {
       <p style={{textAlign: 'center'}}>Use the a - k keys to play notes</p>
       { Tones }
       <div style={{display: 'flex'}}>
+        <Generator
+          waveTypes={{ waveType1, waveType2 }}
+          handleWaveTypeChanges={{
+            setWaveType1: (e) => setWaveType1(e.target.value),
+            setWaveType2: (e) => setWaveType2(e.target.value),
+          }}
+          detunes={{ detune1, detune2 }}
+          handleDetuneChanges={{
+            setDetune1: (e) => setDetune1(e.target.value),
+            setDetune2: (e) => setDetune2(e.target.value),
+          }}
+          oscMix={oscMix}
+          handleOscMixChange={(e) => setOscMix(e.target.value)}
+        />
         <MasterControls
-          waveType={waveType}
-          handleWaveTypeChange={(e) => setWaveType(e.target.value)}
           masterGain={masterGain}
           handleGainChange={(e) => setMasterGain(e.target.value)}
-          detune={detune}
-          handleDetuneChange={(e) => setDetune(e.target.value)}
         />
 
         <ADSRGain
