@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import { ColumnFieldset, FieldsetHeader, RowFieldset, LabeledInput, Select, Option, Label } from './styled';
+import { ColumnFieldset, FieldsetHeader, LabeledInput, Select, Option, Label } from './styled';
 
 
 function FilterControls(props) {

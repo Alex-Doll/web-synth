@@ -44,7 +44,7 @@ function LFOControls(props) {
         </LabeledInput>
 
         <LabeledInput>
-          <Label htmlFor='lfoRate'>Rate: {props.rate == 1 ? '1 bar' : `1/${props.rate}`}</Label>
+          <Label htmlFor='lfoRate'>Rate: {props.rate === '1' ? '1 bar' : `1/${props.rate}`}</Label>
           <input id='lfoRate' type='range' min='1' max='32' value={props.rate} onChange={props.handleRateChange} />
         </LabeledInput>
       </RowFieldset>
