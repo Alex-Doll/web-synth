@@ -6,14 +6,20 @@
   "scripts": {
     "start": "npm run server",
     "server": "npm start --prefix server",
+    "server-dev": "npm run dev --prefix server",
+    "server-heroku-prep": "npm install --prefix server",
     "client": "npm start --prefix client",
+    "client-build": "npm build --prefix client",
+    "client-heroku-prep": "npm install --prefix client && npm run client-build",
     "admin": "npm start --prefix admin",
-    "heroku-postbuild": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
+    "admin-build": "npm build --prefix admin",
+    "admin-heroku-prep": "npm install --prefix admin && npm run admin-build",
+    "heroku-postbuild": "npm run server-heroku-prep && npm run client-heroku-prep && npm run admin-heroku-prep",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "husky": {
     "hooks": {
-       "pre-push": "npm run build --prefix client"
+       "pre-push": "npm run client-build && npm run admin-build"
     }
   },
   "repository": {
