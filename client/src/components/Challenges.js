@@ -19,16 +19,22 @@ function Challenges(props) {
       .catch(err => console.log(err));
   }
 
+  async function fetchAPI() {
+    try {
+      const res = await fetch('/api');
+      const data = await res.json();
+      document.title = data;
+      const footerp = document.querySelector('footer p');
+      footerp.innerHTML = data;
+      console.log(data)
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
-    fetch('/api')
-      .then(res => res.json())
-      .then(data => {
-        document.title = data;
-        const footerp = document.querySelector('footer p');
-        footerp.innerHTML = data;
-        console.log(data)
-      })
-      .catch(err => console.log(err));
+    fetchAPI();
   }, []);
 
   return (
