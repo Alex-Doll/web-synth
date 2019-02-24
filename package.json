@@ -7,7 +7,7 @@
         "start": "npm run server",
         "server": "cd server && npm start",
         "client": "cd client && npm start",
-        "heroku-postbuild": "cd server && npm install && cd ../client && npm build",
+        "heroku-prebuild": "cd server && npm install && cd ../client && npm build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "husky": {
