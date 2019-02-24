@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -7,9 +7,35 @@ import ChallengeLinks from './ChallengeLinks';
 
 
 function Challenges(props) {
+
+  function addNumber() {
+    fetch('/api', {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({num: Math.random()}),
+    })
+      .catch(err => console.log(err));
+  }
+
+  useEffect(() => {
+    fetch('/api')
+      .then(res => res.json())
+      .then(data => {
+        document.title = data;
+        const footerp = document.querySelector('footer p');
+        footerp.innerHTML = data;
+        console.log(data)
+      })
+      .catch(err => console.log(err));
+  }, []);
+
   return (
     <main>
       <h2>Challenges!</h2>
+
+      <button onClick={addNumber}>Post Number</button>
 
       <Switch>
         <Route
