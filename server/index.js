@@ -20,8 +20,8 @@ app.post('/api', (req, res) => {
 });
 
 if (process.env.NODE_ENV !== 'development') {
-  app.use(express.static(path.resolve(__dirname, './../client/build')));
   app.use('/admin', express.static(path.resolve(__dirname, './../admin/build')));
+  app.use(express.static(path.resolve(__dirname, './../client/build')));
 
   app.get('/admin', (req, res) => {
     console.log(path.resolve(__dirname + './../admin/build'));
