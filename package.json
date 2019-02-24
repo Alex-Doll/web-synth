@@ -1,0 +1,22 @@
+{
+  "name": "web-synth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rosco1010/web-synth.git"
+  },
+  "author": "Alex Doll",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rosco1010/web-synth/issues"
+  },
+  "homepage": "https://github.com/Rosco1010/web-synth#readme",
+  "devDependencies": {
+    "husky": "^1.3.1"
+  }
+}
