@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-    "scripts": {
-        "start": "npm run server",
-        "server": "cd server && npm start",
-        "client": "cd client && npm start",
-        "heroku-prebuild": "cd server && npm install && cd ../client && npm build",
-        "heroku-postbuild": "echo This runs afterwards.",
+  "scripts": {
+    "start": "npm run server",
+    "server": "npm start --prefix server",
+    "client": "npm start --prefix client",
+    "heroku-postbuild": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "husky": {
