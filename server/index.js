@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-app.use(express.static(path.join(__dirname, '/../client/build')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -20,10 +19,21 @@ app.post('/api', (req, res) => {
   res.send('Success!');
 });
 
-app.get('*', (req, res) => {
-  console.log(path.join(__dirname + 'client/build'));
-  res.sendFile(path.join(__dirname + '/../client/build/index.html'));
-});
+if (process.env.NODE_ENV !== 'development') {
+  app.use(express.static(path.join(__dirname, '/../admin/build')));
+  app.use(express.static(path.join(__dirname, '/../client/build')));
+
+  app.get('/admin', (req, res) => {
+    console.log(path.join(__dirname + 'admin/build'));
+    res.sendFile(path.join(__dirname + '/../admin/build/index.html'));
+  });
+
+  app.get('*', (req, res) => {
+    console.log(path.join(__dirname + 'client/build'));
+    res.sendFile(path.join(__dirname + '/../client/build/index.html'));
+  });
+}
+
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
