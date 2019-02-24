@@ -20,18 +20,18 @@ app.post('/api', (req, res) => {
 });
 
 if (process.env.NODE_ENV !== 'development') {
-  app.use(express.static(path.join(__dirname, '/../admin/build')));
-  app.use(express.static(path.join(__dirname, '/../client/build')));
+  app.use(express.static(path.resolve(__dirname, './../client/build')));
+  app.use(express.static(path.resolve(__dirname, './../admin/build')));
 
   app.get('/admin', (req, res) => {
-    console.log(path.join(__dirname + 'admin/build'));
-    res.sendFile(path.join(__dirname + '/../admin/build/index.html'));
+    console.log(path.resolve(__dirname + './../admin/build'));
+    res.sendFile(path.resolve(__dirname + './../admin/build/index.html'));
   });
 
-  app.get('*', (req, res) => {
-    console.log(path.join(__dirname + 'client/build'));
-    res.sendFile(path.join(__dirname + '/../client/build/index.html'));
-  });
+  app.get('/*', (req, res) => {
+    console.log(path.resolve(__dirname + './../client/build'));
+    res.sendFile(path.resolve(__dirname + './../client/build/index.html'));
+  });  
 }
 
 
