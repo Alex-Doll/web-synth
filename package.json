@@ -7,12 +7,13 @@
     "start": "npm run server",
     "server": "npm start --prefix server",
     "client": "npm start --prefix client",
+    "admin": "npm start --prefix admin",
     "heroku-postbuild": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "husky": {
     "hooks": {
-       "pre-push": "cd client && npm run build"
+       "pre-push": "npm run build --prefix client"
     }
   },
   "repository": {
